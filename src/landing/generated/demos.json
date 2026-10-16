@@ -1,0 +1,438 @@
+{
+ "hero": [
+  {
+   "cmd": "kind create cluster --name dojo --config kind.yaml",
+   "out": [
+    "Creating cluster \"dojo\" ...",
+    " ✓ Ensuring node image (kindest/node:v1.35.0) 🖼",
+    " ✓ Preparing nodes 📦 📦 📦",
+    " ✓ Writing configuration 📜",
+    " ✓ Starting control-plane 🕹️",
+    " ✓ Installing CNI 🔌",
+    " ✓ Installing StorageClass 💾",
+    " ✓ Joining worker nodes 🚜",
+    "Set kubectl context to \"kind-dojo\""
+   ],
+   "snap": [
+    {
+     "name": "control-plane",
+     "ready": true,
+     "role": "control-plane",
+     "pods": []
+    },
+    {
+     "name": "worker",
+     "ready": true,
+     "role": "worker",
+     "pods": []
+    },
+    {
+     "name": "worker2",
+     "ready": true,
+     "role": "worker",
+     "pods": []
+    }
+   ]
+  },
+  {
+   "cmd": "kubectl create deployment web --image=nginx:1.27 --replicas=4",
+   "out": [
+    "deployment.apps/web created"
+   ],
+   "snap": [
+    {
+     "name": "control-plane",
+     "ready": true,
+     "role": "control-plane",
+     "pods": []
+    },
+    {
+     "name": "worker",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "4k4wb",
+       "status": "ContainerCreating"
+      },
+      {
+       "id": "dw5w6",
+       "status": "ContainerCreating"
+      }
+     ]
+    },
+    {
+     "name": "worker2",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "wb9pm",
+       "status": "ContainerCreating"
+      },
+      {
+       "id": "7s65r",
+       "status": "ContainerCreating"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cmd": "kubectl get pods",
+   "out": [
+    "NAME                  READY   STATUS    RESTARTS   AGE",
+    "web-bbd7113d6-wb9pm   1/1     Running   0          12s",
+    "web-bbd7113d6-4k4wb   1/1     Running   0          12s",
+    "web-bbd7113d6-7s65r   1/1     Running   0          12s",
+    "web-bbd7113d6-dw5w6   1/1     Running   0          12s"
+   ],
+   "snap": [
+    {
+     "name": "control-plane",
+     "ready": true,
+     "role": "control-plane",
+     "pods": []
+    },
+    {
+     "name": "worker",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "4k4wb",
+       "status": "Running"
+      },
+      {
+       "id": "dw5w6",
+       "status": "Running"
+      }
+     ]
+    },
+    {
+     "name": "worker2",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "wb9pm",
+       "status": "Running"
+      },
+      {
+       "id": "7s65r",
+       "status": "Running"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cmd": "docker stop dojo-worker",
+   "out": [
+    "dojo-worker"
+   ],
+   "snap": [
+    {
+     "name": "control-plane",
+     "ready": true,
+     "role": "control-plane",
+     "pods": []
+    },
+    {
+     "name": "worker",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "4k4wb",
+       "status": "Running"
+      },
+      {
+       "id": "dw5w6",
+       "status": "Running"
+      }
+     ]
+    },
+    {
+     "name": "worker2",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "wb9pm",
+       "status": "Running"
+      },
+      {
+       "id": "7s65r",
+       "status": "Running"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "cmd": "kubectl get pods",
+   "out": [
+    "NAME                  READY   STATUS    RESTARTS   AGE",
+    "web-bbd7113d6-wb9pm   1/1     Running   0          82s",
+    "web-bbd7113d6-7s65r   1/1     Running   0          82s",
+    "web-bbd7113d6-pmwmf   1/1     Running   0          58s",
+    "web-bbd7113d6-ncp9h   1/1     Running   0          58s"
+   ],
+   "snap": [
+    {
+     "name": "control-plane",
+     "ready": true,
+     "role": "control-plane",
+     "pods": []
+    },
+    {
+     "name": "worker",
+     "ready": false,
+     "role": "worker",
+     "pods": []
+    },
+    {
+     "name": "worker2",
+     "ready": true,
+     "role": "worker",
+     "pods": [
+      {
+       "id": "wb9pm",
+       "status": "Running"
+      },
+      {
+       "id": "7s65r",
+       "status": "Running"
+      },
+      {
+       "id": "pmwmf",
+       "status": "Running"
+      },
+      {
+       "id": "ncp9h",
+       "status": "Running"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "image",
+   "tab": "ImagePullBackOff",
+   "title": "A typo in the image name",
+   "lesson": "Two replicas, zero running. The Events say why: the registry has no image called ngnix. Fix the name and the Deployment replaces the pods by itself.",
+   "lines": [
+    {
+     "cmd": "kubectl create deployment web --image=ngnix:1.27 --replicas=2",
+     "out": [
+      "deployment.apps/web created"
+     ]
+    },
+    {
+     "cmd": "kubectl get pods",
+     "out": [
+      "NAME                  READY   STATUS             RESTARTS   AGE",
+      "web-4737f5h42-zf87j   0/1     ImagePullBackOff   0          25s",
+      "web-4737f5h42-mwqvr   0/1     ImagePullBackOff   0          25s"
+     ]
+    },
+    {
+     "cmd": "kubectl describe pod -l app=web | grep -E 'Failed|BackOff' | head -2",
+     "out": [
+      "      Reason:       ImagePullBackOff",
+      "  Warning   Failed      24s   kubelet             Failed to pull image \"ngnix:1.27\": rpc error: code = Unknown desc =…"
+     ]
+    },
+    {
+     "cmd": "kubectl set image deployment/web ngnix=nginx:1.27",
+     "out": [
+      "deployment.apps/web image updated"
+     ]
+    },
+    {
+     "cmd": "kubectl get pods",
+     "out": [
+      "NAME                  READY   STATUS    RESTARTS   AGE",
+      "web-7ff35962c-bv9ff   1/1     Running   0          20s",
+      "web-7ff35962c-6l9cf   1/1     Running   0          19s"
+     ]
+    }
+   ],
+   "run": [
+    "kind create cluster --name dojo",
+    "kubectl create deployment web --image=ngnix:1.27 --replicas=2",
+    8,
+    "kubectl get pods"
+   ]
+  },
+  {
+   "id": "crash",
+   "tab": "CrashLoopBackOff",
+   "title": "A container that exits straight away",
+   "lesson": "The image pulls fine and the process dies with exit code 1. Kubernetes restarts it with growing delays. Logs show what it printed before dying.",
+   "lines": [
+    {
+     "cmd": "kubectl run crash --image=busybox -- sh -c \"echo starting; exit 1\"",
+     "out": [
+      "pod/crash created"
+     ]
+    },
+    {
+     "cmd": "kubectl get pod crash",
+     "out": [
+      "NAME    READY   STATUS             RESTARTS   AGE",
+      "crash   0/1     CrashLoopBackOff   2          40s"
+     ]
+    },
+    {
+     "cmd": "kubectl logs crash",
+     "out": [
+      "starting",
+      "starting"
+     ]
+    },
+    {
+     "cmd": "kubectl describe pod crash | grep -E 'BackOff|Back-off'",
+     "out": [
+      "      Reason:       CrashLoopBackOff",
+      "  Warning   BackOff     21s (x2 over 35s)   kubelet             Back-off restarting failed container crash in pod cra…"
+     ]
+    }
+   ],
+   "run": [
+    "kind create cluster --name dojo",
+    "kubectl run crash --image=busybox -- sh -c \"echo starting; exit 1\"",
+    20,
+    "kubectl get pod crash",
+    "kubectl logs crash"
+   ]
+  },
+  {
+   "id": "node",
+   "tab": "Node failure",
+   "title": "A worker node disappears",
+   "lesson": "kind nodes are Docker containers, so stopping one is a real node failure. The node goes NotReady and its pods are recreated on the nodes that are left.",
+   "lines": [
+    {
+     "cmd": "kubectl create deployment web --image=nginx:1.27 --replicas=4",
+     "out": [
+      "deployment.apps/web created"
+     ]
+    },
+    {
+     "cmd": "kubectl get pods -o wide",
+     "out": [
+      "NAME                  READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES",
+      "web-bbd7113d6-g5fbr   1/1     Running   0          15s   10.244.2.5   dojo-worker2   <none>           <none>",
+      "web-bbd7113d6-nqxnn   1/1     Running   0          15s   10.244.1.6   dojo-worker    <none>           <none>",
+      "web-bbd7113d6-5nq5t   1/1     Running   0          15s   10.244.2.6   dojo-worker2   <none>           <none>",
+      "web-bbd7113d6-7n5zq   1/1     Running   0          15s   10.244.1.7   dojo-worker    <none>           <none>"
+     ]
+    },
+    {
+     "cmd": "docker stop dojo-worker",
+     "out": [
+      "dojo-worker"
+     ]
+    },
+    {
+     "cmd": "kubectl get nodes",
+     "out": [
+      "NAME                 STATUS     ROLES           AGE    VERSION",
+      "dojo-control-plane   Ready      control-plane   2m0s   v1.35.0",
+      "dojo-worker          NotReady   <none>          2m0s   v1.35.0",
+      "dojo-worker2         Ready      <none>          2m0s   v1.35.0"
+     ]
+    },
+    {
+     "cmd": "kubectl get pods -o wide",
+     "out": [
+      "NAME                  READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES",
+      "web-bbd7113d6-g5fbr   1/1     Running   0          75s   10.244.2.5   dojo-worker2   <none>           <none>",
+      "web-bbd7113d6-5nq5t   1/1     Running   0          75s   10.244.2.6   dojo-worker2   <none>           <none>",
+      "web-bbd7113d6-cjdgg   1/1     Running   0          48s   10.244.2.8   dojo-worker2   <none>           <none>",
+      "web-bbd7113d6-pz2c4   1/1     Running   0          48s   10.244.2.9   dojo-worker2   <none>           <none>"
+     ]
+    }
+   ],
+   "run": [
+    "cat > kind.yaml <<'EOF'",
+    "kind: Cluster",
+    "apiVersion: kind.x-k8s.io/v1alpha4",
+    "nodes:",
+    "- role: control-plane",
+    "- role: worker",
+    "- role: worker",
+    "EOF",
+    "kind create cluster --name dojo --config kind.yaml",
+    "kubectl create deployment web --image=nginx:1.27 --replicas=4",
+    10,
+    "docker stop dojo-worker",
+    40,
+    "kubectl get nodes"
+   ]
+  },
+  {
+   "id": "rbac",
+   "tab": "RBAC",
+   "title": "Who may delete pods?",
+   "lesson": "A new ServiceAccount can do nothing. A Role grants verbs on resources, a RoleBinding attaches it to the account, and only inside that one namespace.",
+   "lines": [
+    {
+     "cmd": "kubectl create serviceaccount dev -n web",
+     "out": [
+      "serviceaccount/dev created"
+     ]
+    },
+    {
+     "cmd": "kubectl auth can-i delete pods --as=system:serviceaccount:web:dev -n web",
+     "out": [
+      "no"
+     ]
+    },
+    {
+     "cmd": "kubectl create role pod-admin --verb=get,list,delete --resource=pods -n web",
+     "out": [
+      "role.rbac.authorization.k8s.io/pod-admin created"
+     ]
+    },
+    {
+     "cmd": "kubectl create rolebinding dev-pods --role=pod-admin --serviceaccount=web:dev -n web",
+     "out": [
+      "rolebinding.rbac.authorization.k8s.io/dev-pods created"
+     ]
+    },
+    {
+     "cmd": "kubectl auth can-i delete pods --as=system:serviceaccount:web:dev -n web",
+     "out": [
+      "yes"
+     ]
+    },
+    {
+     "cmd": "kubectl auth can-i delete pods --as=system:serviceaccount:web:dev -n default",
+     "out": [
+      "no"
+     ]
+    }
+   ],
+   "run": [
+    "kind create cluster --name dojo",
+    "kubectl create namespace web",
+    "kubectl create serviceaccount dev -n web",
+    "kubectl auth can-i delete pods --as=system:serviceaccount:web:dev -n web"
+   ]
+  }
+ ],
+ "script": {
+  "source": [
+   "kubectl create namespace shop",
+   "kubectl create deployment web --image=nginx:1.27 --replicas=2 -n shop",
+   "kubectl expose deployment web --port=80 -n shop"
+  ],
+  "excerpt": "#!/usr/bin/env bash\nset -euo pipefail\nguard() { …refuse to run unless kubectl points at the new local cluster… }\n\n# ---- the cluster ----\ncat > \"${LAB}/kind-config.yaml\" <<'PG_EOF'\nkind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\nnodes:\n- role: control-plane\n- role: worker\n- role: worker\nPG_EOF\nif kind get clusters 2>/dev/null | grep -qx dojo; then echo \"kind cluster dojo already exists, reusing it\"; …\nkubectl config use-context kind-dojo\n\n# Deployment\nguard\nkubectl apply -f - <<'PG_EOF'\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: web\n  namespace: shop\n  labels:\n    app: web\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: web\n  template:\n    metadata:\n      labels:\n        app: web\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:1.27\nPG_EOF\n\n# ---- wait until they are ready ----\nkubectl rollout status deployment/web -n shop --timeout=300s || echo \"WARNING: web was not ready in time, continuing\"",
+  "lines": 97
+ }
+}

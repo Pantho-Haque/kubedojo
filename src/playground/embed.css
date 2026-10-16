@@ -1,0 +1,9 @@
+/* The playground inside the home page demo window: same components, laid out in a box instead of the whole viewport. */
+.pg-root.pg-embed { position: relative; inset: auto; height: 100%; min-height: 0; border-radius: 0; }
+.pg-root.pg-embed main { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); height: 100%; }
+.pg-root.pg-embed #termpane { border-right: 1px solid var(--bd); }
+.pg-root.pg-embed #vizbody { padding: 10px 12px 24px; }
+@media (max-width: 760px) {
+  .pg-root.pg-embed main { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  .pg-root.pg-embed #termpane { border-right: 0; border-bottom: 1px solid var(--bd); }
+}

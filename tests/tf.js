@@ -1,0 +1,21 @@
+const { PG, sim, run, stop, sh, out } = require('./harness.js');
+(async () => {
+  await run('kind create cluster --name lab', false); await run('kubectl create namespace web', false);
+  await run('kubectl -n kube-system create serviceaccount tiller; kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller; helm2 init --service-account tiller --tiller-image ghcr.io/helm/tiller:v2.17.0', false); await sim.wait(15, { aborted: false });
+  console.log('### create a new chart, lint, template, install');
+  await run('helm2 create shop'); await run('ls shop shop/templates | head -12'); await run('helm2 lint shop'); await run('helm2 template shop --name s1 --namespace web | grep -E "^kind|name: s1" | head -6');
+  await run('helm2 install shop --name s1 --namespace web --wait --timeout 120 | head -6'); await run('helm2 ls');
+  console.log('### package -> install from tgz');
+  await run('helm2 package shop'); await run('ls *.tgz'); await run('helm2 install shop-0.1.0.tgz --name s2 --namespace web | head -4');
+  console.log('### search / inspect / install from stable repo');
+  await run('helm2 search stable/'); await run('helm2 inspect values stable/redis | head -6');
+  await run('helm2 install stable/redis --name r1 --namespace web --set usePassword=true,password=s3cret'); await sim.wait(12, { aborted: false });
+  await run('kubectl get pods,svc,secret -n web -l release=r1'); await run('kubectl exec -n web deploy/r1-redis-master -- redis-cli ping');
+  await run('helm2 install stable/postgresql --name pg --namespace web --set postgresqlPassword=hunter2 | head -3'); await sim.wait(15, { aborted: false }); await run('kubectl get pods -n web -l release=pg');
+  console.log('### dependencies: parent chart with redis as a subchart');
+  await run('helm2 create app; printf "dependencies:\\n  - name: redis\\n    version: 10.x.x\\n    repository: https://charts.helm.sh/stable\\n    condition: redis.enabled\\n" > app/requirements.yaml; printf "redis:\\n  enabled: true\\n  usePassword: true\\n" >> app/values.yaml', false);
+  await run('helm2 dependency update app'); await run('ls app/charts; helm2 dependency list app');
+  await run('helm2 template app --name d1 --namespace web | grep -E "^# Source" '); await run('helm2 template app --name d1 --namespace web --set redis.enabled=false | grep -c "charts/redis"');
+  await run('helm2 install app --name d1 --namespace web | tail -4');
+  stop();
+})().catch(e => { console.error(e); process.exit(1); });

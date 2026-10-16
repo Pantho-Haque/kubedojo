@@ -1,0 +1,39 @@
+{
+  "name": "kubedojo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KubeDojo \u2014 learn kind, k3d, docker, kubectl and Helm 2 by breaking a simulated cluster safely, then export it as a real setup script.",
+  "type": "module",
+  "scripts": {
+    "engine": "node scripts/build-engine.mjs",
+    "content": "node scripts/build-blog.mjs && node scripts/build-demo.mjs",
+    "prepare:data": "npm run engine && npm run content",
+    "dev": "npm run prepare:data && vite",
+    "build": "npm run prepare:data && vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:single": "npm run prepare:data && SINGLE_FILE=1 VITE_ROUTER=hash vite build --outDir dist-single",
+    "preview": "node scripts/serve.mjs 4173",
+    "lint": "eslint .",
+    "test": "npm run prepare:data && node scripts/run-tests.mjs && node --test scripts/*.test.mjs",
+    "check": "npm run lint && npm test && npm run build",
+    "qa": "node scripts/qa.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.12.0",
+    "marked": "^18.1.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@vitejs/plugin-react": "^6.1.2",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.13.0",
+    "vite": "^8.3.4",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}
