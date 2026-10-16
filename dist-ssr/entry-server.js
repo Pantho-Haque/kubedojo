@@ -13282,14 +13282,34 @@ function PostBody({ slug }) {
 			for (const e of es) if (e.isIntersecting) setActive(e.target.id);
 		}, { rootMargin: "-72px 0px -70% 0px" });
 		heads.forEach((h) => io.observe(h));
+		let marked = false;
+		const mark = () => {
+			if (marked) return;
+			marked = true;
+			markRead(slug);
+		};
 		const end = document.getElementById("post-end");
 		const done = new IntersectionObserver(([e]) => {
-			if (e.isIntersecting) markRead(slug);
+			if (e.isIntersecting) mark();
 		}, { threshold: 0 });
 		if (end) done.observe(end);
+		if (end && end.getBoundingClientRect().top < window.innerHeight) mark();
+		let raf = 0;
+		const onScroll = () => {
+			if (raf) return;
+			raf = requestAnimationFrame(() => {
+				raf = 0;
+				const d = document.documentElement;
+				if (window.innerHeight + window.scrollY >= d.scrollHeight - 4) mark();
+			});
+		};
+		window.addEventListener("scroll", onScroll, { passive: true });
+		onScroll();
 		return () => {
 			io.disconnect();
 			done.disconnect();
+			window.removeEventListener("scroll", onScroll);
+			if (raf) cancelAnimationFrame(raf);
 		};
 	}, [slug, post]);
 	if (!post) return /* @__PURE__ */ jsx(NotFound, {});

@@ -32,8 +32,21 @@ function PostBody({ slug }) {
     const heads = [...body.current.querySelectorAll('h2[id], h3[id]')];
     const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) setActive(e.target.id); }, { rootMargin: '-72px 0px -70% 0px' });
     heads.forEach(h => io.observe(h));
-    const end = document.getElementById('post-end'); const done = new IntersectionObserver(([e]) => { if (e.isIntersecting) markRead(slug); }, { threshold: 0 }); if (end) done.observe(end);
-    return () => { io.disconnect(); done.disconnect(); };
+    // Mark the post read once the bottom is reached. Two strategies so it works for short posts (the
+    // sentinel was already in view on mount) and for instant scrolls (the observer may not fire):
+    //  1. IntersectionObserver on the #post-end sentinel.
+    //  2. A throttled scroll listener that checks scrollY against the document height.
+    let marked = false; const mark = () => { if (marked) return; marked = true; markRead(slug); };
+    const end = document.getElementById('post-end');
+    const done = new IntersectionObserver(([e]) => { if (e.isIntersecting) mark(); }, { threshold: 0 });
+    if (end) done.observe(end);
+    // Also fire once on mount: if the post fits entirely in the viewport, the sentinel is in view already.
+    if (end && end.getBoundingClientRect().top < window.innerHeight) mark();
+    let raf = 0; const onScroll = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; const d = document.documentElement; if (window.innerHeight + window.scrollY >= d.scrollHeight - 4) mark(); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // And one immediate check (covers tests that scroll before the first scroll event fires).
+    onScroll();
+    return () => { io.disconnect(); done.disconnect(); window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
   }, [slug, post]);
 
   if (!post) return <NotFound />;
