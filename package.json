@@ -4,6 +4,10 @@
   "private": true,
   "description": "KubeDojo \u2014 learn kind, k3d, docker, kubectl and Helm 2 by breaking a simulated cluster safely, then export it as a real setup script.",
   "type": "module",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "engine": "node scripts/build-engine.mjs",
     "content": "node scripts/build-blog.mjs && node scripts/build-demo.mjs",
