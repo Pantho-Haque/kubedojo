@@ -26,8 +26,9 @@ export default function Header() {
         <button id="tourbtn" className="ibtn" title="A 2-minute walkthrough of every part of the page" aria-label="Start the tour" onClick={() => store.startTour(0)}><Icon name="play" /></button>
         <button id="exportbtn" className="ibtn" title="Build a bash script that recreates this environment on a real machine" aria-label="Export a setup script" onClick={() => { store.exportOpen = true; store.bump(); }}><Icon name="download" /></button>
         <button id="helpbtn" className="ibtn" title="Print the list of supported commands" aria-label="Help: list commands" onClick={() => store.runInTerm('help', true)}><Icon name="help" /></button>
-        <button id="resetbtn" className="ibtn" title="Throw away the simulated world and start over (your files are kept)" aria-label="Reset the simulated world" onClick={() => { if (window.confirm('Throw away the simulated clusters and start over?\n\nYour files are kept (they live in this browser).')) store.reset(); }}><Icon name="reset" /></button>
+        <button id="resetbtn" className="ibtn" title="Throw away the simulated world and its saved session, and start over (your files are kept)" aria-label="Reset the simulated world" onClick={() => { if (window.confirm('Throw away the simulated clusters and the saved terminal history, and start over?\n\nYour files are kept (they live in this browser).')) store.reset(); }}><Icon name="reset" /></button>
       </span>
+      <Link to="/academy" className="academy-link" target="_blank" rel="noopener" title="The KubeDojo Academy: courses and simulators, in a new tab">Academy<span aria-hidden="true"> ↗</span></Link>
     </header>
   );
 }

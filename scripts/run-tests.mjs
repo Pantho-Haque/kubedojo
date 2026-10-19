@@ -5,7 +5,7 @@ import { readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'tests');
-const MUST = { 't9.js': /flagged: 0/, 'tvi.js': /all vi checks pass/, 'tx.js': /export checks pass/, 'tg2.js': /gcloud checks pass/, 'tq1.js': /qa1: \d+ passed, 0 failed/, 'tq2.js': /qa2: \d+ passed, 0 failed/, 'tq3.js': /qa3: fuzz clean/, 'ts.js': /all \d+ sed\/grep checks pass/ };
+const MUST = { 't9.js': /flagged: 0/, 'tvi.js': /all vi checks pass/, 'tx.js': /export checks pass/, 'tg2.js': /gcloud checks pass/, 'tq1.js': /qa1: \d+ passed, 0 failed/, 'tq2.js': /qa2: \d+ passed, 0 failed/, 'tq3.js': /qa3: fuzz clean/, 'ts.js': /all \d+ sed\/grep checks pass/, 'tstate.js': /state checks pass/ };
 let failed = 0;
 for (const f of readdirSync(dir).filter(f => /^t[a-z0-9]*\.js$/.test(f)).sort()) {
   const r = spawnSync('node', [f], { cwd: dir, encoding: 'utf8', timeout: 120000 }); const out = (r.stdout || '') + (r.stderr || '');

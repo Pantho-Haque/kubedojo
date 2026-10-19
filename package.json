@@ -10,7 +10,7 @@
   },
   "scripts": {
     "engine": "node scripts/build-engine.mjs",
-    "content": "node scripts/build-blog.mjs && node scripts/build-demo.mjs",
+    "content": "node scripts/build-blog.mjs && node scripts/build-academy.mjs && node scripts/build-demo.mjs",
     "prepare:data": "npm run engine && npm run content",
     "dev": "npm run prepare:data && vite",
     "build": "npm run prepare:data && vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",

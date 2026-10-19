@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..'); const dist = join(root, 'dist');
 const SITE_URL = (process.env.VITE_SITE_URL || '').replace(/\/$/, '');
-const { render, routes, metaFor } = await import(pathToFileURL(join(root, 'dist-ssr/entry-server.js')).href);
+const { render, routes, shells, metaFor } = await import(pathToFileURL(join(root, 'dist-ssr/entry-server.js')).href);
 const template = readFileSync(join(dist, 'index.html'), 'utf8');
 if (!template.includes('<!--app-head-->') || !template.includes('<!--app-html-->')) throw new Error('index.html lost its placeholders');
 const fontPreload = (readdirSync(join(dist, 'assets')).filter(f => /^ibm-plex-mono-latin-600-normal.*\.woff2$/.test(f))[0]) || null; // the heading face: fetched at once, no flash of the fallback
@@ -34,17 +34,17 @@ const write = (rel, text) => { const f = join(dist, rel); mkdirSync(dirname(f), 
 const page = (path, html) => template.replace('<!--app-head-->', head(metaFor(path))).replace('<div id="root"><!--app-html--></div>', html ? `<div id="root" data-prerendered>${html}</div>` : '<div id="root"></div>');
 
 const list = routes();
-for (const r of list) write(r === '/' ? 'index.html' : join(r.slice(1), 'index.html'), page(r, render(r)));
-write('app/index.html', page('/app', ''));             // the playground is client-only: an empty shell with the right title
-write('404.html', page('/__not-found__', render('/__not-found__')));
-console.log(`prerender: ${list.length} routes + app shell + 404`);
+for (const r of list) write(r === '/' ? 'index.html' : join(r.slice(1), 'index.html'), page(r, await render(r)));
+for (const r of shells()) write(join(r.slice(1), 'index.html'), page(r, '')); // the playground and Simulate are client-only: empty shells with the right title
+write('404.html', page('/__not-found__', await render('/__not-found__')));
+console.log(`prerender: ${list.length} routes + ${shells().length} client-only shells + 404`);
 
 // ---- SEO files
 write('robots.txt', `User-agent: *\nAllow: /\n${SITE_URL ? `\nSitemap: ${SITE_URL}/sitemap.xml\n` : ''}`);
 if (SITE_URL) {
   const posts = JSON.parse(readFileSync(join(root, 'src/blog/generated/index.json'), 'utf8'));
   const day = new Date().toISOString().slice(0, 10);
-  write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...list, '/app'].map(r => `  <url><loc>${SITE_URL}${r === '/' ? '/' : r}</loc><lastmod>${(posts.find(p => '/blog/' + p.slug === r) || { date: day }).date}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+  write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...list, ...shells()].map(r => `  <url><loc>${SITE_URL}${r === '/' ? '/' : r}</loc><lastmod>${(posts.find(p => '/blog/' + p.slug === r) || { date: day }).date}</lastmod></url>`).join('\n')}\n</urlset>\n`);
   write('feed.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>${SITE_NAME}</title><link>${SITE_URL}/blog</link><description>${esc(metaFor('/blog').description)}</description>\n${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE_URL}/blog/${p.slug}</link><guid>${SITE_URL}/blog/${p.slug}</guid><pubDate>${new Date(p.date).toUTCString()}</pubDate><description>${esc(p.description)}</description></item>`).join('\n')}\n</channel></rss>\n`);
 }
 

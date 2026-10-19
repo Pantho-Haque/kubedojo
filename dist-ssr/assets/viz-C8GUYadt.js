@@ -1,4 +1,4 @@
-import { t as _defineProperty } from "../entry-server.js";
+import { u as _defineProperty } from "../entry-server.js";
 import { Fragment, memo, useEffect, useLayoutEffect, useReducer, useRef, useState, useSyncExternalStore } from "react";
 import { Fragment as Fragment$1, jsx, jsxs } from "react/jsx-runtime";
 //#region src/engine/engine.js
@@ -1888,6 +1888,45 @@ PG.Sim = class {
 		PG.seedGke(this);
 		if (!this.fsRestored) PG.seedChart(this);
 	}
+};
+PG.STATE_V = 1;
+PG.STATE_SKIP = /* @__PURE__ */ new Set([
+	"fs",
+	"fsRestored",
+	"listeners",
+	"waiters",
+	"timer",
+	"shells",
+	"notifyT",
+	"speed",
+	"lastTrace"
+]);
+PG.Sim.prototype.snapshotState = function() {
+	const sim = {};
+	for (const [k, v] of Object.entries(this)) if (!PG.STATE_SKIP.has(k) && k !== "clusters") sim[k] = v;
+	const clusters = {};
+	for (const [k, c] of Object.entries(this.clusters)) {
+		const o = {};
+		for (const [ck, cv] of Object.entries(c)) if (ck !== "sim") o[ck] = cv;
+		clusters[k] = o;
+	}
+	return JSON.parse(JSON.stringify({
+		v: PG.STATE_V,
+		sim,
+		clusters
+	}));
+};
+PG.Sim.prototype.restoreState = function(snap) {
+	if (!snap || snap.v !== PG.STATE_V || !snap.sim || !snap.clusters) return false;
+	for (const [k, v] of Object.entries(snap.sim)) this[k] = v;
+	this.clusters = {};
+	for (const [k, o] of Object.entries(snap.clusters)) {
+		const c = new PG.Cluster(this, o);
+		Object.assign(c, o);
+		this.clusters[k] = c;
+	}
+	this.lastTrace = this.trace[this.trace.length - 1];
+	return true;
 };
 PG.KINDS = {
 	pods: {
@@ -16942,6 +16981,7 @@ var TermModel = class {
 		this.version = 0;
 		this.listeners = /* @__PURE__ */ new Set();
 		this.queued = false;
+		this.saveT = null;
 		if (id === 1) this.print(BANNER, "dim");
 	}
 	emit() {
@@ -16955,6 +16995,14 @@ var TermModel = class {
 			this.queued = false;
 			this.emit();
 		});
+		this.scheduleSave();
+	}
+	scheduleSave() {
+		if (this.saveT) return;
+		this.saveT = setTimeout(() => {
+			this.saveT = null;
+			this.store.saveTerm(this);
+		}, 800);
 	}
 	setValue(v) {
 		this.value = v;
@@ -16981,6 +17029,9 @@ var TermModel = class {
 	}
 	clear() {
 		this.lines = [];
+		clearTimeout(this.saveT);
+		this.saveT = null;
+		this.store.forgetTerm(this);
 		this.notify();
 	}
 	get cols() {
@@ -17123,6 +17174,7 @@ var TermModel = class {
 		}
 	}
 	dispose() {
+		clearTimeout(this.saveT);
 		const sim = this.store.sim;
 		const i = sim.shells.indexOf(this.shell);
 		if (i >= 0) sim.shells.splice(i, 1);
@@ -17133,6 +17185,33 @@ var TermModel = class {
 //#region src/playground/store.js
 var FS_KEY = "k8s-playground:fs:v1";
 var TOUR_KEY = "k8s-playground:tour:v1";
+var STATE_KEY = "kd.dojo.state.v1";
+var TERM_PREFIX = "kd.dojo.term.v1.";
+var TERM_V = 1;
+var lsGet = (k) => {
+	try {
+		return JSON.parse(localStorage.getItem(k) || "null");
+	} catch (e) {
+		return null;
+	}
+};
+var lsSet = (k, v) => {
+	try {
+		localStorage.setItem(k, JSON.stringify(v));
+	} catch (e) {}
+};
+var lsDel = (k) => {
+	try {
+		localStorage.removeItem(k);
+	} catch (e) {}
+};
+var savedTermKeys = () => {
+	try {
+		return Object.keys(localStorage).filter((k) => k.startsWith(TERM_PREFIX)).sort((a, b) => Number(a.slice(16)) - Number(b.slice(16)));
+	} catch (e) {
+		return [];
+	}
+};
 var SYSTEM_NS = [
 	"kube-system",
 	"kube-public",
@@ -17229,6 +17308,9 @@ var Store = class {
 		_defineProperty(this, "seen", {});
 		_defineProperty(this, "_animV", -1);
 		_defineProperty(this, "_anim", {});
+		_defineProperty(this, "stateT", null);
+		_defineProperty(this, "ephemeral", false);
+		_defineProperty(this, "restored", false);
 		_defineProperty(this, "subscribe", (l) => {
 			this.listeners.add(l);
 			return () => this.listeners.delete(l);
@@ -17249,6 +17331,10 @@ var Store = class {
 				this.fsStatus = "unavailable";
 			}
 		});
+		_defineProperty(this, "saveStateNow", () => {
+			if (!this.sim || this.ephemeral) return;
+			lsSet(STATE_KEY, this.sim.snapshotState());
+		});
 	}
 	bump() {
 		this.version++;
@@ -17261,14 +17347,44 @@ var Store = class {
 			if (this.vizTab === "files") this.bump();
 		}, 300);
 	}
-	boot() {
+	scheduleState() {
+		if (this.stateT || this.ephemeral) return;
+		this.stateT = setTimeout(() => {
+			this.stateT = null;
+			this.saveStateNow();
+		}, 1500);
+	}
+	saveTerm(t) {
+		if (this.ephemeral) return;
+		lsSet(TERM_PREFIX + t.id, {
+			v: TERM_V,
+			label: t.label,
+			hist: t.hist.slice(-200),
+			lines: t.lines.slice(-500)
+		});
+	}
+	forgetTerm(t) {
+		lsDel(TERM_PREFIX + t.id);
+	}
+	forgetSession() {
+		clearTimeout(this.stateT);
+		this.stateT = null;
+		lsDel(STATE_KEY);
+		for (const k of savedTermKeys()) lsDel(k);
+	}
+	boot(fresh = false) {
 		for (const t of this.terms) t.dispose();
 		this.fsStatus = storageWorks() ? "ok" : "unavailable";
+		this.ephemeral = !fresh && typeof location !== "undefined" && new URLSearchParams(location.search).has("run");
 		const sim = this.sim = new PG.Sim(loadFs());
 		sim.fs.onChange = () => this.scheduleSave();
 		sim.speed = this.speed;
+		this.restored = !fresh && !this.ephemeral && sim.restoreState(lsGet("kd.dojo.state.v1"));
 		sim.start(250, .25);
-		sim.onChange(() => this.bump());
+		sim.onChange(() => {
+			this.scheduleState();
+			this.bump();
+		});
 		PG.resetHook = async () => {
 			this.reset();
 		};
@@ -17285,12 +17401,26 @@ var Store = class {
 		this.seen = {};
 		this.openFile = null;
 		this.termSeq = 0;
-		this.addTerm();
+		const saved = fresh || this.ephemeral ? [] : savedTermKeys().map((k) => [Number(k.slice(16)), lsGet(k)]).filter(([id, d]) => id > 0 && d && d.v === TERM_V);
+		for (const [id, d] of saved.slice(0, 4)) {
+			const t = new TermModel(this, id, d.label || "Terminal " + id);
+			t.lines = d.lines || [];
+			t.seq = t.lines.reduce((m, l) => Math.max(m, l.id || 0), 0);
+			t.hist = d.hist || [];
+			t.hi = t.hist.length;
+			t.print("— restored from your last visit · Reset (↻) starts over —", "dim");
+			this.terms.push(t);
+			this.termSeq = Math.max(this.termSeq, id);
+		}
+		if (this.terms.length) this.showTerm(this.terms[0]);
+		else this.addTerm();
+		if (this.ephemeral) this.active.print("— this example runs in a fresh world and is not saved: your own session comes back next time you open the playground —", "dim");
 		this.bump();
 	}
 	reset() {
 		this.sim.stop();
-		this.boot();
+		this.forgetSession();
+		this.boot(true);
 	}
 	mount() {
 		if (!this.sim) this.boot();
@@ -17299,6 +17429,10 @@ var Store = class {
 	unmount() {
 		if (this.sim) this.sim.stop();
 		this.saveFsNow();
+		clearTimeout(this.stateT);
+		this.stateT = null;
+		this.saveStateNow();
+		for (const t of this.terms) this.saveTerm(t);
 	}
 	addTerm() {
 		if (this.terms.length >= 4) return null;
@@ -17315,6 +17449,7 @@ var Store = class {
 	closeTerm(t) {
 		if (this.terms.length === 1) return;
 		t.dispose();
+		this.forgetTerm(t);
 		this.terms = this.terms.filter((x) => x !== t);
 		this.showTerm(this.terms[this.terms.length - 1]);
 	}

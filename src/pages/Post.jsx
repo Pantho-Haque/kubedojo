@@ -73,7 +73,7 @@ function PostBody({ slug }) {
           <details className="toc-mobile"><summary>On this page</summary><Toc toc={post.toc} active={active} /></details>
           <div className="prose" ref={body} onClick={onClick} onPointerOver={e => { if (e.target.closest && e.target.closest('.code-try')) preloadPlayground(); }} dangerouslySetInnerHTML={{ __html: post.html }} />
           <div id="post-end" style={{ height: 1 }} />
-          <aside className="try-cta"><div><strong>Try it before you type it on your machine.</strong><span>The playground runs every command in these guides against a simulated cluster.</span></div><Link className="btn btn-primary" to="/app" {...appIntent}>Open the playground</Link></aside>
+          <aside className="try-cta"><div><strong>Try it before you type it on your machine.</strong><span>The playground runs every command in these guides against a simulated cluster.</span></div><Link className="btn btn-primary" to="/app" {...appIntent}>Open playground</Link></aside>
           <nav className="pager" aria-label="Previous and next post">
             {prev ? <Link className="prev" to={`/blog/${prev.slug}`}><span>Previous</span>{prev.title}</Link> : <span />}
             {next ? <Link className="next" to={`/blog/${next.slug}`}><span>Next</span>{next.title}</Link> : <span />}

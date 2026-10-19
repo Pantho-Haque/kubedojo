@@ -22,20 +22,21 @@ export class TermModel {
     this.shell = new PG.Shell(store.sim, this); store.sim.shells.push(this.shell);
     this.hist = []; this.hi = 0; this.running = false; this.value = ''; this.lines = []; this.seq = 0; this.vi = null;
     this.inputEl = null; this.viEl = null; this.getCols = null; this.forceScroll = false;
-    this.version = 0; this.listeners = new Set(); this.queued = false;
+    this.version = 0; this.listeners = new Set(); this.queued = false; this.saveT = null;
     if (id === 1) this.print(BANNER, 'dim');
   }
   /* ---- external-store plumbing (useSyncExternalStore) ---- */
   subscribe = l => { this.listeners.add(l); return () => this.listeners.delete(l); };
   getSnapshot = () => this.version;
   emit() { this.version++; for (const l of [...this.listeners]) l(); }
-  notify() { if (this.queued) return; this.queued = true; queueMicrotask(() => { this.queued = false; this.emit(); }); } // output is batched: a 3000-line command renders once
+  notify() { if (this.queued) return; this.queued = true; queueMicrotask(() => { this.queued = false; this.emit(); }); this.scheduleSave(); } // output is batched: a 3000-line command renders once
+  scheduleSave() { if (this.saveT) return; this.saveT = setTimeout(() => { this.saveT = null; this.store.saveTerm(this); }, 800); }
   setValue(v) { this.value = v; this.emit(); } // typing must update synchronously (controlled input)
 
   /* ---- what the shell calls ---- */
   print(text, cls) { this.lines.push({ id: ++this.seq, text, cls, pre: /\S {3,}\S/.test(text) }); if (this.lines.length > 2500) this.lines.splice(0, this.lines.length - 2500); this.notify(); }
   printCmd(prompt, text) { this.lines.push({ id: ++this.seq, cmd: true, prompt, text }); this.notify(); }
-  clear() { this.lines = []; this.notify(); }
+  clear() { this.lines = []; clearTimeout(this.saveT); this.saveT = null; this.store.forgetTerm(this); this.notify(); } // also removes this terminal's saved history
   get cols() { return this.getCols ? this.getCols() : 80; } // ls column layout
   edit(vi) { return new Promise(resolve => { this.vi = { vi, resolve, seq: ++this.seq }; this.store.bump(); }); } // full-pane vi: keys go to the editor until :q
   finishVi() { const v = this.vi; if (!v) return; this.vi = null; this.store.bump(); v.resolve(); setTimeout(() => { if (this.store.active === this) this.focus(); }, 0); }
@@ -80,5 +81,5 @@ export class TermModel {
     }
   }
 
-  dispose() { const sim = this.store.sim; const i = sim.shells.indexOf(this.shell); if (i >= 0) sim.shells.splice(i, 1); this.shell.abort(); }
+  dispose() { clearTimeout(this.saveT); const sim = this.store.sim; const i = sim.shells.indexOf(this.shell); if (i >= 0) sim.shells.splice(i, 1); this.shell.abort(); }
 }

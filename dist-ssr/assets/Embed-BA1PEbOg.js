@@ -1,4 +1,4 @@
-import { a as store, n as TerminalPane, o as useStore, t as VizPane } from "./viz-DrS-GmLQ.js";
+import { a as store, n as TerminalPane, o as useStore, t as VizPane } from "./viz-C8GUYadt.js";
 import { useEffect } from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
 //#region src/playground/Embed.jsx

@@ -7,6 +7,14 @@ import { TermModel, selText } from './term.js';
 
 export const FS_KEY = 'k8s-playground:fs:v1'; // same keys as the prototype, so your saved files carry over
 export const TOUR_KEY = 'k8s-playground:tour:v1';
+// The simulated world and each terminal's history, so a reload brings the session back. Reset deletes them; `clear` deletes a terminal's.
+export const STATE_KEY = 'kd.dojo.state.v1';
+const TERM_PREFIX = 'kd.dojo.term.v1.';
+const TERM_V = 1;
+const lsGet = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* full or blocked: keep working unsaved */ } };
+const lsDel = k => { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } };
+const savedTermKeys = () => { try { return Object.keys(localStorage).filter(k => k.startsWith(TERM_PREFIX)).sort((a, b) => Number(a.slice(TERM_PREFIX.length)) - Number(b.slice(TERM_PREFIX.length))); } catch (e) { return []; } };
 export const SYSTEM_NS = ['kube-system', 'kube-public', 'kube-node-lease', 'local-path-storage', 'ingress-nginx', 'default-system'];
 const PALETTE = ['#4f9dff', '#ff8c42', '#b57cff', '#32d6a0', '#ff5c8a', '#e6c229', '#5ad1e6', '#9bd14f', '#ff7ae0', '#a0a8ff'];
 export const nsColor = n => { if (SYSTEM_NS.includes(n)) return '#6b7280'; if (n === 'default') return '#8b95a5'; let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) >>> 0; return PALETTE[h % PALETTE.length]; };
@@ -26,6 +34,7 @@ class Store {
   vizTab = 'cluster'; selCluster = null; inspect = null; showSystem = false; hiddenNs = new Set(); hoverSvc = null; openFile = null;
   noside = false; speed = 2; tourIndex = -1; exportOpen = false; renderHeld = false;
   fsStatus = 'unknown'; fsBytes = 0; saveT = null; seen = {}; _animV = -1; _anim = {};
+  stateT = null; ephemeral = false; restored = false;
 
   subscribe = l => { this.listeners.add(l); return () => this.listeners.delete(l); };
   getSnapshot = () => this.version;
@@ -35,23 +44,42 @@ class Store {
   saveFsNow = () => { if (!this.sim) return; try { const j = JSON.stringify(this.sim.fs.snapshot()); this.fsBytes = j.length; if (j.length > 4500000) { this.fsStatus = 'toobig'; return; } localStorage.setItem(FS_KEY, j); this.fsStatus = 'ok'; } catch (e) { this.fsStatus = 'unavailable'; } };
   scheduleSave() { clearTimeout(this.saveT); this.saveT = setTimeout(() => { this.saveFsNow(); if (this.vizTab === 'files') this.bump(); }, 300); }
 
+  /* ---- the session (world + terminal histories) lives in this browser too ---- */
+  saveStateNow = () => { if (!this.sim || this.ephemeral) return; lsSet(STATE_KEY, this.sim.snapshotState()); };
+  scheduleState() { if (this.stateT || this.ephemeral) return; this.stateT = setTimeout(() => { this.stateT = null; this.saveStateNow(); }, 1500); }
+  saveTerm(t) { if (this.ephemeral) return; lsSet(TERM_PREFIX + t.id, { v: TERM_V, label: t.label, hist: t.hist.slice(-200), lines: t.lines.slice(-500) }); }
+  forgetTerm(t) { lsDel(TERM_PREFIX + t.id); }
+  forgetSession() { clearTimeout(this.stateT); this.stateT = null; lsDel(STATE_KEY); for (const k of savedTermKeys()) lsDel(k); }
+
   /* ---- world lifecycle ---- */
-  boot() {
+  boot(fresh = false) {
     for (const t of this.terms) t.dispose();
     this.fsStatus = storageWorks() ? 'ok' : 'unavailable';
-    const sim = this.sim = new PG.Sim(loadFs()); sim.fs.onChange = () => this.scheduleSave(); sim.speed = this.speed; sim.start(250, 0.25); sim.onChange(() => this.bump());
+    // a ?run= example link plays in a fresh world and saves nothing, so the session you had is still there next time
+    this.ephemeral = !fresh && typeof location !== 'undefined' && new URLSearchParams(location.search).has('run');
+    const sim = this.sim = new PG.Sim(loadFs()); sim.fs.onChange = () => this.scheduleSave(); sim.speed = this.speed;
+    this.restored = !fresh && !this.ephemeral && sim.restoreState(lsGet(STATE_KEY));
+    sim.start(250, 0.25); sim.onChange(() => { this.scheduleState(); this.bump(); });
     PG.resetHook = async () => { this.reset(); };
     PG.startTour = at => this.startTour(at); PG.openExport = () => { this.exportOpen = true; this.bump(); };
-    this.terms = []; this.active = null; this.selCluster = null; this.inspect = null; this.hiddenNs = new Set(); this.seen = {}; this.openFile = null; this.termSeq = 0; this.addTerm(); this.bump();
+    this.terms = []; this.active = null; this.selCluster = null; this.inspect = null; this.hiddenNs = new Set(); this.seen = {}; this.openFile = null; this.termSeq = 0;
+    const saved = fresh || this.ephemeral ? [] : savedTermKeys().map(k => [Number(k.slice(TERM_PREFIX.length)), lsGet(k)]).filter(([id, d]) => id > 0 && d && d.v === TERM_V);
+    for (const [id, d] of saved.slice(0, 4)) { // put each saved terminal back, with its scrollback and history
+      const t = new TermModel(this, id, d.label || 'Terminal ' + id); t.lines = d.lines || []; t.seq = t.lines.reduce((m, l) => Math.max(m, l.id || 0), 0); t.hist = d.hist || []; t.hi = t.hist.length;
+      t.print('— restored from your last visit · Reset (↻) starts over —', 'dim'); this.terms.push(t); this.termSeq = Math.max(this.termSeq, id);
+    }
+    if (this.terms.length) this.showTerm(this.terms[0]); else this.addTerm();
+    if (this.ephemeral) this.active.print('— this example runs in a fresh world and is not saved: your own session comes back next time you open the playground —', 'dim');
+    this.bump();
   }
-  reset() { this.sim.stop(); this.boot(); }
+  reset() { this.sim.stop(); this.forgetSession(); this.boot(true); }
   mount() { if (!this.sim) this.boot(); else this.sim.start(250, 0.25); } // leaving the page pauses the simulated clock, coming back resumes it
-  unmount() { if (this.sim) this.sim.stop(); this.saveFsNow(); }
+  unmount() { if (this.sim) this.sim.stop(); this.saveFsNow(); clearTimeout(this.stateT); this.stateT = null; this.saveStateNow(); for (const t of this.terms) this.saveTerm(t); }
 
   /* ---- terminals ---- */
   addTerm() { if (this.terms.length >= 4) return null; const t = new TermModel(this, ++this.termSeq, 'Terminal ' + (this.terms.length + 1)); this.terms.push(t); this.showTerm(t); return t; }
   showTerm(t) { this.active = t; this.bump(); setTimeout(() => t.focus(), 0); }
-  closeTerm(t) { if (this.terms.length === 1) return; t.dispose(); this.terms = this.terms.filter(x => x !== t); this.showTerm(this.terms[this.terms.length - 1]); }
+  closeTerm(t) { if (this.terms.length === 1) return; t.dispose(); this.forgetTerm(t); this.terms = this.terms.filter(x => x !== t); this.showTerm(this.terms[this.terms.length - 1]); }
   async runInTerm(text, run) {
     const t = this.active; if (!t) return;
     if (t.running) { t.print('(a command is still running in this tab — press Ctrl-C, or use another tab)', 'dim'); return; }

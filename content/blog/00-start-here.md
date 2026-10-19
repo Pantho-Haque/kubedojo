@@ -33,7 +33,7 @@ the install commands are macOS-specific.
 
 Every command in these guides can be run first in the **KubeDojo playground**: a simulator of `kind`, `k3d`, `docker`, `kubectl` and Helm 2 with a live picture of the cluster. Nothing touches your computer, so you can follow along, make mistakes and reset. When it works, the playground can export the same cluster as a setup script for your real machine.
 
-[Open the playground](/app)
+[Open playground](/app)
 
 Start with 01 (kind) or 02 (k3d). After that 03 and 04 work on either, in any order.
 

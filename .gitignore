@@ -1,5 +1,13 @@
+.puku-cli
+
 node_modules
 dist
 dist-single
 src/engine/engine.js
 tests/.engine.cjs
+
+# LinkedIn post generator (image + caption + script + config; lives outside the build)
+linkedin/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/

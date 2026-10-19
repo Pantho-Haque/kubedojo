@@ -28,7 +28,8 @@ const HELPERS = `(() => {
   window.out = () => $$('.term').find(t => t.style.display !== 'none').querySelector('.tout').textContent;
   window.tab = async name => { const t = $$('.vtab').find(b => b.textContent.toLowerCase().startsWith(name)); t.click(); await sleep(250); return $('#vizbody').textContent; };
   0; })()`;
-const play = async (opts = {}, url = '/app?notour=1') => { const p = await open(opts); await p.goto(base + url, { wait: 1200 }); await p.waitFor('!!document.querySelector(".tin")', 20000); await p.eval(HELPERS); return p; };
+// Every section starts from a fresh simulated world: the playground now saves its session (kd.dojo.*) in this one shared profile.
+const play = async (opts = {}, url = '/app?notour=1') => { const p = await open(opts); await p.goto(base + '/privacy', { wait: 200 }); await p.eval("Object.keys(localStorage).filter(k => k.startsWith('kd.dojo.')).forEach(k => localStorage.removeItem(k))"); await p.goto(base + url, { wait: 1200 }); await p.waitFor('!!document.querySelector(".tin")', 20000); await p.eval(HELPERS); return p; };
 
 /* =================== terminal behaviours =================== */
 await section('terminal', async () => {

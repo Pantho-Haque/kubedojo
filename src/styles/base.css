@@ -41,6 +41,15 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .site { min-height: 100vh; display: flex; flex-direction: column; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--sans); }
 .site *, .site *::before, .site *::after { box-sizing: border-box; }
 .site main { flex: 1 0 auto; outline: none; }
+/* Drafting-sheet grid: the home hero, blog, and Academy pages share it (not the full-window simulators). */
+.story, .site main:has(> .blog-index, > .post-layout), .academy:not(.ac-full) main { background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid-major) 1px, transparent 1px), linear-gradient(90deg, var(--grid-major) 1px, transparent 1px); background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px; background-position: -1px -1px; }
+/* Scrollbars: thin, rounded, in the sheet's own ink. Firefox gets the standard props; WebKit/Blink the pseudo-elements. */
+@supports not selector(::-webkit-scrollbar) { html, .site * { scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; } }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule-strong); border: 3px solid transparent; border-radius: 8px; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ink-3); }
+::-webkit-scrollbar-corner { background: transparent; }
 :where(.site) :is(h1, h2, h3, h4) { font-family: var(--display); font-weight: 600; letter-spacing: -.03em; line-height: 1.15; margin: 0; text-wrap: balance; }
 :where(.site) p { margin: 0; }
 :where(.site) a { color: inherit; }
@@ -76,6 +85,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .btn-sm { min-height: 38px; padding: 0 14px; font-size: .9rem; }
 .site-header .short { display: none; }
 @media (max-width: 520px) { .site-header .long { display: none; } .site-header .short { display: inline; } .brand span { font-size: 1.05rem; } }
+/* the header was already full on phones; there the Academy is reached from the home page's door and the footer */
+@media (max-width: 420px) { .site-header .main-nav a[href$="/academy"] { display: none; } }
 
 /* footer */
 .site-footer { border-top: 1px solid var(--rule); margin-top: 96px; padding: 48px 0 40px; color: var(--ink-2); font-size: .95rem; }

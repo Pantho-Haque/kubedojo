@@ -3,7 +3,7 @@
 // --throttle adds a 4x CPU slowdown and a 3G-like network: use it on a quiet machine, timings are meaningless on a busy one.
 import { launch } from './browser.mjs';
 const base = process.argv.find(a => /^https?:/.test(a)) || 'http://localhost:4173'; const throttle = process.argv.includes('--throttle');
-const PAGES = ['/', '/blog', '/blog/helm-2-chart', '/privacy'];
+const PAGES = ['/', '/blog', '/blog/helm-2-chart', '/privacy', '/academy', '/academy/kubernetes/service'];
 const BUDGET = { kb: 160, postKb: 230, cls: 0.1, fcp: throttle ? 3000 : 1800 }; // KB over the wire (HTML+JS+CSS, first load; a long post carries its own text twice: prerendered HTML and the hydration data), CLS, FCP ms
 const b = await launch(); let bad = 0;
 for (const path of PAGES) {
@@ -14,7 +14,7 @@ for (const path of PAGES) {
   await p.goto(base + path, { wait: 3500 });
   const fcp = await p.eval("Math.round((performance.getEntriesByName('first-contentful-paint')[0]||{startTime:0}).startTime)"); const cls = +(await p.eval('window.__cls')).toFixed(3); const kb = Math.round((p.bytes || 0) / 1024);
   const row = { path, kb, requests: p.requests.length, fcp, cls, errors: p.errors.length }; const fails = [];
-  if (kb > (path.startsWith('/blog/') ? BUDGET.postKb : BUDGET.kb)) fails.push('transfer'); if (fcp > BUDGET.fcp) fails.push('FCP'); if (cls > BUDGET.cls) fails.push('CLS'); if (p.errors.length) fails.push('errors');
+  if (kb > (/^\/(blog|academy)\//.test(path) ? BUDGET.postKb : BUDGET.kb)) fails.push('transfer'); if (fcp > BUDGET.fcp) fails.push('FCP'); if (cls > BUDGET.cls) fails.push('CLS'); if (p.errors.length) fails.push('errors');
   console.log(fails.length ? 'FAIL' : 'ok  ', JSON.stringify(row), fails.join(',')); if (fails.length) bad++; await p.close();
 }
 await b.close(); console.log(bad ? `${bad} page(s) over budget` : 'performance budget met'); process.exit(bad ? 1 : 0);

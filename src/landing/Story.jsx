@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SITE } from '../site/site.js';
 import { appIntent } from '../playground/loader.js';
 import Drawing from './Drawing.jsx';
+import TwoDoors from './TwoDoors.jsx';
 
 const KIND2 = ["cat > kind.yaml <<'EOF'", 'kind: Cluster', 'apiVersion: kind.x-k8s.io/v1alpha4', 'nodes:', '- role: control-plane', '- role: worker', '- role: worker', 'EOF'];
 const CREATE = [...KIND2, 'kind create cluster --name dojo --config kind.yaml'];
@@ -15,8 +16,8 @@ const STEPS = [
   { name: 'take it home', title: 'Take it home.', text: 'When it works, export it. A script rebuilds this cluster with kind or k3d on your computer, and refuses to run against any other cluster of yours.', code: [], run: null },
 ];
 
-/* The home page's opening: the headline, then five "sheets" scrolling past while one drawing on the right changes to match. On a phone each
-   sheet carries its own copy of the drawing instead. */
+/* The home page's opening: the headline with the two ways in (Academy, Dojo) beside it, then five "sheets" scrolling past while one
+   drawing on the right changes to match. On a phone each sheet carries its own copy of the drawing instead. */
 export default function Story() {
   const [active, setActive] = useState(0); const refs = useRef([]);
   useEffect(() => {
@@ -26,15 +27,18 @@ export default function Story() {
   }, []);
   return (
     <section className="story" aria-label="How KubeDojo works, in five sheets">
+      <div className="wrap hero-row">
+        <div className="hero" ref={el => { refs.current[0] = el; }} data-step="0">
+          <p className="kicker">kubernetes and its tools, in your browser</p>
+          <h1>practice kubernetes on a cluster you can&apos;t break.</h1>
+          <p className="hero-sub">Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, no network calls.</p>
+          <div className="hero-cta"><Link to="/app" className="btn btn-primary" {...appIntent}>{SITE.app.label}</Link><Link to="/blog" className="btn">Read the guides</Link></div>
+          <p className="hero-note">scroll: the drawing on the right is the simulator&apos;s own cluster, one sheet at a time.</p>
+        </div>
+        <TwoDoors />
+      </div>
       <div className="wrap story-grid">
         <div className="story-text">
-          <div className="hero" ref={el => { refs.current[0] = el; }} data-step="0">
-            <p className="kicker">a simulator for kind, k3d, docker, kubectl and helm 2</p>
-            <h1>practice kubernetes on a cluster you can&apos;t break.</h1>
-            <p className="hero-sub">Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, no network calls.</p>
-            <div className="hero-cta"><Link to="/app" className="btn btn-primary" {...appIntent}>{SITE.app.label}</Link><Link to="/blog" className="btn">Read the guides</Link></div>
-            <p className="hero-note">scroll: the drawing on the right is the simulator&apos;s own cluster, one sheet at a time.</p>
-          </div>
           <div className="step-fig mobile-only"><Drawing step={0} /></div>
           {STEPS.map((s, i) => (
             <article className="step" key={s.name} data-step={i} ref={el => { if (i > 0) refs.current[i] = el; }}>
@@ -42,7 +46,7 @@ export default function Story() {
               <h2>{s.title}</h2>
               <p>{s.text}</p>
               {s.code.length > 0 && <pre className="step-code" tabIndex={0}><code>{s.code.map(c => '$ ' + c).join('\n')}</code></pre>}
-              {s.run ? <Link className="arrow-link" to={run(s.run)} {...appIntent}>run this in the playground <span aria-hidden="true">→</span></Link> : <Link className="arrow-link" to="/app" {...appIntent}>open the playground and press the export icon <span aria-hidden="true">→</span></Link>}
+              {s.run ? <Link className="arrow-link" to={run(s.run)} {...appIntent}>run this in the playground <span aria-hidden="true">→</span></Link> : <Link className="arrow-link" to="/app" {...appIntent}>open playground and press the export icon <span aria-hidden="true">→</span></Link>}
               {i > 0 && <div className="step-fig mobile-only"><Drawing step={i} /></div>}
             </article>
           ))}

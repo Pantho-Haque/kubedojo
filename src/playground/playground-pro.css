@@ -110,9 +110,10 @@
   .pg-root[data-pane="guide"] #side, .pg-root[data-pane="term"] #termpane, .pg-root[data-pane="viz"] #vizpane { display: flex; flex-direction: column; }
   .pg-root[data-pane="guide"] #side { display: block; overflow-y: auto; }
   .pg-root.noside #side { visibility: visible; width: auto; }
-  .pg-root #mobilenav { display: grid; grid-template-columns: repeat(3, 1fr); flex: 0 0 auto; background: var(--panel); border-top: 1px solid var(--bd); padding-bottom: env(safe-area-inset-bottom); }
+  .pg-root #mobilenav { display: grid; grid-template-columns: repeat(4, 1fr); flex: 0 0 auto; background: var(--panel); border-top: 1px solid var(--bd); padding-bottom: env(safe-area-inset-bottom); }
   .pg-root #mobilenav button { display: flex; flex-direction: column; align-items: center; gap: 3px; background: transparent; border: 0; color: var(--dim); padding: 8px 0 7px; min-height: 52px; font: 600 11px var(--sans); cursor: pointer; border-top: 2px solid transparent; }
   .pg-root #mobilenav button.on { color: #fff; border-top-color: var(--ac); }
+  .pg-root #mobilenav .mn-academy { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #7fb6ee; padding: 8px 0 7px; min-height: 52px; font: 600 11px var(--sans); text-decoration: none; border-top: 2px solid transparent; }
   .pg-root #sidebtn { display: none; }
   .pg-root #statusbar { gap: 8px; padding: 0 8px; }
   .pg-root .term { padding: 10px 12px 28px; font-size: 12.5px; }
@@ -123,3 +124,16 @@
 .pg-root #tourbtn { color: var(--ac); border-color: transparent; background: transparent; } .pg-root #tourbtn:hover { background: var(--panel2); border-color: var(--bd); }
 @media (max-width: 560px) { .pg-root #timebox { display: none; } .pg-root #ctxbadge { max-width: 54vw; } }
 .pg-root [hidden] { display: none !important; }
+
+/* Academy hints on the guide's sections: one "?" per section (never per command), opening a sentence and lesson links */
+.pg-root summary .ghint { margin-left: 8px; width: 18px; height: 18px; padding: 0; border-radius: 50%; border: 1px solid rgba(127, 182, 238, .55); background: transparent; color: #7fb6ee; font: 700 10.5px/16px var(--mono); vertical-align: 1px; cursor: pointer; }
+.pg-root summary .ghint:hover, .pg-root summary .ghint[aria-expanded="true"] { background: #7fb6ee; color: #0b1b30; }
+.pg-root .ghintbox { margin: 2px 12px 8px 22px; padding: 8px 10px; border-left: 2px solid #7fb6ee; background: rgba(127, 182, 238, .08); color: var(--tx); font-size: 12px; line-height: 1.45; }
+.pg-root .ghintbox ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 3px; }
+.pg-root .ghintbox a { color: #7fb6ee; font-weight: 600; text-decoration: none; }
+.pg-root .ghintbox a:hover { text-decoration: underline; }
+.pg-root .ghintbox .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* the one link from the playground to the Academy (a new tab, so this session stays) */
+.pg-root header .academy-link { font: 600 12px var(--mono); color: #7fb6ee; text-decoration: none; border: 1px solid rgba(127, 182, 238, .45); border-radius: 6px; padding: 4px 9px; white-space: nowrap; }
+.pg-root header .academy-link:hover { border-color: #7fb6ee; }
+@media (max-width: 760px) { .pg-root header .academy-link { display: none; } }

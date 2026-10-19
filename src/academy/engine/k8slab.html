@@ -1,0 +1,77 @@
+<div class="labroot">
+<aside>
+  <h1>Kubernetes, behind the scenes</h1>
+<details class="lab-help"><summary>First time in the detailed lab?</summary><p>This is an optional practice area. The Kubernetes lessons take you back to the beginner path.</p><ol><li><b>Tutorial:</b> pick one question. Read the explanation below the drawing. Use Next or the arrow keys to move one idea at a time.</li><li><b>Playground:</b> choose <b>Deploy nginx ×2</b>. Two pods appear. Click one to delete it, then watch a replacement appear. Next choose <b>Expose web (LoadBalancer)</b> to give traffic a way in.</li><li><b>Manifests:</b> choose a template before editing. Change one value at a time and read the validation messages.</li></ol><p>These commands affect only this simulated cluster. Pod and traffic colors are also explained in the labels and event output. Use Guided learning for the slower Pause / Next step practices.</p></details>
+  <div class="tabs"><button id="tab-tut" class="on">Tutorial</button><button id="tab-play">Playground</button><button id="tab-yaml">Manifests</button></div>
+  <ol id="steps"></ol>
+  <p class="hint" id="tuthint">← → to step &nbsp;·&nbsp; space to autoplay &nbsp;·&nbsp; click a step to jump</p>
+  <div id="lab">
+    <p>A simulated cluster that behaves like a real one: controllers reconcile, the scheduler places pods, traffic flows. Type real <code>kubectl</code> / <code>helm</code> commands in the terminal, or use the buttons. <b>Click a node</b> to drain / uncordon it, <b>click a pod</b> to delete it.</p>
+    <h3>Quick actions</h3><div class="qa" id="qa"></div>
+    <h3>Helm charts · repo "lab"</h3><div class="qa" id="charts"></div>
+    <h3>Try these</h3>
+    <p><code>kubectl get all</code> · <code>kubectl scale deploy web --replicas=5</code> · <code>kubectl set image deploy/web web=nginx:1.28</code> · <code>kubectl rollout undo deploy/web</code> · <code>kubectl expose deploy web --port=80 --type=LoadBalancer</code> · <code>kubectl create ingress web --rule="web.local/=web:80"</code> · <code>helm search repo lab</code> · <code>helm upgrade shop lab/shop --set image.tag=v2</code> · <code>kubectl drain node-2</code> · <code>crash</code></p>
+    <h3>Colours</h3>
+    <p><span style="color:#3ddc84">green</span> = requests from outside (browser → Ingress/LoadBalancer → Service → pod) · <span style="color:#4f8cff">blue</span> = pod-to-pod calls through a Service · <span style="color:#f5b83d">amber</span> = egress to the internet · <span style="color:#ff5c5c">red</span> = dropped (no controller, no endpoints)</p>
+  </div>
+  <div id="ydoc">
+    <p>Write real Kubernetes manifests in the editor (several documents separated by <code>---</code>). They are linted like a CI pipeline would, then <b>synced</b> into the simulated cluster the way <code>kubectl apply --prune</code> / Argo CD does: the editor is the source of truth, anything you remove gets pruned, changes roll out live.</p>
+    <h3>Templates</h3><div class="qa" id="tpls"></div>
+    <h3>View</h3><div class="qa"><button id="v-cluster" class="on">Cluster (nodes & pods)</button><button id="v-topo">Topology (app graph)</button></div>
+    <h3>What is simulated</h3>
+    <p>Deployment · StatefulSet · DaemonSet (one pod per node) · Job (runs to Completed) · Service (selector, type, targetPort) · Ingress (needs an ingress controller Deployment) · ConfigMap / Secret (missing ref → <code>CreateContainerConfigError</code>) · PersistentVolumeClaim (missing → Pending) · HPA (shown) · rolling updates on image or label change · label selectors are matched for real, so a typo means 0 endpoints.</p>
+    <p>Traffic is inferred from <code>env</code> values: <code>http://api</code> → calls Service <code>api</code>; a URL with a real domain → egress to the internet. Click a node to drain it, click a pod to delete it.</p>
+  </div>
+</aside>
+<main>
+  <section class="practice" aria-label="Practice guide">
+    <div id="practice-copy"></div>
+    <div class="practice-controls"><button id="practice-next" hidden></button><button id="practice-reset" hidden>Restart practice (clears Playground)</button><button id="practice-pause" hidden>Pause simulation</button><button id="practice-step" hidden>One step</button></div>
+  </section>
+  <svg id="stage" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8b94a7"/></marker>
+      <marker id="arrHl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4f8cff"/></marker>
+    </defs>
+    <rect class="box" x="200" y="25" width="760" height="105"/>
+    <text class="label" x="214" y="45">Control plane</text>
+    <text class="sub" x="330" y="45">the brain — stores what you want, decides who runs what</text>
+    <g><rect id="api" class="box" x="215" y="55" width="170" height="65"/><text class="label" x="228" y="78">API server</text><text class="sub" x="228" y="96">the only door in</text><text class="sub" x="228" y="110">kubectl talks to this</text></g>
+    <g><rect id="etcd" class="box" x="405" y="55" width="170" height="65"/><text class="label" x="418" y="78">etcd</text><text class="sub" x="418" y="96">database of desired state</text><text id="etcdsub" class="sub" x="418" y="110"></text></g>
+    <g><rect id="sched" class="box" x="595" y="55" width="170" height="65"/><text class="label" x="608" y="78">Scheduler</text><text class="sub" x="608" y="96">picks a node for each</text><text class="sub" x="608" y="110">new pod</text></g>
+    <g><rect id="ctrl" class="box" x="785" y="55" width="160" height="65"/><text class="label" x="798" y="78">Controller Mgr</text><text class="sub" x="798" y="96">desired ≠ actual?</text><text class="sub" x="798" y="110">fix the gap, forever</text></g>
+
+    <text id="traylabel" class="sub" x="205" y="163">Pending → exists in etcd, assigned to no node yet</text>
+    <g id="ing"><rect id="ingbox" class="box" x="200" y="142" width="760" height="34"/><text id="ingtitle" class="label" x="214" y="164">Ingress · myapp.local</text><text id="ingsub" class="sub" x="380" y="164">/ → Service web &nbsp;&nbsp; /api → Service api &nbsp;&nbsp; (needs an ingress controller running as pods)</text></g>
+    <g id="inet"><rect class="box" x="30" y="380" width="140" height="44"/><text class="label" x="46" y="399">internet</text><text class="sub" x="46" y="415">external APIs (egress)</text></g>
+    <path id="a-ing" class="arrow" d="M100 188 C 100 160, 150 159, 198 159"/>
+
+    <g id="clientg"><rect id="client" class="box" x="30" y="188" width="140" height="44"/><text class="label" x="46" y="207">you</text><text class="sub" x="46" y="223">kubectl / browser</text></g>
+    <path id="a-kubectl" class="arrow" d="M100 188 C 100 88, 150 88, 212 88"/>
+    <path id="a-svc" class="arrow" d="M170 210 L 198 210"/>
+    <g id="svc"><rect id="svcbox" class="box" x="200" y="188" width="760" height="44"/><text class="label" x="214" y="207">Service · web</text><text id="svcsub" class="sub" x="214" y="223"></text></g>
+
+    <g id="nodes"></g>
+    <g id="svcs"></g>
+    <g id="links"></g>
+    <g id="pods"></g>
+    <g id="packets"></g>
+  </svg>
+  <svg id="topo" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg"></svg>
+  <footer id="tutfoot">
+    <div class="explain"><h2><span id="title"></span><small id="count"></small></h2><p id="explain"></p><pre id="cmd"></pre></div>
+    <div class="detail" id="detail"></div>
+    <div class="controls"><button id="prev">← Prev</button><button id="play">▶ Autoplay</button><button id="next" class="primary">Next →</button></div>
+  </footer>
+  <footer id="playfoot">
+    <div class="term"><div id="termout"></div><input id="termin" spellcheck="false" autocomplete="off" placeholder="kubectl create deployment web --image=nginx --replicas=2   |   helm install shop lab/shop   |   help"></div>
+    <pre id="res"></pre>
+    <div class="controls"><button id="pausebtn">⏸ Traffic</button><button id="resetbtn">Reset lab</button></div>
+  </footer>
+  <footer id="yamlfoot">
+    <div class="editor"><pre id="gutter">1</pre><textarea id="yaml" spellcheck="false" placeholder="apiVersion: apps/v1&#10;kind: Deployment&#10;..."></textarea></div>
+    <div class="ypanel"><div id="problems"></div><pre id="yres"></pre></div>
+    <div class="controls col"><button id="applybtn" class="primary">Apply YAML</button><label><input type="checkbox" id="autoapply"> auto-apply while typing</label><button id="yresetbtn">Reset cluster</button></div>
+  </footer>
+</main>
+</div>

@@ -1,5 +1,5 @@
-import { n as Logo, r as require_dist } from "../entry-server.js";
-import { a as store, c as selText, i as SYSTEM_NS, l as PG, n as TerminalPane, o as useStore, r as Icon, s as useStoreSel, t as VizPane } from "./viz-DrS-GmLQ.js";
+import { h as require_dist, p as Logo } from "../entry-server.js";
+import { a as store, c as selText, i as SYSTEM_NS, l as PG, n as TerminalPane, o as useStore, r as Icon, s as useStoreSel, t as VizPane } from "./viz-C8GUYadt.js";
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Fragment as Fragment$1, jsx, jsxs } from "react/jsx-runtime";
 //#region src/playground/Header.jsx
@@ -130,21 +130,138 @@ function Header() {
 				/* @__PURE__ */ jsx("button", {
 					id: "resetbtn",
 					className: "ibtn",
-					title: "Throw away the simulated world and start over (your files are kept)",
+					title: "Throw away the simulated world and its saved session, and start over (your files are kept)",
 					"aria-label": "Reset the simulated world",
 					onClick: () => {
-						if (window.confirm("Throw away the simulated clusters and start over?\n\nYour files are kept (they live in this browser).")) store.reset();
+						if (window.confirm("Throw away the simulated clusters and the saved terminal history, and start over?\n\nYour files are kept (they live in this browser).")) store.reset();
 					},
 					children: /* @__PURE__ */ jsx(Icon, { name: "reset" })
 				})
 			]
+		}),
+		/* @__PURE__ */ jsxs(import_dist.Link, {
+			to: "/academy",
+			className: "academy-link",
+			target: "_blank",
+			rel: "noopener",
+			title: "The KubeDojo Academy: courses and simulators, in a new tab",
+			children: ["Academy", /* @__PURE__ */ jsx("span", {
+				"aria-hidden": "true",
+				children: " ↗"
+			})]
 		})
 	] });
 }
 //#endregion
+//#region src/playground/academyHints.js
+var ACADEMY_HINTS = {
+	"0": {
+		text: "kubectl always talks to one cluster at a time: the current context. Check it before you change anything.",
+		links: [["The cluster: a brain and some muscles", "/academy/kubernetes/cluster"], ["Your first real cluster", "/academy/kubernetes/laptop"]]
+	},
+	"0b": {
+		text: "Kubernetes objects are written as YAML. vi lets you edit them here without leaving the terminal.",
+		links: [["Pods, and reading YAML without fear", "/academy/kubernetes/pod"]]
+	},
+	"0c": {
+		text: "Charts, Dockerfiles, and manifests are just files. Knowing what each one holds makes the rest easier.",
+		links: [["Pods, and reading YAML without fear", "/academy/kubernetes/pod"], ["Read and write a Dockerfile", "/academy/docker/file"]]
+	},
+	"1": {
+		text: "kind runs every Kubernetes node as a Docker container, so a whole cluster fits on one computer.",
+		links: [
+			["The cluster: a brain and some muscles", "/academy/kubernetes/cluster"],
+			["Your first real cluster", "/academy/kubernetes/laptop"],
+			["When a whole machine dies", "/academy/kubernetes/nodedies"]
+		]
+	},
+	"1b": {
+		text: "k3d does the same with k3s, and lets you add and remove nodes while the cluster runs.",
+		links: [["A real multi-machine cluster (k3s)", "/academy/kubernetes/k3s"], ["When a whole machine dies", "/academy/kubernetes/nodedies"]]
+	},
+	"2": {
+		text: "Namespaces divide one cluster into rooms; permissions decide who may do what in each room.",
+		links: [["Namespaces, permissions & staying safe", "/academy/kubernetes/security"]]
+	},
+	"3": {
+		text: "A Deployment keeps the number of copies you ask for running, and replaces any that disappear.",
+		links: [["Deployments: stop looking after pods", "/academy/kubernetes/deploy"], ["Config & Secrets", "/academy/kubernetes/config"]]
+	},
+	"3b": {
+		text: "A pod is one or more containers sharing a network and storage. exec and logs let you look inside.",
+		links: [
+			["Pods, and reading YAML without fear", "/academy/kubernetes/pod"],
+			["Detective mode: debugging", "/academy/kubernetes/debug"],
+			["Main process, shutdown, health, and restart", "/academy/docker/process"]
+		]
+	},
+	"3c": {
+		text: "Probes tell Kubernetes when a container is alive and ready; limits stop one app from starving the rest.",
+		links: [["Health checks & resource limits", "/academy/kubernetes/health"], ["Main process, shutdown, health, and restart", "/academy/docker/process"]]
+	},
+	"4": {
+		text: "A Service gives your pods one stable name and address, and sends traffic only to pods that match its selector.",
+		links: [
+			["Services: one address for many pods", "/academy/kubernetes/service"],
+			["Letting the internet in", "/academy/kubernetes/outside"],
+			["Ports, localhost, and service names", "/academy/docker/network"]
+		]
+	},
+	"4c": {
+		text: "An Ingress routes outside traffic by host name and path, but only once an ingress controller is running.",
+		links: [["Letting the internet in", "/academy/kubernetes/outside"]]
+	},
+	"5": {
+		text: "A rolling update replaces pods a few at a time; rollout undo brings the previous version back.",
+		links: [["Updates with no downtime (and undo!)", "/academy/kubernetes/rollout"], ["Detective mode: debugging", "/academy/kubernetes/debug"]]
+	},
+	"6": {
+		text: "An autoscaler adds and removes copies based on load, and needs resource requests to measure it.",
+		links: [["Health checks & resource limits", "/academy/kubernetes/health"], ["Day 2: keeping your cluster healthy", "/academy/kubernetes/day2"]]
+	},
+	"7": {
+		text: "An image is built from a Dockerfile in layers; tags and registries are how clusters find it.",
+		links: [
+			["Read and write a Dockerfile", "/academy/docker/file"],
+			["Build cache: what must run again?", "/academy/docker/cache"],
+			["Tags, digests, registries, and platforms", "/academy/docker/registry"]
+		]
+	},
+	"7b": {
+		text: "Containers without a cluster: run, stop, and remove them, and keep data in volumes.",
+		links: [["Run, stop, start, remove", "/academy/docker/life"], ["Writable layers, volumes, and bind mounts", "/academy/docker/storage"]]
+	},
+	"8": {
+		text: "A local registry lets the cluster pull the images you just built, without pushing them anywhere.",
+		links: [["Tags, digests, registries, and platforms", "/academy/docker/registry"], ["How Docker connects to Kubernetes and Helm", "/academy/docker/integration"]]
+	},
+	"9": {
+		text: "Helm 2 needs Tiller, a server inside the cluster, before it can install a chart.",
+		links: [
+			["Tiller: the server Helm 2 needs", "/academy/helm-2/tiller"],
+			["Install a release with --name", "/academy/helm-2/install"],
+			["Chart, values, release", "/academy/helm-3/idea"]
+		]
+	},
+	"9b": {
+		text: "Selectors, output formats, and watching turn kubectl into a fast way to answer questions.",
+		links: [["Detective mode: debugging", "/academy/kubernetes/debug"], ["Day 2: keeping your cluster healthy", "/academy/kubernetes/day2"]]
+	},
+	"10": {
+		text: "RBAC grants verbs on resources to users and service accounts, one namespace at a time.",
+		links: [["Namespaces, permissions & staying safe", "/academy/kubernetes/security"], ["Tiller’s power, and how teams locked it down", "/academy/helm-2/security"]]
+	},
+	"11": {
+		text: "Clean up in the right order: apps, then clusters, then images and volumes you no longer need.",
+		links: [["Day 2: keeping your cluster healthy", "/academy/kubernetes/day2"], ["Back up, restore, and remove only your lab", "/academy/docker/backup"]]
+	}
+};
+var hintFor = (title) => ACADEMY_HINTS[(/^(\w+)\s·/.exec(title) || [])[1]] || null;
+//#endregion
 //#region src/playground/Sidebar.jsx
 function Sidebar() {
 	const [q, setQ] = useState("");
+	const [hints, setHints] = useState({});
 	const words = q.toLowerCase().split(/\s+/).filter(Boolean);
 	const sections = useMemo(() => PG.GUIDE.map((sec) => ({
 		sec,
@@ -174,37 +291,78 @@ function Sidebar() {
 			/* @__PURE__ */ jsxs("div", {
 				id: "guide",
 				children: [sections.map(({ sec, items }) => /* @__PURE__ */ jsxs("details", {
-					open: words.length ? true : sec.open || void 0,
-					children: [/* @__PURE__ */ jsx("summary", { children: sec.t }), items.map(([label, cmd]) => {
-						const multi = cmd.includes("\n");
-						const n = cmd.split("\n").length;
-						return /* @__PURE__ */ jsxs("div", {
-							className: "gi",
-							children: [/* @__PURE__ */ jsx("div", {
-								className: "gl",
-								children: label
-							}), /* @__PURE__ */ jsxs("div", {
-								className: "gc",
-								children: [/* @__PURE__ */ jsx("code", {
-									onClick: (e) => {
-										if (selText()) return;
-										store.setPane("term");
-										store.runInTerm(cmd, e.shiftKey);
-									},
-									children: multi ? cmd.split("\n")[0] + (n > 1 ? "  … (" + n + " lines)" : "") : cmd
-								}), /* @__PURE__ */ jsx("button", {
-									className: "run",
-									title: "run",
-									"aria-label": `Run: ${label}`,
-									onClick: () => {
-										store.setPane("term");
-										store.runInTerm(cmd, true);
-									},
-									children: "▶"
+					open: words.length || hints[sec.t] ? true : sec.open || void 0,
+					children: [
+						/* @__PURE__ */ jsxs("summary", { children: [sec.t, hintFor(sec.t) && /* @__PURE__ */ jsx("button", {
+							type: "button",
+							className: "ghint",
+							"aria-expanded": !!hints[sec.t],
+							"aria-label": `Why? What “${sec.t}” is about, with Academy lessons`,
+							title: "Why? Learn it in the Academy",
+							onClick: (e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								setHints((h) => ({
+									...h,
+									[sec.t]: !h[sec.t]
+								}));
+							},
+							children: "?"
+						})] }),
+						hints[sec.t] && (() => {
+							const h = hintFor(sec.t);
+							return /* @__PURE__ */ jsxs("div", {
+								className: "ghintbox",
+								role: "note",
+								children: [h.text, /* @__PURE__ */ jsx("ul", { children: h.links.map(([label, href]) => /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsxs(import_dist.Link, {
+									to: href,
+									target: "_blank",
+									rel: "noopener",
+									children: [
+										label,
+										/* @__PURE__ */ jsx("span", {
+											"aria-hidden": "true",
+											children: " ↗"
+										}),
+										/* @__PURE__ */ jsx("span", {
+											className: "sr-only",
+											children: " (Academy lesson, opens in a new tab)"
+										})
+									]
+								}) }, href)) })]
+							});
+						})(),
+						items.map(([label, cmd]) => {
+							const multi = cmd.includes("\n");
+							const n = cmd.split("\n").length;
+							return /* @__PURE__ */ jsxs("div", {
+								className: "gi",
+								children: [/* @__PURE__ */ jsx("div", {
+									className: "gl",
+									children: label
+								}), /* @__PURE__ */ jsxs("div", {
+									className: "gc",
+									children: [/* @__PURE__ */ jsx("code", {
+										onClick: (e) => {
+											if (selText()) return;
+											store.setPane("term");
+											store.runInTerm(cmd, e.shiftKey);
+										},
+										children: multi ? cmd.split("\n")[0] + (n > 1 ? "  … (" + n + " lines)" : "") : cmd
+									}), /* @__PURE__ */ jsx("button", {
+										className: "run",
+										title: "run",
+										"aria-label": `Run: ${label}`,
+										onClick: () => {
+											store.setPane("term");
+											store.runInTerm(cmd, true);
+										},
+										children: "▶"
+									})]
 								})]
-							})]
-						}, label + cmd);
-					})]
+							}, label + cmd);
+						})
+					]
 				}, sec.t + (words.length ? "*" : ""))), !sections.length && /* @__PURE__ */ jsxs("p", {
 					className: "gnone",
 					children: [
@@ -391,10 +549,10 @@ function StatusBar() {
 //#region src/playground/MobileNav.jsx
 function MobileNav() {
 	useStore();
-	return /* @__PURE__ */ jsx("nav", {
+	return /* @__PURE__ */ jsxs("nav", {
 		id: "mobilenav",
 		"aria-label": "Panes",
-		children: [
+		children: [[
 			[
 				"guide",
 				"Guide",
@@ -419,7 +577,16 @@ function MobileNav() {
 				name: icon,
 				size: 20
 			}), /* @__PURE__ */ jsx("span", { children: label })]
-		}, id))
+		}, id)), /* @__PURE__ */ jsxs(import_dist.Link, {
+			className: "mn-academy",
+			to: "/academy",
+			target: "_blank",
+			rel: "noopener",
+			children: [/* @__PURE__ */ jsx(Icon, {
+				name: "book",
+				size: 20
+			}), /* @__PURE__ */ jsx("span", { children: "Academy ↗" })]
+		})]
 	});
 }
 //#endregion

@@ -20,7 +20,7 @@ export default function TakeItHome() {
           <pre tabIndex={0}><code>{demos.script.excerpt}</code></pre>
         </figure>
       </div>
-      <p className="after">The script above came from this session in the simulator: <code>kubectl create namespace shop</code>, a two-replica nginx Deployment and its Service, on a three-node kind cluster. <Link className="arrow-link" to="/app" {...appIntent}>open the playground and press the export icon</Link></p>
+      <p className="after">The script above came from this session in the simulator: <code>kubectl create namespace shop</code>, a two-replica nginx Deployment and its Service, on a three-node kind cluster. <Link className="arrow-link" to="/app" {...appIntent}>open playground and press the export icon</Link></p>
     </Section>
   );
 }

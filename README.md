@@ -21,6 +21,8 @@ A browser-only simulator for `kind`, `k3d`, `docker`, `kubectl` and Helm 2, pair
 - 📚 **Short, honest course** — 9 posts cover concepts, kind, k3d, deployments, images, Helm 2, RBAC and clean-up. A `bash` block that the simulator recognises automatically gets a **Try in playground** button.
 - ⌨️ **Power-user friendly** — command palette (`Ctrl/⌘ Shift P`), resizable panes, tabs, history, fish-style suggestions, `vi`, keyboard tour, dark/light theme.
 - 📱 **Mobile and phones** — one pane at a time on narrow viewports, with a bottom bar to switch between Guide, Terminal and Cluster.
+- 🎓 **The Academy** (`/academy`) — six step-by-step courses (Kubernetes, Docker & Compose, Helm 3, Helm 2, Terraform, CI/CD & GitOps) with quizzes, inline practice simulators, **Simulate** (one-window experiments with guided steps, a practice terminal and challenges), and **Set up and try** on runnable Kubernetes commands. It has its own simulators and saved state, separate from the playground.
+- 💾 **Sessions survive a reload** — the playground saves its simulated world and each terminal's history in the browser (Reset deletes them, `clear` deletes a terminal's); the Academy saves progress and every simulator session.
 - 🧰 **Five build modes** — `dev` (HMR), `build` (prerendered static site), `build:single` (one offline HTML file with hash routing), `preview` (production-like server with CSP), and a Docker image.
 
 ---
@@ -85,7 +87,7 @@ npm run check          # lint + tests + build
 | --- | --- |
 | `npm run lint` | ESLint on the app and the scripts |
 | `npm test` | Engine scenarios (30 Node suites for the simulator) and unit tests for the blog and demo pipeline |
-| `node scripts/e2e.mjs` | ~100 checks in headless Chrome against the production build: every route, SEO tags, phone widths without horizontal scroll, navigation, blog search, code buttons, deep links into the playground, theme, live demo, accessibility basics, no external requests |
+| `node scripts/e2e.mjs` | ~140 checks in headless Chrome against the production build: every route, SEO tags, phone widths without horizontal scroll, navigation, blog search, code buttons, deep links into the playground, theme, live demo, accessibility basics, no external requests |
 | `node scripts/perf.mjs` | Mobile-viewport probe: transfer size, layout shift and first paint against a budget |
 | `node scripts/ui-test.mjs` | Drives the playground with synthetic input (typing, suggestions, vi, tour, export, files, tabs, reset…) |
 | `npm run qa` | Rigorous browser QA (159 checks): terminal, tabs, animations, persistence, keyboard, layout / accessibility / contrast audit at six widths, stress. `node scripts/qa.mjs <section>` runs one section. Findings: `docs/QA-REPORT.md` |
@@ -99,9 +101,11 @@ npm run check          # lint + tests + build
 
 ```
 content/blog/*.md          the course (front matter: title, slug, order, tags, description, date)
+content/academy/<course>/  the Academy: index.md (course) + NN-slug.md (lessons: id, title, stage, quiz, practice, setup)
 scripts/
   build-engine.mjs         simulator parts -> src/engine/engine.js (ESM) and tests/.engine.cjs
   build-blog.mjs           markdown -> src/blog/generated/ (HTML, TOC, reading time); fails on broken links or anchors
+  build-academy.mjs        lessons -> src/academy/generated/; fails on broken links, bad quizzes, unsafe HTML, playground hints pointing nowhere
   build-demo.mjs           runs the REAL simulator to record the transcripts, hero frames and sample script shown on the home page
   prerender.mjs            renders every route to static HTML; writes sitemap, RSS, robots, _headers (CSP), nginx/vercel configs
 src/
@@ -109,6 +113,8 @@ src/
   playground/              the React playground (store.js, term.js, panes, views, tour, export modal, Embed.jsx for the home page demo)
   landing/, pages/, components/, styles/   the site: home sections, blog index and post, layout, design tokens
   blog/, site/             post loading, reading progress, per-route metadata and JSON-LD
+  academy/                 the Academy (its own lazy chunk): shelf, course, lesson, Simulate, progress pages
+  academy/engine/          the Academy's own simulators: lesson sims, the Simulate explorer, and the Kubernetes lab (in a shadow root)
 ```
 
 ### Design notes
@@ -131,6 +137,12 @@ src/
 4. A `bash` block whose lines are all commands the simulator knows (and have no `<placeholders>`) gets a **Try in playground** button automatically.
 
 The course text in `content/blog/` is yours to relicense as you see fit; only the code is MIT.
+
+## 🎓 Adding or editing an Academy lesson
+
+1. Add `content/academy/<course>/NN-slug.md` with front matter: `id` (unique across the Academy), `title`, `emoji`, `stage` (index into the course's `stages`), and optionally `quiz` (`q`, `options`, `answer`, `why`), `practice` (`kind` + `mission`, with a matching `<div data-…-sim></div>` slot in the body), and `setup` (Kubernetes commands to replay before the lesson's first **Set up and try**).
+2. Write the body in Markdown. `bash` blocks become command blocks with a Copy button; in the Kubernetes course, blocks whose lines the Academy's lab can run (`src/academy/engine/canrun.js`) also get **Set up and try**. Ported lessons keep `format: html` bodies.
+3. Link to another lesson with `<button class="map-button" data-go="LESSON_ID">`. Run `npm run build`: unknown ids, bad quizzes, scripts or inline handlers, and playground hints (`src/playground/academyHints.js`) pointing at missing lessons all fail the build.
 
 ---
 
@@ -156,6 +168,8 @@ The whole site is static, fits behind any CDN, and works as a `file://` open (us
 - **Phones and narrow windows**: one pane at a time (Guide, Terminal, Cluster) from a bottom bar.
 - **Cluster view**: every object carries a kind tag and icon (Node, Deployment, Pod, Service, ConfigMap…); pods are grouped under their owner on the node that runs them, with a health ring and live counters. Adding or deleting a pod, node or Service animates in and out, status changes flash, and `prefers-reduced-motion` turns it all off. Docker, Config, Helm, Files and Events tabs share the same visual language.
 - **Home page demo**: the same simulator, small, loaded only when asked, and shared with `/app` (what you build there is still there).
+- **Saved session**: the simulated world and each terminal's history come back after a reload (`kd.dojo.*` in local storage). Reset (↻) deletes them, `clear` / `Ctrl-L` / `⌘K` deletes that terminal's, closing a tab deletes its own. A `?run=` example link plays in a fresh world and saves nothing.
+- **Academy hints**: a `?` on a guide section opens a sentence and links to the matching Academy lessons, in a new tab so the playground stays as it is.
 
 ---
 
