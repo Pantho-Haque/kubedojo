@@ -13,4 +13,4 @@ The build also writes the security headers that matter, with the correct Content
 | nginx / Docker | `dist/_deploy/nginx.conf`, or just `docker build` with the Dockerfile in the project root. |
 | GitHub Pages, S3 + CDN | upload `dist/`; add the headers in the CDN if it supports them. The site works without them. |
 
-The policy sets `connect-src 'none'`: the app never makes a network request after loading, and the browser enforces it.
+The policy sets `connect-src https://trackima.pantho-haque-dev.workers.dev`: after loading, the only requests the app can make are cookie-free [Trackima](https://trackima.vercel.app) analytics, and the browser enforces it.

@@ -4,6 +4,7 @@
 import { useSyncExternalStore } from 'react';
 import PG from '../engine/engine.js';
 import { TermModel, selText } from './term.js';
+import { event } from '@pantho075/trackima';
 
 export const FS_KEY = 'k8s-playground:fs:v1'; // same keys as the prototype, so your saved files carry over
 export const TOUR_KEY = 'k8s-playground:tour:v1';
@@ -72,7 +73,7 @@ class Store {
     if (this.ephemeral) this.active.print('— this example runs in a fresh world and is not saved: your own session comes back next time you open the playground —', 'dim');
     this.bump();
   }
-  reset() { this.sim.stop(); this.forgetSession(); this.boot(true); }
+  reset() { event('world_reset'); this.sim.stop(); this.forgetSession(); this.boot(true); }
   mount() { if (!this.sim) this.boot(); else this.sim.start(250, 0.25); } // leaving the page pauses the simulated clock, coming back resumes it
   unmount() { if (this.sim) this.sim.stop(); this.saveFsNow(); clearTimeout(this.stateT); this.stateT = null; this.saveStateNow(); for (const t of this.terms) this.saveTerm(t); }
 
@@ -116,7 +117,7 @@ class Store {
     if (this._applied) return; this._applied = true; // once per page load (React StrictMode runs effects twice in development)
     const run = p.get('run'); const tab = p.get('tab'); const tour = p.get('tour');
     if (tab && VIZ_TABS.includes(tab)) { this.vizTab = tab; this.bump(); }
-    if (run) { try { for (const c of JSON.parse(run)) { if (typeof c === 'number') { await this.sim.wait(c, { aborted: false }); continue; } await this.active.runText(c); } } catch (e) { console.error(e); } }
+    if (run) { event('example_run'); try { for (const c of JSON.parse(run)) { if (typeof c === 'number') { await this.sim.wait(c, { aborted: false }); continue; } await this.active.runText(c); } } catch (e) { console.error(e); } }
     if (tour != null && tour !== '') setTimeout(() => this.startTour(Number(tour)), 200);
     else if (!run && !p.has('notour') && !this.tourSeen()) setTimeout(() => this.startTour(0), 600);
   }

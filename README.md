@@ -15,7 +15,7 @@ A browser-only simulator for `kind`, `k3d`, `docker`, `kubectl` and Helm 2, pair
 ## ✨ Features
 
 - 🧪 **Real commands, real outputs** — type the same `kubectl`, `kind`, `k3d`, `docker` and Helm 2 commands you would on a real cluster, and the simulator responds the way the real tool does.
-- 🔒 **Fully sandboxed** — nothing leaves your browser. No network calls after load (the shipped CSP forbids them), no Docker, no real cluster, no account.
+- 🔒 **Fully sandboxed** — nothing you type leaves your browser. The only call after load is cookie-free page analytics (the shipped CSP forbids anything else), no Docker, no real cluster, no account.
 - 🗺️ **Live cluster view** — Nodes, Deployments, Pods, Services, ConfigMaps and Helm releases are visualised and animated, with health rings, live counters and `prefers-reduced-motion` support.
 - 📦 **Export to a real setup script** — one click turns the cluster you built in the browser into a `setup.sh` you can run on your own machine.
 - 📚 **Short, honest course** — 9 posts cover concepts, kind, k3d, deployments, images, Helm 2, RBAC and clean-up. A `bash` block that the simulator recognises automatically gets a **Try in playground** button.

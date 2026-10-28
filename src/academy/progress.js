@@ -1,6 +1,7 @@
 // Academy progress, kept in this browser only (one key, kd.academy.v1): finished lessons, quiz answers, checklist ticks,
 // practice challenges, and where you stopped. Simulate sessions and lesson terminals keep their own keys (see storage list).
 import { useSyncExternalStore } from 'react';
+import { event } from '@pantho075/trackima';
 
 const KEY = 'kd.academy.v1';
 const EMPTY = Object.freeze({ done: {}, quiz: {}, tasks: {}, ch: {}, last: null });
@@ -15,11 +16,11 @@ const subscribe = f => { subs.add(f); return () => subs.delete(f); };
 export const useProgress = () => useSyncExternalStore(subscribe, get, () => EMPTY);
 export const getProgress = get;
 
-export const markDone = id => { if (!get().done[id]) update(s => { s.done[id] = 1; }); };
+export const markDone = id => { if (!get().done[id]) { event('lesson_complete', { lesson: id }); update(s => { s.done[id] = 1; }); } };
 export const answer = (id, qi, opt) => update(s => { (s.quiz[id] ||= {})[qi] = opt; });
 // checklist ticks are stored as lessonId:taskKey, so a course reset can find its own
 export const setTask = (lessonId, key, on) => update(s => { const k = lessonId + ':' + key; if (on) s.tasks[k] = 1; else delete s.tasks[k]; });
-export const winChallenge = id => { if (!get().ch[id]) update(s => { s.ch[id] = 1; }); };
+export const winChallenge = id => { if (!get().ch[id]) { event('challenge_won', { lesson: id }); update(s => { s.ch[id] = 1; }); } };
 // the home page reads `last` to offer "Continue …" without loading the Academy's data
 export const setLast = last => update(s => { s.last = { ...last, at: Date.now() }; });
 
@@ -30,6 +31,7 @@ export const tourKey = course => `kd.academy.tour.v1.${course}`;
 function removeKeys(match) { try { for (const k of Object.keys(localStorage)) if (match(k)) localStorage.removeItem(k); } catch { /* storage blocked: nothing saved anyway */ } }
 
 export function resetCourse(course) {
+  event('academy_reset', { course: course.slug });
   update(s => {
     const ids = new Set(course.lessons.map(l => l.id));
     for (const id of ids) { delete s.done[id]; delete s.quiz[id]; delete s.ch[id]; }
@@ -38,4 +40,4 @@ export function resetCourse(course) {
   });
   removeKeys(k => k === simKey(course.slug) || k.startsWith(simKey(course.slug) + '.') || k.startsWith(`kd.academy.try.v1.${course.slug}.`) || k === tourKey(course.slug));
 }
-export function resetAcademy() { state = { ...EMPTY }; removeKeys(k => k.startsWith('kd.academy.')); subs.forEach(f => f()); }
+export function resetAcademy() { event('academy_reset', { course: 'all' }); state = { ...EMPTY }; removeKeys(k => k.startsWith('kd.academy.')); subs.forEach(f => f()); }

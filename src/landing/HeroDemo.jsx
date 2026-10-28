@@ -60,7 +60,7 @@ export default function HeroDemo() {
       <div className="demo-foot">
         {live
           ? <p>This is the real simulator. Try <code>kind create cluster --name dojo</code>, then <code>kubectl create deployment web --image=nginx:1.27</code>.</p>
-          : <button type="button" className="link-btn" onClick={() => setLive(true)} onPointerEnter={preloadLive} onFocus={preloadLive} onTouchStart={preloadLive}>Type your own commands <span aria-hidden="true">→</span></button>}
+          : <button type="button" className="link-btn" data-trackima-event="hero_live" onClick={() => setLive(true)} onPointerEnter={preloadLive} onFocus={preloadLive} onTouchStart={preloadLive}>Type your own commands <span aria-hidden="true">→</span></button>}
       </div>
     </figure>
   );

@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { neighbours, posts, usePost } from '../blog/data.js';
+import { event } from '@pantho075/trackima';
 import { markRead, setLast } from '../blog/progress.js';
 import { metaFor } from '../site/meta.js';
 import { usePageMeta } from '../components/usePageMeta.js';
@@ -53,7 +54,7 @@ function PostBody({ slug }) {
   const { prev, next } = neighbours(slug);
   const onClick = e => { // copy buttons, and in-site links without a page reload
     const copy = e.target.closest('.code-copy');
-    if (copy) { const code = copy.closest('figure').querySelector('code'); const text = code.textContent; const done = () => { copy.textContent = 'Copied'; setTimeout(() => { copy.textContent = 'Copy'; }, 1600); };
+    if (copy) { event('code_copy', { page: slug }); const code = copy.closest('figure').querySelector('code'); const text = code.textContent; const done = () => { copy.textContent = 'Copied'; setTimeout(() => { copy.textContent = 'Copy'; }, 1600); };
       if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); try { document.execCommand('copy'); } catch (er) { /* ignore */ } s.removeAllRanges(); done(); } return; }
     const a = e.target.closest('a'); if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
     const href = a.getAttribute('href') || '';

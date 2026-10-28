@@ -5,6 +5,7 @@ import NotFound from '../pages/NotFound.jsx';
 import { courseBySlug, lessonById, lessonHref, useCourseLessons } from './data.js';
 import { academyMeta } from './meta.js';
 import { answer, markDone, setLast, setTask, tryKey, useProgress, winChallenge } from './progress.js';
+import { event } from '@pantho075/trackima';
 
 // The practice simulator a lesson embeds, by kind: it mounts into the slot the lesson body leaves for it.
 const SLOT = '[data-sim],[data-helm-sim],[data-docker-sim],[data-tf-sim],[data-ci-sim]';
@@ -29,7 +30,7 @@ function Quiz({ lesson, picked }) {
             <p dangerouslySetInnerHTML={{ __html: q.q }} />
             <div className="ac-opts" role="group" aria-label={`Question ${qi + 1}`}>
               {q.options.map((o, oi) => (
-                <button key={oi} type="button" className={got === oi ? (oi === q.answer ? 'right' : 'wrong') : ''} aria-pressed={got === oi} onClick={() => answer(lesson.id, qi, oi)} dangerouslySetInnerHTML={{ __html: o }} />
+                <button key={oi} type="button" className={got === oi ? (oi === q.answer ? 'right' : 'wrong') : ''} aria-pressed={got === oi} onClick={() => { event('quiz_answer', { lesson: lesson.id, q: qi + 1, correct: oi === q.answer }); answer(lesson.id, qi, oi); }} dangerouslySetInnerHTML={{ __html: o }} />
               ))}
             </div>
             <p className="ac-why" aria-live="polite">{got == null ? '' : right ? <><b>Right.</b> <span dangerouslySetInnerHTML={{ __html: q.why }} /></> : 'Not quite. Try another answer.'}</p>
@@ -112,8 +113,8 @@ function LessonBody({ course, slug }) {
   const onClick = e => {
     const t = e.target;
     const copy = t.closest('.copy');
-    if (copy) { const text = copy.parentElement.querySelector('pre').textContent; const done = () => { copy.textContent = 'Copied'; setTimeout(() => { copy.textContent = 'Copy'; }, 1500); }; if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); return; }
-    const tryBtn = t.closest('.try'); if (tryBtn) { setTryReq(r => ({ i: Number(tryBtn.parentElement.dataset.try), n: (r?.n || 0) + 1 })); return; }
+    if (copy) { event('code_copy', { page: lesson.id }); const text = copy.parentElement.querySelector('pre').textContent; const done = () => { copy.textContent = 'Copied'; setTimeout(() => { copy.textContent = 'Copy'; }, 1500); }; if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); return; }
+    const tryBtn = t.closest('.try'); if (tryBtn) { event('try_open', { lesson: lesson.id }); setTryReq(r => ({ i: Number(tryBtn.parentElement.dataset.try), n: (r?.n || 0) + 1 })); return; }
     const go = t.closest('[data-go]'); if (go) { const hit = lessonById(go.dataset.go); if (hit) navigate(lessonHref(hit.course.slug, hit.lesson.slug)); return; }
     if (t.closest('.open-lab')) { navigate('/academy/kubernetes/simulate'); return; }
     const a = t.closest('a'); if (!a || a.target || e.metaKey || e.ctrlKey || e.shiftKey) return;

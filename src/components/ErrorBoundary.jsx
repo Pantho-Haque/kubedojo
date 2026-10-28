@@ -1,9 +1,11 @@
 import { Component } from 'react';
+import { event } from '@pantho075/trackima';
 
 // If the simulator ever throws while rendering, show a way out instead of a blank page.
 export default class ErrorBoundary extends Component {
   state = { error: null };
   static getDerivedStateFromError(error) { return { error }; }
+  componentDidCatch(error) { event('crash', { message: String(error?.message || error).slice(0, 120), path: location.pathname }); }
   render() {
     if (!this.state.error) return this.props.children;
     return (

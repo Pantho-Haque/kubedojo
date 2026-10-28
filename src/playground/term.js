@@ -1,7 +1,11 @@
 // One terminal tab: scrollback, input line, history, fish-style suggestions, and the object the simulator's shell talks to
 // (print / clear / edit / cols). Pure state (no DOM); TermView.jsx renders it.
 import PG from '../engine/engine.js';
+import { event } from '@pantho075/trackima';
 
+// Which CLIs people use: the tool name only (never the command), once per tool per page load.
+const TOOLS = new Set(['kubectl', 'helm', 'docker', 'kind', 'k3d']), usedTools = new Set();
+const noteTool = text => { const t = text.trim().split(/\s+/)[0]; if (TOOLS.has(t) && !usedTools.has(t)) { usedTools.add(t); event('tool_used', { tool: t }); } };
 export const selText = () => { const g = window.getSelection(); return g ? g.toString() : ''; };
 
 const HIST = []; // every command typed in any tab, for the grey suggestion
@@ -47,7 +51,7 @@ export class TermModel {
   suggestionFor(el) { const v = this.value; return el && el.selectionStart === v.length && el.selectionEnd === v.length && !this.running ? suggestFor(v) : ''; }
 
   async enter(text) {
-    if (this.running) return; const p = this.shell.prompt(); this.printCmd(p, text);
+    if (this.running) return; noteTool(text); const p = this.shell.prompt(); this.printCmd(p, text);
     if (text.trim() && this.hist[this.hist.length - 1] !== text) this.hist.push(text); if (text.trim() && HIST[HIST.length - 1] !== text) HIST.push(text); this.hi = this.hist.length; this.forceScroll = true;
     this.running = true; this.emit();
     try { await this.shell.submit(text); } catch (e) { this.print('internal error: ' + e, 'err'); }

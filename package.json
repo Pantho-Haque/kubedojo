@@ -2,7 +2,7 @@
   "name": "kubedojo",
   "version": "1.0.0",
   "private": true,
-  "description": "KubeDojo \u2014 learn kind, k3d, docker, kubectl and Helm 2 by breaking a simulated cluster safely, then export it as a real setup script.",
+  "description": "KubeDojo — learn kind, k3d, docker, kubectl and Helm 2 by breaking a simulated cluster safely, then export it as a real setup script.",
   "type": "module",
   "packageManager": "pnpm@10.0.0",
   "engines": {
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@pantho075/trackima": "^0.1.1",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.12.0",
     "marked": "^18.1.1",

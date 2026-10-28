@@ -40,7 +40,7 @@ var __copyProps$1 = (to, from, except, desc) => {
 };
 var __toCommonJS$1 = (mod) => __hasOwnProp$1.call(mod, "module.exports") ? mod["module.exports"] : __copyProps$1(__defProp$1({}, "__esModule", { value: true }), mod);
 //#endregion
-//#region node_modules/react-router/dist/development/chunk-OB3PAWPO.mjs
+//#region node_modules/.pnpm/react-router@7.18.4_react-dom@19.3.1_react@19.3.1__react@19.3.1/node_modules/react-router/dist/development/chunk-OB3PAWPO.mjs
 /**
 * react-router v7.18.4
 *
@@ -8095,7 +8095,7 @@ var init_chunk_OB3PAWPO = __esmMin((() => {
 	savedScrollPositions = {};
 }));
 //#endregion
-//#region node_modules/react-router/dist/development/chunk-H4DAEOV7.mjs
+//#region node_modules/.pnpm/react-router@7.18.4_react-dom@19.3.1_react@19.3.1__react@19.3.1/node_modules/react-router/dist/development/chunk-H4DAEOV7.mjs
 /**
 * react-router v7.18.4
 *
@@ -9814,7 +9814,7 @@ var init_chunk_H4DAEOV7 = __esmMin((() => {
 	useImpl = React["use"];
 }));
 //#endregion
-//#region node_modules/react-router/dist/development/dom-export.mjs
+//#region node_modules/.pnpm/react-router@7.18.4_react-dom@19.3.1_react@19.3.1__react@19.3.1/node_modules/react-router/dist/development/dom-export.mjs
 /**
 * react-router v7.18.4
 *
@@ -10497,7 +10497,7 @@ var init_dom_export = __esmMin((() => {
 	discoveredPaths = /* @__PURE__ */ new Set();
 }));
 //#endregion
-//#region node_modules/react-router/dist/development/index.mjs
+//#region node_modules/.pnpm/react-router@7.18.4_react-dom@19.3.1_react@19.3.1__react@19.3.1/node_modules/react-router/dist/development/index.mjs
 /**
 * react-router v7.18.4
 *
@@ -10644,7 +10644,7 @@ var init_development = __esmMin((() => {
 	init_chunk_OB3PAWPO();
 }));
 //#endregion
-//#region node_modules/react-router-dom/dist/index.js
+//#region node_modules/.pnpm/react-router-dom@7.18.4_react-dom@19.3.1_react@19.3.1__react@19.3.1/node_modules/react-router-dom/dist/index.js
 /**
 * react-router-dom v7.18.4
 *
@@ -12123,7 +12123,7 @@ function Story() {
 					/* @__PURE__ */ jsx("h1", { children: "practice kubernetes on a cluster you can't break." }),
 					/* @__PURE__ */ jsx("p", {
 						className: "hero-sub",
-						children: "Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, no network calls."
+						children: "Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, nothing you type leaves the page."
 					}),
 					/* @__PURE__ */ jsxs("div", {
 						className: "hero-cta",
@@ -13077,7 +13077,7 @@ function Limits() {
 //#endregion
 //#region src/landing/Faq.jsx
 var FAQ = [
-	["Is it safe to run?", "Nothing in it is real. There is no Docker and no cluster, and once the page has loaded it makes no network requests at all. The only thing it writes is a small amount of data to your browser's local storage."],
+	["Is it safe to run?", "Nothing in it is real. There is no Docker and no cluster, and nothing you type is sent anywhere. The only network requests are cookie-free page-view analytics, and the only thing it writes is a small amount of data to your browser's local storage."],
 	["Do I need Docker or a cluster to use it?", "No. You need them only if you want to run an exported script on your own computer."],
 	["What does it save?", "The virtual files you create (for example the Helm chart in ~/myapp) and whether you have seen the tour. The simulated clusters are not saved: each visit, and each press of Reset, starts a fresh world."],
 	["Why does it start in a red PRODUCTION cluster?", "On purpose. A real mistake in kubectl is usually run against the wrong context, so the first habit worth building is reading kubectl config current-context before you type."],
@@ -13568,13 +13568,13 @@ function Privacy() {
 			className: "page-head",
 			children: [/* @__PURE__ */ jsx("h1", { children: "Privacy" }), /* @__PURE__ */ jsx("p", {
 				className: "lede",
-				children: "There are no accounts, no analytics and no cookies. Once a page has loaded, the playground makes no network requests."
+				children: "There are no accounts and no cookies. The only data sent anywhere is cookie-free page-view analytics; nothing you type in the playground is uploaded."
 			})]
 		}), /* @__PURE__ */ jsxs("div", {
 			className: "body",
 			children: [
 				/* @__PURE__ */ jsx("h2", { children: "What is stored in your browser" }),
-				/* @__PURE__ */ jsx("p", { children: "Small entries in local storage, all created by you using the site, none sent anywhere:" }),
+				/* @__PURE__ */ jsx("p", { children: "Small entries in local storage, created as you use the site:" }),
 				/* @__PURE__ */ jsxs("ul", { children: [
 					/* @__PURE__ */ jsxs("li", { children: [
 						/* @__PURE__ */ jsx("code", { children: "k8s-playground:fs:v1" }),
@@ -13602,6 +13602,14 @@ function Privacy() {
 					] }),
 					/* @__PURE__ */ jsxs("li", { children: [/* @__PURE__ */ jsx("code", { children: "kubedojo:theme" }), ": your light or dark choice, if you made one."] }),
 					/* @__PURE__ */ jsxs("li", { children: [
+						/* @__PURE__ */ jsx("code", { children: "trackima:v" }),
+						", ",
+						/* @__PURE__ */ jsx("code", { children: "trackima:s" }),
+						" and ",
+						/* @__PURE__ */ jsx("code", { children: "trackima:x" }),
+						": a random visitor id, the current visit, and page views waiting to be sent by the analytics described below."
+					] }),
+					/* @__PURE__ */ jsxs("li", { children: [
 						/* @__PURE__ */ jsx("code", { children: "kubedojo:read" }),
 						" and ",
 						/* @__PURE__ */ jsx("code", { children: "kubedojo:last" }),
@@ -13611,8 +13619,17 @@ function Privacy() {
 				/* @__PURE__ */ jsx("p", { children: "Clear them with your browser's “clear site data”, or press “Wipe all my files” in the playground's Files tab." }),
 				/* @__PURE__ */ jsx("h2", { children: "What the playground does not do" }),
 				/* @__PURE__ */ jsx("p", { children: "The simulated clusters, containers and commands exist only in this browser: in the page's memory and in the local storage entries above. Nothing you type is uploaded, and the playground cannot reach your computer, your Docker or any real cluster. The setup script it can generate is built locally, in the page, and downloaded by your browser." }),
+				/* @__PURE__ */ jsx("h2", { children: "Analytics" }),
+				/* @__PURE__ */ jsxs("p", { children: [
+					"The site uses ",
+					/* @__PURE__ */ jsx("a", {
+						href: "https://trackima.vercel.app",
+						children: "Trackima"
+					}),
+					", a cookie-free tracker, to count page views and see which pages are read. It sends the page address, referrer and the random visitor id above to the site owner's own Trackima server, in batches. It does not send anything you type in the playground. Clearing site data resets the visitor id."
+				] }),
 				/* @__PURE__ */ jsx("h2", { children: "Hosting" }),
-				/* @__PURE__ */ jsx("p", { children: "Whoever hosts this site may keep ordinary server logs (IP address, requested page, time). KubeDojo itself adds no third-party scripts, fonts or trackers." })
+				/* @__PURE__ */ jsx("p", { children: "Whoever hosts this site may keep ordinary server logs (IP address, requested page, time). Apart from the analytics above, KubeDojo adds no third-party scripts, fonts or trackers." })
 			]
 		})]
 	});

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import PG from '../engine/engine.js';
 import { store } from './store.js';
+import { event } from '@pantho075/trackima';
 
 /* ⇩ Script: reads the cluster of the CURRENT kubectl context and writes a bash script that builds the same thing for real. */
 export default function ExportModal() {
@@ -13,9 +14,10 @@ export default function ExportModal() {
   useEffect(() => { setText(built.script); setMsg(''); }, [built]); // changing an option regenerates the script (your manual edits are replaced)
   const close = () => { store.exportOpen = false; store.bump(); if (store.active) store.active.focus(); };
   useEffect(() => { const k = e => { if (e.key === 'Escape') close(); }; document.addEventListener('keydown', k, true); return () => document.removeEventListener('keydown', k, true); }, []);
+  useEffect(() => { event('export_open', { cluster: !!cl }); }, []); // eslint-disable-line react-hooks/exhaustive-deps -- once per opening
   const st = built.stats;
-  const copy = () => { ta.current.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (er) { } if (!ok && navigator.clipboard) navigator.clipboard.writeText(ta.current.value).then(() => { }, () => { }); setMsg(' copied ✓'); };
-  const download = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/x-shellscript' })); a.download = 'setup.sh'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); setMsg(' saved as setup.sh (run: bash setup.sh)'); };
+  const copy = () => { event('export_copy', { tool }); ta.current.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (er) { } if (!ok && navigator.clipboard) navigator.clipboard.writeText(ta.current.value).then(() => { }, () => { }); setMsg(' copied ✓'); };
+  const download = () => { event('export_download', { tool }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/x-shellscript' })); a.download = 'setup.sh'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); setMsg(' saved as setup.sh (run: bash setup.sh)'); };
   return (
     <div id="export" onClick={e => { if (e.target === e.currentTarget) close(); }}>
       <div className="ex-card">

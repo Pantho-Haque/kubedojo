@@ -48,10 +48,10 @@ if (SITE_URL) {
   write('feed.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>${SITE_NAME}</title><link>${SITE_URL}/blog</link><description>${esc(metaFor('/blog').description)}</description>\n${posts.map(p => `<item><title>${esc(p.title)}</title><link>${SITE_URL}/blog/${p.slug}</link><guid>${SITE_URL}/blog/${p.slug}</guid><pubDate>${new Date(p.date).toUTCString()}</pubDate><description>${esc(p.description)}</description></item>`).join('\n')}\n</channel></rss>\n`);
 }
 
-// ---- security headers. The page makes no network requests, so connect-src is 'none'; the one inline script (theme, applied before first paint) is allowed by hash.
+// ---- security headers. The only network requests are Trackima analytics, so connect-src allows just that Worker; the one inline script (theme, applied before first paint) is allowed by hash.
 const inline = /<script>([\s\S]*?)<\/script>/.exec(template); if (!inline) throw new Error('theme script not found in index.html');
 const hash = 'sha256-' + createHash('sha256').update(inline[1]).digest('base64');
-const CSP = `default-src 'self'; script-src 'self' '${hash}'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`;
+const CSP = `default-src 'self'; script-src 'self' '${hash}'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://trackima.pantho-haque-dev.workers.dev; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'`;
 const SEC = { 'Content-Security-Policy': CSP, 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'DENY', 'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=()' };
 write('_headers', `/*\n${Object.entries(SEC).map(([k, v]) => `  ${k}: ${v}`).join('\n')}\n\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n\n/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n`);
 write('_deploy/vercel.json', JSON.stringify({ cleanUrls: true, trailingSlash: false, headers: [{ source: '/(.*)', headers: Object.entries(SEC).map(([key, value]) => ({ key, value })) }, { source: '/assets/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] }] }, null, 2) + '\n');

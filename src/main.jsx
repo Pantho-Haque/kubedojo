@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import App, { loadAcademy } from './App.jsx';
 import { loadPost } from './blog/data.js';
+import { init } from '@pantho075/trackima';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import '@fontsource/ibm-plex-mono/latin-600.css';
 import './styles/base.css';
@@ -12,6 +13,8 @@ import './styles/blog.css';
 // Production builds are prerendered to static HTML per route and hydrated here. The single-file build (VITE_ROUTER=hash) is
 // rendered from scratch with hash routing so it works from file://.
 const hash = import.meta.env.VITE_ROUTER === 'hash';
+// The single-file build runs from file://, which Trackima would reject, so only the hosted site is tracked.
+if (!hash && import.meta.env.PROD) init({ site: 'PLRFw73zYHar', host: 'https://trackima.pantho-haque-dev.workers.dev' });
 const Router = hash ? HashRouter : BrowserRouter;
 const root = document.getElementById('root');
 const tree = <StrictMode><Router><App /></Router></StrictMode>;

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { store, useStore } from './store.js';
 import { TOUR, DEMO } from './tourSteps.js';
+import { event } from '@pantho075/trackima';
 
 /* The 11-step spotlight tour. Targets are found by their element ids (#ctxbadge, #side, #termpane …). */
 export default function Tour() {
@@ -33,11 +34,12 @@ export default function Tour() {
 
   useEffect(() => {
     if (!active) return;
-    const onKey = e => { if (e.key === 'Escape') { e.preventDefault(); store.endTour(); } else if (e.key === 'ArrowRight' || e.key === 'Enter') { e.preventDefault(); next(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); } };
+    const onKey = e => { if (e.key === 'Escape') { e.preventDefault(); end('skip'); } else if (e.key === 'ArrowRight' || e.key === 'Enter') { e.preventDefault(); next(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); } };
     document.addEventListener('keydown', onKey, true); return () => document.removeEventListener('keydown', onKey, true);
   });
 
-  const go = n => { if (n >= TOUR.length) store.endTour(); else store.startTour(Math.max(0, n)); };
+  const end = how => { event('tour_end', { how, step: i + 1 }); store.endTour(); }; // how: finish, skip or demo
+  const go = n => { if (n >= TOUR.length) end('finish'); else store.startTour(Math.max(0, n)); };
   const next = () => go(i + 1);
   return (
     <div id="tour" hidden={!active}>
@@ -49,9 +51,9 @@ export default function Tour() {
           <div className="tour-dots">{TOUR.map((_, k) => <i key={k} className={k <= i ? 'on' : ''}></i>)}</div>
           <div className="tour-foot">
             <span className="n">{i + 1} of {TOUR.length}</span>
-            <button id="tour-skip" onClick={() => store.endTour()}>Skip</button>
+            <button id="tour-skip" onClick={() => end('skip')}>Skip</button>
             <button id="tour-back" style={{ visibility: i === 0 ? 'hidden' : 'visible' }} onClick={() => go(i - 1)}>← Back</button>
-            {st.demo && <button id="tour-demo" className="demo" onClick={() => { store.endTour(); store.vizTab = 'cluster'; store.bump(); store.runInTerm(DEMO.join('\n'), true); }}>▶ Run the demo</button>}
+            {st.demo && <button id="tour-demo" className="demo" onClick={() => { end('demo'); store.vizTab = 'cluster'; store.bump(); store.runInTerm(DEMO.join('\n'), true); }}>▶ Run the demo</button>}
             <button id="tour-next" className="go" onClick={next}>{i === TOUR.length - 1 ? 'Finish' : 'Next →'}</button>
           </div>
         </div>

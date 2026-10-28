@@ -31,8 +31,8 @@ export default function Story() {
         <div className="hero" ref={el => { refs.current[0] = el; }} data-step="0">
           <p className="kicker">kubernetes and its tools, in your browser</p>
           <h1>practice kubernetes on a cluster you can&apos;t break.</h1>
-          <p className="hero-sub">Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, no network calls.</p>
-          <div className="hero-cta"><Link to="/app" className="btn btn-primary" {...appIntent}>{SITE.app.label}</Link><Link to="/blog" className="btn">Read the guides</Link></div>
+          <p className="hero-sub">Type real commands, watch the cluster react, then export what you built as a setup script for your own machine. Everything runs in this page: no account, no install, nothing you type leaves the page.</p>
+          <div className="hero-cta"><Link to="/app" className="btn btn-primary" data-trackima-event="cta" data-trackima-where="hero" {...appIntent}>{SITE.app.label}</Link><Link to="/blog" className="btn" data-trackima-event="cta" data-trackima-where="hero-guides">Read the guides</Link></div>
           <p className="hero-note">scroll: the drawing on the right is the simulator&apos;s own cluster, one sheet at a time.</p>
         </div>
         <TwoDoors />
@@ -46,7 +46,7 @@ export default function Story() {
               <h2>{s.title}</h2>
               <p>{s.text}</p>
               {s.code.length > 0 && <pre className="step-code" tabIndex={0}><code>{s.code.map(c => '$ ' + c).join('\n')}</code></pre>}
-              {s.run ? <Link className="arrow-link" to={run(s.run)} {...appIntent}>run this in the playground <span aria-hidden="true">→</span></Link> : <Link className="arrow-link" to="/app" {...appIntent}>open playground and press the export icon <span aria-hidden="true">→</span></Link>}
+              {s.run ? <Link className="arrow-link" to={run(s.run)} data-trackima-event="cta" data-trackima-where={"story-" + s.name} {...appIntent}>run this in the playground <span aria-hidden="true">→</span></Link> : <Link className="arrow-link" to="/app" data-trackima-event="cta" data-trackima-where="story-export" {...appIntent}>open playground and press the export icon <span aria-hidden="true">→</span></Link>}
               {i > 0 && <div className="step-fig mobile-only"><Drawing step={i} /></div>}
             </article>
           ))}

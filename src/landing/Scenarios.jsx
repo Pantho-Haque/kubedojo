@@ -22,7 +22,7 @@ export default function Scenarios() {
         <div className="scn-text">
           <h3>{s.title}</h3>
           <p>{s.lesson}</p>
-          <Link className="arrow-link" to={runLink(s.run)} {...appIntent}>run it in the playground <span aria-hidden="true">→</span></Link>
+          <Link className="arrow-link" to={runLink(s.run)} data-trackima-event="cta" data-trackima-where={"scenario-" + s.id} {...appIntent}>run it in the playground <span aria-hidden="true">→</span></Link>
         </div>
         <pre className="term scn-term" key={s.id} tabIndex={0} aria-label={`Terminal transcript: ${s.title}`}>
           {s.lines.map((l, i) => (

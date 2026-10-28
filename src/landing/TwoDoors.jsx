@@ -13,13 +13,13 @@ export default function TwoDoors() {
         <p className="door-label">Academy · new to this</p>
         <h2>Learn step by step</h2>
         <p>Kubernetes, Docker, Helm 3 and 2, Terraform, CI/CD · quizzes · Simulate</p>
-        <p className="door-cta"><Link className="btn btn-academy" to="/academy">Start learning →</Link>{last ? <Link className="door-continue" to={last.href}>or continue {last.courseTitle}, lesson {last.n}</Link> : null}</p>
+        <p className="door-cta"><Link className="btn btn-academy" to="/academy" data-trackima-event="cta" data-trackima-where="door-academy">Start learning →</Link>{last ? <Link className="door-continue" to={last.href} data-trackima-event="cta" data-trackima-where="door-continue">or continue {last.courseTitle}, lesson {last.n}</Link> : null}</p>
       </div>
       <div className="door door-dojo">
         <p className="door-label">Dojo · ready to type</p>
         <h2>Practise on a simulated cluster</h2>
         <p>kind · k3d · kubectl · docker · Helm 2 · export setup.sh</p>
-        <p className="door-cta"><Link className="btn btn-primary" to="/app" {...appIntent}>Open Dojo →</Link></p>
+        <p className="door-cta"><Link className="btn btn-primary" to="/app" data-trackima-event="cta" data-trackima-where="door-dojo" {...appIntent}>Open Dojo →</Link></p>
       </div>
     </div>
   );

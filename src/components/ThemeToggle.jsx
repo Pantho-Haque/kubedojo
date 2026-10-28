@@ -1,9 +1,10 @@
+import { event } from '@pantho075/trackima';
 const KEY = 'kubedojo:theme';
 // The theme itself is applied by a tiny inline script in <head> before first paint (no flash); this only flips it.
 export default function ThemeToggle() {
   const flip = () => {
     const root = document.documentElement; const cur = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next; try { localStorage.setItem(KEY, next); } catch (e) { /* private mode: the choice just is not remembered */ }
+    const next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next; event('theme', { to: next }); try { localStorage.setItem(KEY, next); } catch (e) { /* private mode: the choice just is not remembered */ }
   };
   return (
     <button type="button" className="icon-btn theme-toggle" onClick={flip} aria-label="Switch between light and dark theme" title="Switch theme">

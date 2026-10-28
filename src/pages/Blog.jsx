@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { allTags, posts } from '../blog/data.js';
 import { useProgress } from '../blog/progress.js';
+import { event } from '@pantho075/trackima';
 import { metaFor } from '../site/meta.js';
 import { usePageMeta } from '../components/usePageMeta.js';
 
@@ -17,6 +18,8 @@ export default function Blog() {
   const { read, last } = useProgress();
   const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
   const shown = useMemo(() => index.filter(({ p, h }) => (!tag || p.tags.includes(tag)) && terms.every(t => h.includes(t))).map(x => x.p), [q, tag]); // eslint-disable-line react-hooks/exhaustive-deps
+  // what people look for, and whether anything matched (0 results = a missing guide); once typing pauses
+  useEffect(() => { if (!q.trim()) return; const t = setTimeout(() => event('blog_search', { q: q.trim().slice(0, 60), results: shown.length }), 1500); return () => clearTimeout(t); }, [q]); // eslint-disable-line react-hooks/exhaustive-deps
   const apply = next => { setF(next); const p = new URLSearchParams(); if (next.q) p.set('q', next.q); if (next.tag) p.set('tag', next.tag); history.replaceState(history.state, '', location.pathname + (p.size ? '?' + p : '')); };
   const set = (k, v) => apply({ q, tag, [k]: v });
   const resume = last && posts.find(p => p.slug === last);
@@ -33,7 +36,7 @@ export default function Blog() {
           <input type="search" value={q} onChange={e => set('q', e.target.value)} placeholder="Search: taints, helm, kind load…" autoComplete="off" spellCheck={false} /></label>
         <div className="chips" role="group" aria-label="Filter by tag">
           <button type="button" className={!tag ? 'on' : ''} aria-pressed={!tag} onClick={() => set('tag', '')}>All</button>
-          {allTags().map(t => <button type="button" key={t} className={tag === t ? 'on' : ''} aria-pressed={tag === t} onClick={() => set('tag', tag === t ? '' : t)}>{t}</button>)}
+          {allTags().map(t => <button type="button" key={t} className={tag === t ? 'on' : ''} aria-pressed={tag === t} onClick={() => { if (tag !== t) event('blog_tag', { tag: t }); set('tag', tag === t ? '' : t); }}>{t}</button>)}
         </div>
       </div>
       <p className="count" aria-live="polite">{shown.length === posts.length ? `${posts.length} posts` : `${shown.length} of ${posts.length} posts`}</p>

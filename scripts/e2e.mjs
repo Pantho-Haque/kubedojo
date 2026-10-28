@@ -24,7 +24,7 @@ for (const route of ROUTES) {
   if (!CLIENT_ONLY(route)) check(`${route} is prerendered`, html.includes('data-prerendered') && /<h1/.test(html));
 }
 const missing = await fetch(base + '/no-such-page'); check('unknown path returns 404 with the 404 page', missing.status === 404 && /not here/.test(await missing.text()));
-const csp = (await fetch(base + '/')).headers.get('content-security-policy') || ''; check('CSP forbids network requests (connect-src none)', /connect-src 'none'/.test(csp) && /frame-ancestors 'none'/.test(csp));
+const csp = (await fetch(base + '/')).headers.get('content-security-policy') || ''; check('CSP allows network requests only to the analytics Worker', csp.includes('connect-src https://trackima.pantho-haque-dev.workers.dev;') && /frame-ancestors 'none'/.test(csp));
 for (const [file, re] of [['/robots.txt', /User-agent/], ['/manifest.webmanifest', /KubeDojo/], ['/og.png', null], ['/favicon.svg', /<svg/]]) { const r = await fetch(base + file); check(`${file} exists`, r.status === 200 && (!re || re.test(await r.text()))); }
 
 for (const w of [360, 390, 768, 1280]) for (const route of ['/', '/blog', '/blog/' + posts[3], '/privacy', '/academy', '/academy/kubernetes/service']) {
