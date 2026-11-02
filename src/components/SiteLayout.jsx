@@ -3,13 +3,15 @@ import { SITE } from '../site/site.js';
 import { posts } from '../blog/data.js';
 import Logo from './Logo.jsx';
 import ThemeToggle from './ThemeToggle.jsx';
+import SuiteSwitcher from './SuiteSwitcher.jsx';
 import { appIntent } from '../playground/loader.js';
 
 function Header() {
   return (
     <header className="site-header">
       <div className="wrap bar">
-        <Link to="/" className="brand" aria-label={`${SITE.name} home`}><Logo /><span>{SITE.name}</span></Link>
+        <SuiteSwitcher />
+        <Link to="/kubernetes" className="brand" aria-label={`${SITE.name} home`}><Logo /><span>{SITE.name}</span></Link>
         <nav className="main-nav" aria-label="Main">
           {SITE.nav.map(n => <NavLink key={n.to} to={n.to} className={({ isActive }) => (isActive ? 'active' : undefined)}>{n.label}</NavLink>)}
         </nav>
@@ -26,7 +28,7 @@ export function Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div>
-            <Link to="/" className="brand" aria-label={`${SITE.name} home`}><Logo /><span>{SITE.name}</span></Link>
+            <Link to="/kubernetes" className="brand" aria-label={`${SITE.name} home`}><Logo /><span>{SITE.name}</span></Link>
             <p className="foot-note">A simulator for learning kind, k3d, docker, kubectl and Helm 2. It runs in your browser and never touches your computer or a real cluster.</p>
           </div>
           <nav aria-label="Product"><h2>Product</h2><ul><li><Link to="/app" {...appIntent}>Playground</Link></li><li><Link to="/academy">Academy</Link></li><li><Link to="/blog">Blog</Link></li><li><Link to="/privacy">Privacy</Link></li></ul></nav>

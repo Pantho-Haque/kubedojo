@@ -6,6 +6,8 @@ import { courseBySlug, lessonById, lessonHref, useCourseLessons } from './data.j
 import { academyMeta } from './meta.js';
 import { answer, markDone, setLast, setTask, tryKey, useProgress, winChallenge } from './progress.js';
 import { event } from '@pantho075/trackima';
+import StudioLesson from './studio/StudioLesson.jsx';
+import GoLesson from '../go/GoLesson.jsx';
 
 // The practice simulator a lesson embeds, by kind: it mounts into the slot the lesson body leaves for it.
 const SLOT = '[data-sim],[data-helm-sim],[data-docker-sim],[data-tf-sim],[data-ci-sim]';
@@ -157,8 +159,12 @@ function LessonBody({ course, slug }) {
 
 function Skeleton() { return <div className="wrap post-layout"><article className="post"><div className="skeleton h1" /><div className="skeleton p" /><div className="skeleton p" /></article></div>; }
 
+// Each course's engine shows its lessons: md (this file), studio (the AI courses' card decks), go (the Go workbench).
+// Those two load their heavy engines lazily, after the lesson's prerendered text is on screen.
+const BODY = { md: LessonBody, studio: StudioLesson, go: GoLesson };
 export default function Lesson() {
   const { course: slug, lesson } = useParams(); const course = courseBySlug(slug);
   if (!course || !course.lessons.some(l => l.slug === lesson)) return <NotFound />;
-  return <Suspense fallback={<Skeleton />}><LessonBody key={slug + '/' + lesson} course={course} slug={lesson} /></Suspense>;
+  const Body = BODY[course.engine] || LessonBody;
+  return <Suspense fallback={<Skeleton />}><Body key={slug + '/' + lesson} course={course} slug={lesson} /></Suspense>;
 }

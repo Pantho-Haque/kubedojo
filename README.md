@@ -12,6 +12,45 @@ A browser-only simulator for `kind`, `k3d`, `docker`, `kubectl` and Helm 2, pair
 
 ---
 
+## 🧪 Tinkerlab: every course in one place
+
+This repo is **Tinkerlab**: KubeDojo, gothik (Go) and the Full-Stack AI courses merged into one React app, one Academy and one theme.
+
+| Path | What |
+| --- | --- |
+| `/` | Home: every course, playground and practice page, by category (`src/pages/Hub.jsx`, catalogue in `src/site/catalog.js`) |
+| `/academy` | **The Academy: all 14 courses in 3 categories**: Kubernetes & DevOps, Go, AI & ML |
+| `/academy/<course>/<lesson>` | Every lesson, whatever its engine |
+| `/kubernetes`, `/app`, `/blog` | KubeDojo's home, cluster playground and guides |
+| `/go/*` | gothik's playground, internals labs, compare, practice and reference (`src/go/`) |
+
+**One content convention.** Every course is a folder in `content/academy/<course>/` with an `index.md` (`category`, `order`, `engine`, …); `content/academy/categories.json` orders the categories. The `engine` decides how lessons are shown:
+
+- `md` (default): `NN-slug.md` lessons, rendered by `src/academy/Lesson.jsx` (the KubeDojo courses).
+- `go`: `NN-slug.md` lessons whose front matter is the gothik lesson (steps, quiz, pitfalls) and whose body is its hook. Shown in the Go workbench (`src/go/GoLesson.jsx`); the build also writes them as `src/academy/generated/go-curriculum.json` for gothik's tools.
+- `studio`: the course's JS modules (lessons are card decks with live simulators, so they stay code), listed in `index.md` `files`. Shown by the learn-studio engine (`src/academy/studio/`).
+
+`scripts/build-academy.mjs` checks and builds all of it; `scripts/build-go.mjs` splits gothik's reading shelf into per-document files. Both run as part of `npm run dev` / `npm run build`.
+
+**Shared pieces:** one theme (`kubedojo:theme`), the Tinkerlab switcher in every header (`src/components/SuiteSwitcher.jsx`, also feeding the home page's "Jump back in"), and one Academy progress store. gothik's CSS is scoped (`@scope (.gk)`) and the AI engine draws in a shadow root, so no section's styles leak into another.
+
+**Security:** the site keeps its strict CSP. The AI courses' code exercises compile learner code in a hidden same-origin frame, `/studio-eval.html`, the only page whose policy allows eval (its headers are generated for nginx, Vercel and `_headers` by `scripts/prerender.mjs`). The Go interpreter runs in a same-origin worker.
+
+`npm run typecheck` type-checks gothik's TypeScript (`src/go/tsconfig.json`); `npm test` also runs gothik's 185 engine tests (`tests/go/`).
+
+--- | --- | --- |
+| `/` | Tinkerlab hub: every course, playground and practice page | `src/pages/Hub.jsx` |
+| `/kubernetes`, `/academy`, `/app`, `/blog` | KubeDojo (this app) | `src/` |
+| `/go/*` | gothik: Go lessons, playground, labs (Next.js, basePath `/go`) | `apps/gothik/` |
+| `/ai/*` | Full-Stack AI Academy: AI Engineering + ML Foundations (the HTML is the source of truth) | `apps/ai/*.html` |
+
+- `src/suite/suite.js` is shared by all three apps and uses no framework. It holds one light/dark setting for every app, the **Tinkerlab switcher** in each app's header (every course and playground, one click away), and the last page you opened in each track (the hub's "Jump back in").
+- `scripts/build-suite.mjs` builds the catalogue from each app's own data, then copies the AI pages into `public/ai/` with the suite script added.
+- **Dev:** `pnpm --dir apps/gothik install` once, then `npm run dev:all`, then open http://localhost:5173 (gothik runs on :3100 behind Vite's proxy).
+- **Production:** `docker compose up --build`, then open http://localhost:8080. nginx serves the static site and proxies `/go` to the gothik Node server. On static-only hosts (Netlify, Cloudflare Pages) everything except `/go` works; deploy gothik on its own and route `/go` to it.
+
+---
+
 ## ✨ Features
 
 - 🧪 **Real commands, real outputs** — type the same `kubectl`, `kind`, `k3d`, `docker` and Helm 2 commands you would on a real cluster, and the simulator responds the way the real tool does.

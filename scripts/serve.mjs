@@ -11,12 +11,14 @@ const port = Number(process.argv[2] || 4173); const dir = isAbsolute(process.arg
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.txt': 'text/plain', '.xml': 'application/xml', '.webmanifest': 'application/manifest+json', '.ico': 'image/x-icon' };
 const sec = {}; try { const h = readFileSync(join(dir, '_headers'), 'utf8').split('\n\n')[0]; for (const l of h.split('\n').slice(1)) { const i = l.indexOf(':'); if (i > 0) sec[l.slice(0, i).trim()] = l.slice(i + 1).trim(); } } catch (e) { /* no _headers */ }
 const file = p => { for (const c of [p, join(p, 'index.html'), p + '.html']) if (existsSync(c) && statSync(c).isFile()) return c; return null; };
+// the AI courses' code runner has its own policy (see prerender.mjs), like the deployed hosts send it
+const EVAL = {}; try { const b = readFileSync(join(dir, '_headers'), 'utf8').split('\n\n').find(x => x.startsWith('/studio-eval.html')); for (const l of b.split('\n').slice(1)) { const i = l.indexOf(':'); if (i > 0 && !l.startsWith('!')) EVAL[l.slice(0, i).trim()] = l.slice(i + 1).trim(); } } catch { /* no runner */ }
 createServer((req, res) => {
   const url = new URL(req.url, 'http://x'); const p = normalize(join(dir, decodeURIComponent(url.pathname)));
   if (!p.startsWith(dir)) { res.writeHead(403).end(); return; }
   let f = file(p); let status = 200; if (!f) { f = join(dir, '404.html'); status = 404; }
   const asset = url.pathname.startsWith('/assets/');
-  const type = TYPES[extname(f)] || 'application/octet-stream'; let body = readFileSync(f); const headers = { ...sec, 'Content-Type': type, 'Cache-Control': asset ? 'public, max-age=31536000, immutable' : 'no-cache' };
+  const type = TYPES[extname(f)] || 'application/octet-stream'; let body = readFileSync(f); const headers = { ...(url.pathname === '/studio-eval.html' ? EVAL : sec), 'Content-Type': type, 'Cache-Control': asset ? 'public, max-age=31536000, immutable' : 'no-cache' };
   if (/text|javascript|json|svg|xml/.test(type) && /gzip/.test(req.headers['accept-encoding'] || '')) { body = gzipSync(body); headers['Content-Encoding'] = 'gzip'; headers.Vary = 'Accept-Encoding'; } // so measured transfer sizes are realistic
   res.writeHead(status, headers); res.end(body);
 }).listen(port, () => console.log(`serving ${dir} on http://localhost:${port}`));

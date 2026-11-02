@@ -5,6 +5,7 @@ import { lazySync } from './lazySync.js';
 import SiteLayout from './components/SiteLayout.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import Home from './pages/Home.jsx';
+import Hub from './pages/Hub.jsx';
 import Blog from './pages/Blog.jsx';
 import Post from './pages/Post.jsx';
 import Privacy from './pages/Privacy.jsx';
@@ -15,14 +16,19 @@ const Playground = lazy(loadPlayground);
 // The Academy is its own chunk too; see lazySync for why the prerenderer and the hydration load it before rendering.
 const [Academy, loadAcademy] = lazySync(() => import('./academy/Academy.jsx'));
 export { loadAcademy };
+// gothik (Go playground, practice and reference, under /go) is its own chunk, loaded the same way.
+const [Go, loadGo] = lazySync(() => import('./go/Go.tsx'));
+export { loadGo };
 
 export default function App() {
   return (
     <Routes>
       <Route path="/app" element={<ErrorBoundary><Suspense fallback={<div className="boot" role="status">Loading the playground…</div>}><Playground /></Suspense></ErrorBoundary>} />
+      <Route path="/go/*" element={<ErrorBoundary><Suspense fallback={<div className="boot" role="status">Loading gothik…</div>}><Go /></Suspense></ErrorBoundary>} />
       <Route path="/academy/*" element={<ErrorBoundary><Suspense fallback={<div className="boot" role="status">Loading the Academy…</div>}><Academy /></Suspense></ErrorBoundary>} />
+      <Route index element={<div className="site"><Hub /></div>} />
       <Route element={<div className="site"><SiteLayout /></div>}>
-        <Route index element={<Home />} />
+        <Route path="kubernetes" element={<Home />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:slug" element={<Post />} />
         <Route path="privacy" element={<Privacy />} />

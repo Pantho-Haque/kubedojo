@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -45,7 +46,7 @@ test('Go templates in yaml blocks are highlighted with the template-aware colour
 });
 
 test('the real content builds cleanly: 9 unique posts, no broken links, every post has a description', () => {
-  const { index, problems } = buildPosts(new URL('../content/blog', import.meta.url).pathname);
+  const { index, problems } = buildPosts(fileURLToPath(new URL('../content/blog', import.meta.url)));
   assert.deepEqual(problems, []); assert.equal(index.length, 9); assert.equal(new Set(index.map(p => p.slug)).size, 9);
   for (const p of index) { assert.ok(p.description.length > 30, p.slug); assert.ok(p.minutes >= 1, p.slug); }
   assert.deepEqual(index.map(p => p.order), [0, 1, 2, 3, 4, 5, 6, 7, 8]);

@@ -1,0 +1,94 @@
+M=-1 P=-1 G=-1 Sync Time=187033145548288 N=1 Trace=187033145552896 Mono=187033145552958 Wall=2026-10-23T23:44:31.742532+06:00
+M=8607252352 P=-1 G=-1 StateTransition Time=187033145555136 ProcID=0 Undetermined->Running Reason=""
+M=8607252352 P=0 G=-1 StateTransition Time=187033145555328 GoID=1 Undetermined->Running Reason=""
+M=8607252352 P=0 G=1 Metric Time=187033145556992 Name="/sched/gomaxprocs:threads" Value=Value{Uint64(4)}
+M=8607252352 P=0 G=1 RangeBegin Time=187033145557248 Name="stop-the-world (start trace)" Scope=Goroutine(1)
+M=8607252352 P=0 G=1 Metric Time=187033145557312 Name="/gc/heap/goal:bytes" Value=Value{Uint64(4194304)}
+M=8607252352 P=0 G=1 Metric Time=187033145557504 Name="/sched/gomaxprocs:threads" Value=Value{Uint64(4)}
+M=8607252352 P=0 G=1 RangeEnd Time=187033145558528 Name="stop-the-world (start trace)" Scope=Goroutine(1) Attributes=[]
+M=8607252352 P=0 G=1 StateTransition Time=187033145562176 GoID=5 NotExist->Runnable Reason=""
+M=8607252352 P=0 G=1 StateTransition Time=187033145562944 GoID=6 NotExist->Runnable Reason=""
+M=8607252352 P=0 G=1 Metric Time=187033145565056 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2741184)}
+M=8607252352 P=0 G=1 StateTransition Time=187033145567040 GoID=7 NotExist->Runnable Reason=""
+M=8607252352 P=0 G=1 StateTransition Time=187033145567808 GoID=8 NotExist->Runnable Reason=""
+M=8607252352 P=0 G=1 StateTransition Time=187033145568192 GoID=9 NotExist->Runnable Reason=""
+M=6170734592 P=-1 G=-1 StateTransition Time=187033145569408 ProcID=3 Undetermined->Idle Reason=""
+M=6170734592 P=-1 G=-1 StateTransition Time=187033145569536 ProcID=3 Idle->Running Reason=""
+M=8607252352 P=0 G=1 Metric Time=187033145569537 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2748416)}
+M=8607252352 P=0 G=1 StateTransition Time=187033145572544 GoID=10 NotExist->Runnable Reason=""
+M=6170734592 P=3 G=-1 StateTransition Time=187033145572672 GoID=6 Runnable->Running Reason=""
+M=8607252352 P=0 G=1 StateTransition Time=187033145573376 GoID=1 Running->Waiting Reason="sync"
+M=8607252352 P=0 G=-1 StateTransition Time=187033145573824 GoID=10 Runnable->Running Reason=""
+M=8607252352 P=0 G=10 StateTransition Time=187033145574208 GoID=10 Running->Waiting Reason="sleep"
+M=6170734592 P=3 G=6 Metric Time=187033145576960 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2756592)}
+M=6171308032 P=-1 G=-1 StateTransition Time=187033145578816 ProcID=2 Undetermined->Idle Reason=""
+M=6171308032 P=-1 G=-1 StateTransition Time=187033145578944 ProcID=2 Idle->Running Reason=""
+M=6171308032 P=2 G=-1 StateTransition Time=187033145581504 GoID=8 Runnable->Running Reason=""
+M=6170734592 P=3 G=6 Metric Time=187033145581760 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2764784)}
+M=6170734592 P=3 G=6 StateTransition Time=187033145582464 GoID=6 Running->Waiting Reason="chan receive"
+M=6170734592 P=3 G=-1 StateTransition Time=187033145582784 GoID=5 Runnable->Running Reason=""
+M=6170734592 P=3 G=5 Metric Time=187033145583232 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2772848)}
+M=6170734592 P=3 G=5 StateTransition Time=187033145583616 GoID=5 Running->Waiting Reason="chan receive"
+M=6170734592 P=3 G=-1 StateTransition Time=187033145584000 GoID=9 Runnable->Running Reason=""
+M=6170734592 P=3 G=9 Metric Time=187033145585024 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2781040)}
+M=6170734592 P=3 G=9 StateTransition Time=187033145585344 GoID=9 Running->Waiting Reason="sleep"
+M=6170734592 P=3 G=-1 Metric Time=187033145585664 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2789104)}
+M=6170734592 P=3 G=-1 StateTransition Time=187033145585984 GoID=7 Runnable->Running Reason=""
+M=6171308032 P=2 G=8 Metric Time=187033145586176 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2797296)}
+M=6170734592 P=3 G=7 Metric Time=187033145586560 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2805456)}
+M=6171308032 P=2 G=8 StateTransition Time=187033145586944 GoID=8 Running->Waiting Reason="sleep"
+M=6170734592 P=3 G=7 StateTransition Time=187033145587520 GoID=7 Running->Syscall Reason=""
+M=8607252352 P=0 G=-1 StateTransition Time=187033145588096 ProcID=0 Running->Idle Reason=""
+M=6171308032 P=2 G=-1 Metric Time=187033145588224 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2813648)}
+M=8607252352 P=-1 G=-1 StateTransition Time=187033145590336 ProcID=0 Idle->Running Reason=""
+M=6171308032 P=2 G=-1 StateTransition Time=187033145590400 ProcID=2 Running->Idle Reason=""
+M=8607252352 P=0 G=-1 StateTransition Time=187033145590912 ProcID=0 Running->Idle Reason=""
+M=6170161152 P=-1 G=-1 StateTransition Time=187033145610240 ProcID=3 Running->Idle Reason=""
+M=6170734592 P=-1 G=7 StateTransition Time=187033145614528 ProcID=3 Idle->Running Reason=""
+M=6170734592 P=3 G=7 StateTransition Time=187033145614592 GoID=7 Syscall->Runnable Reason=""
+M=6170734592 P=3 G=-1 StateTransition Time=187033145614656 GoID=7 Runnable->Running Reason=""
+M=6170734592 P=3 G=7 StateTransition Time=187033145615616 GoID=7 Running->Syscall Reason=""
+M=6170734592 P=3 G=7 StateTransition Time=187033145621248 GoID=7 Syscall->Running Reason=""
+M=6170734592 P=3 G=7 StateTransition Time=187033145621504 GoID=7 Running->Waiting Reason="system goroutine wait"
+M=6170734592 P=3 G=-1 StateTransition Time=187033145621824 ProcID=3 Running->Idle Reason=""
+M=6171881472 P=-1 G=-1 StateTransition Time=187033145628096 ProcID=1 Undetermined->Idle Reason=""
+M=6171881472 P=-1 G=-1 StateTransition Time=187033145628160 ProcID=1 Idle->Running Reason=""
+M=6171881472 P=1 G=-1 StateTransition Time=187033145628736 ProcID=1 Running->Idle Reason=""
+M=6171308032 P=-1 G=-1 StateTransition Time=187033146843520 ProcID=1 Idle->Running Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033146844608 GoID=8 Waiting->Runnable Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033146845760 GoID=8 Runnable->Running Reason=""
+M=6171881472 P=-1 G=-1 StateTransition Time=187033146868608 ProcID=3 Idle->Running Reason=""
+M=6171881472 P=3 G=-1 StateTransition Time=187033146872000 ProcID=3 Running->Idle Reason=""
+M=6171308032 P=1 G=8 StateTransition Time=187033147076608 GoID=8 Running->Runnable Reason="preempted"
+M=6171308032 P=1 G=-1 StateTransition Time=187033147080576 GoID=8 Runnable->Running Reason=""
+M=6170734592 P=-1 G=-1 StateTransition Time=187033147086784 ProcID=3 Idle->Running Reason=""
+M=6170734592 P=3 G=-1 StateTransition Time=187033147087232 ProcID=3 Running->Idle Reason=""
+M=6171308032 P=1 G=8 StateTransition Time=187033147298304 GoID=8 Running->NotExist Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033147299200 ProcID=1 Running->Idle Reason=""
+M=6171881472 P=-1 G=-1 StateTransition Time=187033147774528 ProcID=1 Idle->Running Reason=""
+M=6171881472 P=1 G=-1 StateTransition Time=187033147775488 GoID=9 Waiting->Runnable Reason=""
+M=6171881472 P=1 G=-1 StateTransition Time=187033147777152 GoID=9 Runnable->Running Reason=""
+M=6171308032 P=-1 G=-1 StateTransition Time=187033147780416 ProcID=3 Idle->Running Reason=""
+M=6171308032 P=3 G=-1 StateTransition Time=187033147781120 ProcID=3 Running->Idle Reason=""
+M=6171881472 P=1 G=9 StateTransition Time=187033148138560 GoID=9 Running->NotExist Reason=""
+M=6171881472 P=1 G=-1 StateTransition Time=187033148139136 ProcID=1 Running->Idle Reason=""
+M=6171308032 P=-1 G=-1 StateTransition Time=187033148796224 ProcID=1 Idle->Running Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033148801088 GoID=10 Waiting->Runnable Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033148810816 GoID=10 Runnable->Running Reason=""
+M=6171881472 P=-1 G=-1 StateTransition Time=187033148820480 ProcID=3 Idle->Running Reason=""
+M=6171881472 P=3 G=-1 StateTransition Time=187033148822656 ProcID=3 Running->Idle Reason=""
+M=6171308032 P=1 G=10 StateTransition Time=187033149173568 GoID=1 Waiting->Runnable Reason=""
+M=6171308032 P=1 G=10 StateTransition Time=187033149174656 GoID=10 Running->NotExist Reason=""
+M=6171308032 P=1 G=-1 StateTransition Time=187033149175040 GoID=1 Runnable->Running Reason=""
+M=6171308032 P=1 G=1 Metric Time=187033149176320 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2821600)}
+M=6170734592 P=-1 G=-1 StateTransition Time=187033149176321 ProcID=3 Idle->Running Reason=""
+M=6170734592 P=3 G=-1 StateTransition Time=187033149176768 ProcID=3 Running->Idle Reason=""
+M=6171308032 P=1 G=1 Metric Time=187033149198784 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2829792)}
+M=6171308032 P=1 G=1 Metric Time=187033149200320 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2837984)}
+M=6171308032 P=1 G=1 Metric Time=187033149202176 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2846176)}
+M=-1 P=-1 G=-1 StateTransition Time=187033149205952 GoID=2 Undetermined->Waiting Reason=""
+M=-1 P=-1 G=-1 StateTransition Time=187033149206080 GoID=3 Undetermined->Waiting Reason=""
+M=-1 P=-1 G=-1 StateTransition Time=187033149206144 GoID=4 Undetermined->Waiting Reason=""
+M=-1 P=-1 G=-1 StateTransition Time=187033149206208 GoID=17 Undetermined->Waiting Reason=""
+M=-1 P=-1 G=-1 StateTransition Time=187033149206272 GoID=18 Undetermined->Waiting Reason=""
+M=-1 P=-1 G=-1 Sync Time=187033149206273 N=2

@@ -5,7 +5,8 @@ import { bySlug, posts } from '../blog/data.js';
 const PUBLISHER = { '@type': 'Organization', name: SITE.name };
 export function metaFor(path) {
   const p = path.replace(/\/+$/, '') || '/';
-  if (p === '/') return { path: '/', title: `${SITE.name}: practice Kubernetes on a cluster you can't break`, description: SITE.description, type: 'website', jsonld: [
+  if (p === '/') return { path: '/', title: 'Tinkerlab: learn Kubernetes, Go and AI by tinkering', description: 'Hands-on courses and playgrounds in one place: a simulated Kubernetes cluster you can break, Go programs you can watch run, and AI models you can open up. Nothing to install.', type: 'website', jsonld: [{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'Tinkerlab', ...(SITE.url ? { url: SITE.url } : {}) }] };
+  if (p === '/kubernetes') return { path: p, title: `${SITE.name}: practice Kubernetes on a cluster you can't break`, description: SITE.description, type: 'website', jsonld: [
     { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, description: SITE.description, ...(SITE.url ? { url: SITE.url } : {}) },
     { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: SITE.name, applicationCategory: 'DeveloperApplication', operatingSystem: 'Any (runs in a web browser)', description: SITE.description, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }] };
   if (p === '/blog') return { path: p, title: `Blog · ${SITE.name}`, description: 'A step-by-step course on running a real multi-node Kubernetes cluster on your own computer with kind and k3d: concepts, deployments, images, Helm 2, permissions and clean-up.', type: 'website', jsonld: [{ '@context': 'https://schema.org', '@type': 'Blog', name: `${SITE.name} blog`, blogPost: posts.map(x => ({ '@type': 'BlogPosting', headline: x.title, url: absolute('/blog/' + x.slug) })) }] };

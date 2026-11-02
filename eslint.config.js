@@ -4,7 +4,7 @@ import react from 'eslint-plugin-react';
 import hooks from 'eslint-plugin-react-hooks';
 
 export default [
-  { ignores: ['dist', 'dist-ssr', 'dist-single', 'node_modules', 'src/engine/**', 'src/blog/generated/**', 'src/landing/generated/**', 'tests/**'] },
+  { ignores: ['dist', 'dist-ssr', 'dist-single', 'node_modules', 'src/engine/**', 'src/blog/generated/**', 'src/landing/generated/**', 'tests/**', 'content/**'] },
   js.configs.recommended,
   {
     files: ['src/**/*.{js,jsx}'],

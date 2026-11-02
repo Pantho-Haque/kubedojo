@@ -1,6 +1,7 @@
 ---
 title: Terraform
 order: 5
+category: devops
 subtitle: From your first plan to infrastructure you can change safely
 description: >-
   Write infrastructure as code, read every plan, catch drift, and clean up

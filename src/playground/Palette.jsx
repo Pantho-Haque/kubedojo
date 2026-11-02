@@ -17,7 +17,7 @@ function items(navigate) {
   act('Reset the simulated world', '', () => { if (window.confirm('Throw away the simulated clusters and start over?\n\nYour files are kept (they live in this browser).')) store.reset(); }, 'reset');
   act('Reset the pane sizes', '', () => store.resetLayout(), 'sidebar');
   act('List supported commands (help)', '', () => store.runInTerm('help', true), 'help');
-  act('Go to the KubeDojo home page', '', () => navigate('/'), 'home');
+  act('Go to the KubeDojo home page', '', () => navigate('/kubernetes'), 'home');
   act('Read the guides (blog)', '', () => navigate('/blog'), 'book');
   for (const [id, label] of VIEWS) a.push({ kind: 'action', group: 'View', label: 'Show ' + label, hint: '', icon: id === 'files' ? 'file' : 'cluster', run: () => { store.setViz(id); store.setPane('viz'); } });
   for (const sec of PG.GUIDE) for (const [label, cmd] of sec.items) a.push({ kind: 'command', group: sec.t.replace(/^\w+ · /, ''), label, cmd, icon: 'terminal' });

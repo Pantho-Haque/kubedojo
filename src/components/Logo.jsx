@@ -7,3 +7,12 @@ export default function Logo({ size = 26 }) {
     </svg>
   );
 }
+
+// Tinkerlab: three overlapping rings, one per category (Kubernetes & DevOps, Go, AI & ML).
+export function TinkerMark({ size = 28 }) {
+  return (
+    <svg className="tl-mark" width={size} height={size} viewBox="0 0 24 24" fill="none" strokeWidth="2" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="8.5" r="5.5" stroke="var(--cat-devops)" /><circle cx="8" cy="15" r="5.5" stroke="var(--cat-go)" /><circle cx="16" cy="15" r="5.5" stroke="var(--cat-ai)" />
+    </svg>
+  );
+}

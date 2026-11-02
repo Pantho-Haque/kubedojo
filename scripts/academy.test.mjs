@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -7,12 +8,13 @@ import { buildAcademy } from './lib/academy.mjs';
 import { labCanRun } from '../src/academy/engine/canrun.js';
 import { ACADEMY_HINTS } from '../src/playground/academyHints.js';
 
-const course = files => { const d = mkdtempSync(join(tmpdir(), 'kd-ac-')); mkdirSync(join(d, 'helm-2')); writeFileSync(join(d, 'helm-2', 'index.md'), '---\ntitle: T\norder: 1\nsubtitle: S\ndescription: D\nstages: [One]\npractice: a\n---\n'); for (const [n, c] of Object.entries(files)) writeFileSync(join(d, 'helm-2', n), c); return d; };
+const course = files => { const d = mkdtempSync(join(tmpdir(), 'kd-ac-')); mkdirSync(join(d, 'helm-2')); writeFileSync(join(d, 'categories.json'), '[{"id":"devops","title":"D","blurb":"B"}]'); writeFileSync(join(d, 'helm-2', 'index.md'), '---\ntitle: T\norder: 1\ncategory: devops\nsubtitle: S\ndescription: D\nstages: [One]\npractice: a\n---\n'); for (const [n, c] of Object.entries(files)) writeFileSync(join(d, 'helm-2', n), c); return d; };
 const lesson = (id, extra = '', body = 'Hello.') => `---\nid: ${id}\ntitle: L ${id}\nstage: 0\n${extra}---\n\n${body}\n`;
 
 test('the real Academy content builds cleanly, and every playground hint lands on a lesson', () => {
-  const { index, courses, problems } = buildAcademy(new URL('../content/academy', import.meta.url).pathname, ACADEMY_HINTS);
-  assert.deepEqual(problems, []); assert.equal(index.courses.length, 6);
+  const { index, courses, problems } = buildAcademy(fileURLToPath(new URL('../content/academy', import.meta.url)), ACADEMY_HINTS);
+  assert.deepEqual(problems, []); assert.equal(index.courses.length, 14);
+  assert.deepEqual(index.categories.map(c => [c.id, index.courses.filter(x => x.category === c.id).length]), [['devops', 6], ['go', 6], ['ai', 2]]);
   assert.ok(Object.values(courses).every(c => Object.values(c.lessons).every(l => l.description)), 'every lesson has a description (kept with its course, not in the index)');
 });
 

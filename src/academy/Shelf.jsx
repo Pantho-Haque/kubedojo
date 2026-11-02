@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { usePageMeta } from '../components/usePageMeta.js';
-import { courses, lessonCount } from './data.js';
+import { categories, courses, inCategory, lessonCount } from './data.js';
 import { academyMeta } from './meta.js';
 import { simKey, useProgress } from './progress.js';
 
@@ -11,7 +11,7 @@ function useSavedSims() {
   useEffect(() => {
     const out = {};
     try {
-      for (const c of courses) for (const k of Object.keys(localStorage)) if (k.startsWith(simKey(c.slug) + '.')) {
+      for (const c of courses.filter(x => x.simulate)) for (const k of Object.keys(localStorage)) if (k.startsWith(simKey(c.slug) + '.')) {
         const at = JSON.parse(localStorage.getItem(k) || '{}').at; if (at && at > (out[c.slug] || 0)) out[c.slug] = at;
       }
     } catch { /* storage blocked: nothing is saved */ }
@@ -28,9 +28,10 @@ export default function Shelf() {
   return (
     <div className="wrap ac-shelf">
       <header className="ac-hero">
-        <p className="kicker">KubeDojo Academy</p>
+        <p className="kicker">Tinkerlab Academy</p>
         <h1>Learn it step by step.</h1>
-        <p className="lede">{courses.length} courses and {lessonCount()} short lessons on Kubernetes and the tools around it. Each idea comes with a story, a quiz, and a simulator you can break. Nothing runs on your computer, and your progress stays in this browser.</p>
+        <p className="lede">{courses.length} courses and {lessonCount()} short lessons in {categories.length} categories: {categories.map(c => c.title).join(', ').replace(/, ([^,]+)$/, ' and $1')}. Each idea comes with an animation or a simulator you can break, and a quick check. Nothing runs on your computer, and your progress stays in this browser.</p>
+        <nav className="ac-cats" aria-label="Categories">{categories.map(cat => <a key={cat.id} href={`#${cat.id}`} data-cat={cat.id}><i aria-hidden="true" />{cat.title}<span>{inCategory(cat.id).length}</span></a>)}</nav>
       </header>
       {p.last && (
         <Link className="ac-continue" to={p.last.href}>
@@ -39,10 +40,12 @@ export default function Shelf() {
           <span className="ac-go" aria-hidden="true">→</span>
         </Link>
       )}
-      <section aria-labelledby="courses-h">
-        <h2 id="courses-h" className="ac-section">Courses</h2>
+      {categories.map(cat => (
+      <section key={cat.id} id={cat.id} className="ac-cat" data-cat={cat.id} aria-labelledby={`cat-${cat.id}`}>
+        <h2 id={`cat-${cat.id}`} className="ac-section"><i aria-hidden="true" />{cat.title}</h2>
+        <p className="ac-section-note">{cat.blurb}</p>
         <ul className="ac-courses">
-          {courses.map((c, i) => {
+          {inCategory(cat.id).map((c, i) => {
             const done = c.lessons.filter(l => p.done[l.id]).length;
             return (
               <li key={c.slug}>
@@ -50,7 +53,7 @@ export default function Shelf() {
                   <span className="ac-label">Course {i + 1}{c.slug === 'helm-2' ? ' · new' : ''}</span>
                   <b>{c.title}</b>
                   <span className="ac-sub">{c.subtitle}</span>
-                  <span className="ac-meta">{c.stages.length} stages · {c.lessons.length} lessons</span>
+                  <span className="ac-meta">{c.stages.length} stage{c.stages.length === 1 ? '' : 's'} · {c.lessons.length} lessons</span>
                   <span className="ac-bar" aria-hidden="true"><i style={{ width: `${(100 * done) / c.lessons.length}%` }} /></span>
                   <span className="ac-meta">{done ? `${done} of ${c.lessons.length} done` : 'Not started'}</span>
                 </Link>
@@ -59,11 +62,12 @@ export default function Shelf() {
           })}
         </ul>
       </section>
+      ))}
       <section id="simulate" aria-labelledby="sim-h" className="ac-simulate">
         <h2 id="sim-h" className="ac-section">Simulate</h2>
         <p className="ac-section-note">Click-through experiments, each with its own simulator: a live picture, guided steps, and a practice terminal. They are separate from the playground, and they remember where you stopped.</p>
         <ul className="ac-sims">
-          {courses.map(c => (
+          {courses.filter(c => c.simulate).map(c => (
             <li key={c.slug}>
               <Link to={`/academy/${c.slug}/simulate`} className="ac-sim-card">
                 <b>{c.title}</b>

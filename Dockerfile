@@ -3,8 +3,9 @@
 #   docker run --rm -p 8080:80 kubedojo
 FROM node:22-alpine AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+RUN corepack enable
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
 ARG VITE_SITE_URL=""
 ENV VITE_SITE_URL=$VITE_SITE_URL

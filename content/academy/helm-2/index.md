@@ -1,6 +1,7 @@
 ---
 title: Helm 2
 order: 4
+category: devops
 subtitle: The Helm with Tiller, the one the playground runs
 description: Install Tiller, release with --name, roll back, purge, lock Tiller down, and move your releases to Helm 3.
 stages:

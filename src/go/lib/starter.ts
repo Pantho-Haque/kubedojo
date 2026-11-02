@@ -1,0 +1,2 @@
+// The program the playground and the home page start from.
+export const STARTER = 'package main\n\nimport "fmt"\n\ntype Point struct{ X, Y int }\n\nfunc newPoint(x, y int) *Point {\n\tp := Point{x, y}\n\treturn &p // p outlives this call, so it moves to the heap\n}\n\nfunc main() {\n\tnums := []int{1, 2}\n\tnums = append(nums, 3) // no spare room: a new backing array\n\n\tpt := newPoint(3, 4)\n\tpt.X = 10\n\n\tdone := make(chan int)\n\tgo func() {\n\t\tdone <- len(nums)\n\t}()\n\tfmt.Println(*pt, <-done)\n}\n';

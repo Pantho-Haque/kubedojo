@@ -33,6 +33,9 @@
     color-scheme: dark;
   }
 }
+/* Tinkerlab's three categories: one colour each, used wherever a course, card or link belongs to one */
+:root { --cat-devops: light-dark(#bb3219, #ff7a5c); --cat-go: light-dark(#176e60, #5fd4b0); --cat-ai: light-dark(#5646e0, #8f85ff); }
+[data-cat="devops"] { --cat: var(--cat-devops); } [data-cat="go"] { --cat: var(--cat-go); } [data-cat="ai"] { --cat: var(--cat-ai); }
 html, body { margin: 0; background: var(--paper); }
 .boot { color: var(--ink-3); padding: 40px; font: 14px var(--mono); }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }

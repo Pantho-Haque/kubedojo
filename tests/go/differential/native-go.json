@@ -1,0 +1,1091 @@
+{
+  "generator": "tools/generate-go-goldens.cjs",
+  "toolchain": "go version go1.26.0 darwin/amd64",
+  "cases": [
+    {
+      "id": "int64-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740993\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222979 1286742750677284 5"
+    },
+    {
+      "id": "uint64-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 1\nfmt.Println(x,x<<1,x>>1)\n}",
+      "expected": "18446744073709551614 18446744073709551612 9223372036854775807"
+    },
+    {
+      "id": "wrap-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 101\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "121 121"
+    },
+    {
+      "id": "constant-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%2)\n}",
+      "expected": "1"
+    },
+    {
+      "id": "rational-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*1,x==0.3)\n}",
+      "expected": "0.3 true"
+    },
+    {
+      "id": "bytes-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],1)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 1\n\"\\xc3\""
+    },
+    {
+      "id": "slice-1",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{1,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[2 2 3] [2 2]"
+    },
+    {
+      "id": "function-1",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(1))\n}",
+      "expected": "1"
+    },
+    {
+      "id": "int64-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740994\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222982 1286742750677284 6"
+    },
+    {
+      "id": "uint64-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 2\nfmt.Println(x,x<<1,x>>2)\n}",
+      "expected": "18446744073709551613 18446744073709551610 4611686018427387903"
+    },
+    {
+      "id": "wrap-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 102\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "122 122"
+    },
+    {
+      "id": "constant-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%3)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*2,x==0.3)\n}",
+      "expected": "0.6 true"
+    },
+    {
+      "id": "bytes-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],2)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 2\n\"\\xc3\""
+    },
+    {
+      "id": "slice-2",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{2,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[3 2 3] [3 2]"
+    },
+    {
+      "id": "function-2",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(2))\n}",
+      "expected": "4"
+    },
+    {
+      "id": "int64-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740995\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222985 1286742750677285 0"
+    },
+    {
+      "id": "uint64-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 3\nfmt.Println(x,x<<1,x>>3)\n}",
+      "expected": "18446744073709551612 18446744073709551608 2305843009213693951"
+    },
+    {
+      "id": "wrap-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 103\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "123 123"
+    },
+    {
+      "id": "constant-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%4)\n}",
+      "expected": "3"
+    },
+    {
+      "id": "rational-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*3,x==0.3)\n}",
+      "expected": "0.9 true"
+    },
+    {
+      "id": "bytes-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],3)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 3\n\"\\xc3\""
+    },
+    {
+      "id": "slice-3",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{3,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[4 2 3] [4 2]"
+    },
+    {
+      "id": "function-3",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(3))\n}",
+      "expected": "9"
+    },
+    {
+      "id": "int64-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740996\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222988 1286742750677285 1"
+    },
+    {
+      "id": "uint64-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 4\nfmt.Println(x,x<<1,x>>4)\n}",
+      "expected": "18446744073709551611 18446744073709551606 1152921504606846975"
+    },
+    {
+      "id": "wrap-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 104\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "124 124"
+    },
+    {
+      "id": "constant-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%5)\n}",
+      "expected": "4"
+    },
+    {
+      "id": "rational-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*4,x==0.3)\n}",
+      "expected": "1.2 true"
+    },
+    {
+      "id": "bytes-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],4)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 4\n\"\\xc3\""
+    },
+    {
+      "id": "slice-4",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{4,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[5 2 3] [5 2]"
+    },
+    {
+      "id": "function-4",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(4))\n}",
+      "expected": "16"
+    },
+    {
+      "id": "int64-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740997\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222991 1286742750677285 2"
+    },
+    {
+      "id": "uint64-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 5\nfmt.Println(x,x<<1,x>>5)\n}",
+      "expected": "18446744073709551610 18446744073709551604 576460752303423487"
+    },
+    {
+      "id": "wrap-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 105\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "125 125"
+    },
+    {
+      "id": "constant-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%6)\n}",
+      "expected": "3"
+    },
+    {
+      "id": "rational-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*5,x==0.3)\n}",
+      "expected": "1.5 true"
+    },
+    {
+      "id": "bytes-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],5)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 5\n\"\\xc3\""
+    },
+    {
+      "id": "slice-5",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{5,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[6 2 3] [6 2]"
+    },
+    {
+      "id": "function-5",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(5))\n}",
+      "expected": "25"
+    },
+    {
+      "id": "int64-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740998\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222994 1286742750677285 3"
+    },
+    {
+      "id": "uint64-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 6\nfmt.Println(x,x<<1,x>>6)\n}",
+      "expected": "18446744073709551609 18446744073709551602 288230376151711743"
+    },
+    {
+      "id": "wrap-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 106\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "126 126"
+    },
+    {
+      "id": "constant-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%7)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*6,x==0.3)\n}",
+      "expected": "1.8 true"
+    },
+    {
+      "id": "bytes-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],6)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 6\n\"\\xc3\""
+    },
+    {
+      "id": "slice-6",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{6,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[7 2 3] [7 2]"
+    },
+    {
+      "id": "function-6",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(6))\n}",
+      "expected": "36"
+    },
+    {
+      "id": "int64-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254740999\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764222997 1286742750677285 4"
+    },
+    {
+      "id": "uint64-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 7\nfmt.Println(x,x<<1,x>>7)\n}",
+      "expected": "18446744073709551608 18446744073709551600 144115188075855871"
+    },
+    {
+      "id": "wrap-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 107\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "127 127"
+    },
+    {
+      "id": "constant-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%8)\n}",
+      "expected": "7"
+    },
+    {
+      "id": "rational-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*7,x==0.3)\n}",
+      "expected": "2.1 true"
+    },
+    {
+      "id": "bytes-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],7)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 7\n\"\\xc3\""
+    },
+    {
+      "id": "slice-7",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{7,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[8 2 3] [8 2]"
+    },
+    {
+      "id": "function-7",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(7))\n}",
+      "expected": "49"
+    },
+    {
+      "id": "int64-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741000\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223000 1286742750677285 5"
+    },
+    {
+      "id": "uint64-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 8\nfmt.Println(x,x<<1,x>>0)\n}",
+      "expected": "18446744073709551607 18446744073709551598 18446744073709551607"
+    },
+    {
+      "id": "wrap-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 108\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-128 128"
+    },
+    {
+      "id": "constant-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%9)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*8,x==0.3)\n}",
+      "expected": "2.4 true"
+    },
+    {
+      "id": "bytes-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],8)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 8\n\"\\xc3\""
+    },
+    {
+      "id": "slice-8",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{8,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[9 2 3] [9 2]"
+    },
+    {
+      "id": "function-8",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(8))\n}",
+      "expected": "64"
+    },
+    {
+      "id": "int64-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741001\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223003 1286742750677285 6"
+    },
+    {
+      "id": "uint64-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 9\nfmt.Println(x,x<<1,x>>1)\n}",
+      "expected": "18446744073709551606 18446744073709551596 9223372036854775803"
+    },
+    {
+      "id": "wrap-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 109\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-127 129"
+    },
+    {
+      "id": "constant-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%10)\n}",
+      "expected": "9"
+    },
+    {
+      "id": "rational-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*9,x==0.3)\n}",
+      "expected": "2.7 true"
+    },
+    {
+      "id": "bytes-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],9)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 9\n\"\\xc3\""
+    },
+    {
+      "id": "slice-9",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{9,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[10 2 3] [10 2]"
+    },
+    {
+      "id": "function-9",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(9))\n}",
+      "expected": "81"
+    },
+    {
+      "id": "int64-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741002\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223006 1286742750677286 0"
+    },
+    {
+      "id": "uint64-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 10\nfmt.Println(x,x<<1,x>>2)\n}",
+      "expected": "18446744073709551605 18446744073709551594 4611686018427387901"
+    },
+    {
+      "id": "wrap-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 110\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-126 130"
+    },
+    {
+      "id": "constant-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%11)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*10,x==0.3)\n}",
+      "expected": "3 true"
+    },
+    {
+      "id": "bytes-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],10)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 10\n\"\\xc3\""
+    },
+    {
+      "id": "slice-10",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{10,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[11 2 3] [11 2]"
+    },
+    {
+      "id": "function-10",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(10))\n}",
+      "expected": "100"
+    },
+    {
+      "id": "int64-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741003\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223009 1286742750677286 1"
+    },
+    {
+      "id": "uint64-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 11\nfmt.Println(x,x<<1,x>>3)\n}",
+      "expected": "18446744073709551604 18446744073709551592 2305843009213693950"
+    },
+    {
+      "id": "wrap-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 111\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-125 131"
+    },
+    {
+      "id": "constant-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%12)\n}",
+      "expected": "3"
+    },
+    {
+      "id": "rational-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*11,x==0.3)\n}",
+      "expected": "3.3 true"
+    },
+    {
+      "id": "bytes-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],11)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 11\n\"\\xc3\""
+    },
+    {
+      "id": "slice-11",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{11,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[12 2 3] [12 2]"
+    },
+    {
+      "id": "function-11",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(11))\n}",
+      "expected": "121"
+    },
+    {
+      "id": "int64-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741004\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223012 1286742750677286 2"
+    },
+    {
+      "id": "uint64-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 12\nfmt.Println(x,x<<1,x>>4)\n}",
+      "expected": "18446744073709551603 18446744073709551590 1152921504606846975"
+    },
+    {
+      "id": "wrap-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 112\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-124 132"
+    },
+    {
+      "id": "constant-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%13)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*12,x==0.3)\n}",
+      "expected": "3.6 true"
+    },
+    {
+      "id": "bytes-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],12)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 12\n\"\\xc3\""
+    },
+    {
+      "id": "slice-12",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{12,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[13 2 3] [13 2]"
+    },
+    {
+      "id": "function-12",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(12))\n}",
+      "expected": "144"
+    },
+    {
+      "id": "int64-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741005\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223015 1286742750677286 3"
+    },
+    {
+      "id": "uint64-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 13\nfmt.Println(x,x<<1,x>>5)\n}",
+      "expected": "18446744073709551602 18446744073709551588 576460752303423487"
+    },
+    {
+      "id": "wrap-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 113\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-123 133"
+    },
+    {
+      "id": "constant-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%14)\n}",
+      "expected": "7"
+    },
+    {
+      "id": "rational-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*13,x==0.3)\n}",
+      "expected": "3.9 true"
+    },
+    {
+      "id": "bytes-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],13)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 13\n\"\\xc3\""
+    },
+    {
+      "id": "slice-13",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{13,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[14 2 3] [14 2]"
+    },
+    {
+      "id": "function-13",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(13))\n}",
+      "expected": "169"
+    },
+    {
+      "id": "int64-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741006\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223018 1286742750677286 4"
+    },
+    {
+      "id": "uint64-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 14\nfmt.Println(x,x<<1,x>>6)\n}",
+      "expected": "18446744073709551601 18446744073709551586 288230376151711743"
+    },
+    {
+      "id": "wrap-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 114\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-122 134"
+    },
+    {
+      "id": "constant-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%15)\n}",
+      "expected": "9"
+    },
+    {
+      "id": "rational-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*14,x==0.3)\n}",
+      "expected": "4.2 true"
+    },
+    {
+      "id": "bytes-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],14)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 14\n\"\\xc3\""
+    },
+    {
+      "id": "slice-14",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{14,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[15 2 3] [15 2]"
+    },
+    {
+      "id": "function-14",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(14))\n}",
+      "expected": "196"
+    },
+    {
+      "id": "int64-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741007\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223021 1286742750677286 5"
+    },
+    {
+      "id": "uint64-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 15\nfmt.Println(x,x<<1,x>>7)\n}",
+      "expected": "18446744073709551600 18446744073709551584 144115188075855871"
+    },
+    {
+      "id": "wrap-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 115\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-121 135"
+    },
+    {
+      "id": "constant-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%16)\n}",
+      "expected": "15"
+    },
+    {
+      "id": "rational-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*15,x==0.3)\n}",
+      "expected": "4.5 true"
+    },
+    {
+      "id": "bytes-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],15)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 15\n\"\\xc3\""
+    },
+    {
+      "id": "slice-15",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{15,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[16 2 3] [16 2]"
+    },
+    {
+      "id": "function-15",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(15))\n}",
+      "expected": "225"
+    },
+    {
+      "id": "int64-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741008\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223024 1286742750677286 6"
+    },
+    {
+      "id": "uint64-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 16\nfmt.Println(x,x<<1,x>>0)\n}",
+      "expected": "18446744073709551599 18446744073709551582 18446744073709551599"
+    },
+    {
+      "id": "wrap-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 116\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-120 136"
+    },
+    {
+      "id": "constant-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%17)\n}",
+      "expected": "3"
+    },
+    {
+      "id": "rational-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*16,x==0.3)\n}",
+      "expected": "4.8 true"
+    },
+    {
+      "id": "bytes-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],16)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 16\n\"\\xc3\""
+    },
+    {
+      "id": "slice-16",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{16,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[17 2 3] [17 2]"
+    },
+    {
+      "id": "function-16",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(16))\n}",
+      "expected": "256"
+    },
+    {
+      "id": "int64-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741009\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223027 1286742750677287 0"
+    },
+    {
+      "id": "uint64-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 17\nfmt.Println(x,x<<1,x>>1)\n}",
+      "expected": "18446744073709551598 18446744073709551580 9223372036854775799"
+    },
+    {
+      "id": "wrap-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 117\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-119 137"
+    },
+    {
+      "id": "constant-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%18)\n}",
+      "expected": "9"
+    },
+    {
+      "id": "rational-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*17,x==0.3)\n}",
+      "expected": "5.1 true"
+    },
+    {
+      "id": "bytes-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],17)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 17\n\"\\xc3\""
+    },
+    {
+      "id": "slice-17",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{17,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[18 2 3] [18 2]"
+    },
+    {
+      "id": "function-17",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(17))\n}",
+      "expected": "289"
+    },
+    {
+      "id": "int64-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741010\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223030 1286742750677287 1"
+    },
+    {
+      "id": "uint64-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 18\nfmt.Println(x,x<<1,x>>2)\n}",
+      "expected": "18446744073709551597 18446744073709551578 4611686018427387899"
+    },
+    {
+      "id": "wrap-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 118\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-118 138"
+    },
+    {
+      "id": "constant-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%19)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*18,x==0.3)\n}",
+      "expected": "5.4 true"
+    },
+    {
+      "id": "bytes-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],18)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 18\n\"\\xc3\""
+    },
+    {
+      "id": "slice-18",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{18,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[19 2 3] [19 2]"
+    },
+    {
+      "id": "function-18",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(18))\n}",
+      "expected": "324"
+    },
+    {
+      "id": "int64-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741011\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223033 1286742750677287 2"
+    },
+    {
+      "id": "uint64-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 19\nfmt.Println(x,x<<1,x>>3)\n}",
+      "expected": "18446744073709551596 18446744073709551576 2305843009213693949"
+    },
+    {
+      "id": "wrap-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 119\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-117 139"
+    },
+    {
+      "id": "constant-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%20)\n}",
+      "expected": "19"
+    },
+    {
+      "id": "rational-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*19,x==0.3)\n}",
+      "expected": "5.7 true"
+    },
+    {
+      "id": "bytes-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],19)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 19\n\"\\xc3\""
+    },
+    {
+      "id": "slice-19",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{19,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[20 2 3] [20 2]"
+    },
+    {
+      "id": "function-19",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(19))\n}",
+      "expected": "361"
+    },
+    {
+      "id": "int64-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741012\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223036 1286742750677287 3"
+    },
+    {
+      "id": "uint64-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 20\nfmt.Println(x,x<<1,x>>4)\n}",
+      "expected": "18446744073709551595 18446744073709551574 1152921504606846974"
+    },
+    {
+      "id": "wrap-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 120\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-116 140"
+    },
+    {
+      "id": "constant-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%21)\n}",
+      "expected": "0"
+    },
+    {
+      "id": "rational-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*20,x==0.3)\n}",
+      "expected": "6 true"
+    },
+    {
+      "id": "bytes-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],20)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 20\n\"\\xc3\""
+    },
+    {
+      "id": "slice-20",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{20,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[21 2 3] [21 2]"
+    },
+    {
+      "id": "function-20",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(20))\n}",
+      "expected": "400"
+    },
+    {
+      "id": "int64-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741013\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223039 1286742750677287 4"
+    },
+    {
+      "id": "uint64-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 21\nfmt.Println(x,x<<1,x>>5)\n}",
+      "expected": "18446744073709551594 18446744073709551572 576460752303423487"
+    },
+    {
+      "id": "wrap-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 121\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-115 141"
+    },
+    {
+      "id": "constant-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%22)\n}",
+      "expected": "11"
+    },
+    {
+      "id": "rational-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*21,x==0.3)\n}",
+      "expected": "6.3 true"
+    },
+    {
+      "id": "bytes-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],21)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 21\n\"\\xc3\""
+    },
+    {
+      "id": "slice-21",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{21,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[22 2 3] [22 2]"
+    },
+    {
+      "id": "function-21",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(21))\n}",
+      "expected": "441"
+    },
+    {
+      "id": "int64-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741014\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223042 1286742750677287 5"
+    },
+    {
+      "id": "uint64-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 22\nfmt.Println(x,x<<1,x>>6)\n}",
+      "expected": "18446744073709551593 18446744073709551570 288230376151711743"
+    },
+    {
+      "id": "wrap-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 122\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-114 142"
+    },
+    {
+      "id": "constant-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%23)\n}",
+      "expected": "11"
+    },
+    {
+      "id": "rational-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*22,x==0.3)\n}",
+      "expected": "6.6 true"
+    },
+    {
+      "id": "bytes-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],22)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 22\n\"\\xc3\""
+    },
+    {
+      "id": "slice-22",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{22,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[23 2 3] [23 2]"
+    },
+    {
+      "id": "function-22",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(22))\n}",
+      "expected": "484"
+    },
+    {
+      "id": "int64-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741015\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223045 1286742750677287 6"
+    },
+    {
+      "id": "uint64-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 23\nfmt.Println(x,x<<1,x>>7)\n}",
+      "expected": "18446744073709551592 18446744073709551568 144115188075855871"
+    },
+    {
+      "id": "wrap-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 123\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-113 143"
+    },
+    {
+      "id": "constant-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%24)\n}",
+      "expected": "15"
+    },
+    {
+      "id": "rational-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*23,x==0.3)\n}",
+      "expected": "6.9 true"
+    },
+    {
+      "id": "bytes-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],23)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 23\n\"\\xc3\""
+    },
+    {
+      "id": "slice-23",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{23,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[24 2 3] [24 2]"
+    },
+    {
+      "id": "function-23",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(23))\n}",
+      "expected": "529"
+    },
+    {
+      "id": "int64-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741016\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223048 1286742750677288 0"
+    },
+    {
+      "id": "uint64-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 24\nfmt.Println(x,x<<1,x>>0)\n}",
+      "expected": "18446744073709551591 18446744073709551566 18446744073709551591"
+    },
+    {
+      "id": "wrap-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 124\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-112 144"
+    },
+    {
+      "id": "constant-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%25)\n}",
+      "expected": "24"
+    },
+    {
+      "id": "rational-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*24,x==0.3)\n}",
+      "expected": "7.2 true"
+    },
+    {
+      "id": "bytes-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],24)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 24\n\"\\xc3\""
+    },
+    {
+      "id": "slice-24",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{24,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[25 2 3] [25 2]"
+    },
+    {
+      "id": "function-24",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(24))\n}",
+      "expected": "576"
+    },
+    {
+      "id": "int64-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int64 = 9007199254741017\nfmt.Println(x*3,x/7,x%7)\n}",
+      "expected": "27021597764223051 1286742750677288 1"
+    },
+    {
+      "id": "uint64-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x uint64 = 18446744073709551615\nx -= 25\nfmt.Println(x,x<<1,x>>1)\n}",
+      "expected": "18446744073709551590 18446744073709551564 9223372036854775795"
+    },
+    {
+      "id": "wrap-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x int8 = 125\nx += 20\nfmt.Println(x,uint8(x))\n}",
+      "expected": "-111 145"
+    },
+    {
+      "id": "constant-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 999999999999999999999999999999999999\nfmt.Println(x%26)\n}",
+      "expected": "13"
+    },
+    {
+      "id": "rational-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x = 0.1 + 0.2\nfmt.Println(x*25,x==0.3)\n}",
+      "expected": "7.5 true"
+    },
+    {
+      "id": "bytes-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\ns := \"é🦦Go\"\nfmt.Println(len(s),s[0],s[1],s[6:],25)\nfmt.Printf(\"%q\",s[:1])\n}",
+      "expected": "8 195 169 Go 25\n\"\\xc3\""
+    },
+    {
+      "id": "slice-25",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\na := []int{25,2,3}\nb := a[:2]\nb[0] += 1\nfmt.Println(a,b)\n}",
+      "expected": "[26 2 3] [26 2]"
+    },
+    {
+      "id": "function-25",
+      "source": "package main\nimport \"fmt\"\nfunc square(x int) int { return x*x }\nfunc main(){\nfmt.Println(square(25))\n}",
+      "expected": "625"
+    },
+    {
+      "id": "format-200",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Printf(\"%+08d|%#x|%#o|%b\",-42,255,8,7)\n}",
+      "expected": "-0000042|0xff|010|111"
+    },
+    {
+      "id": "format-201",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Printf(\"%10.3s|%q|%x|%X\",\"gopher\",\"go\",\"Go\",\"Go\")\n}",
+      "expected": "       gop|\"go\"|476f|476F"
+    },
+    {
+      "id": "format-202",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Printf(\"%c|%U|%#U\",233,65,233)\n}",
+      "expected": "é|U+0041|U+00E9 'é'"
+    },
+    {
+      "id": "format-203",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Printf(\"%T|%#v|%+v\",3,[]int{1,2},struct{N int}{3})\n}",
+      "expected": "int|[]int{1, 2}|{N:3}"
+    },
+    {
+      "id": "format-204",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=2.5;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "2|2.50|2.500000e+00|2.5"
+    },
+    {
+      "id": "format-205",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=3.5;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "4|3.50|3.500000e+00|3.5"
+    },
+    {
+      "id": "format-206",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=1.125;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "1|1.12|1.125000e+00|1.125"
+    },
+    {
+      "id": "format-207",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=1.375;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "1|1.38|1.375000e+00|1.375"
+    },
+    {
+      "id": "format-208",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=0.1;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "0|0.10|1.000000e-01|0.1"
+    },
+    {
+      "id": "format-209",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=1e6;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "1000000|1000000.00|1.000000e+06|1e+06"
+    },
+    {
+      "id": "format-210",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nx:=1e-5;fmt.Printf(\"%.0f|%.2f|%e|%g\",x,x,x,x)\n}",
+      "expected": "0|0.00|1.000000e-05|1e-05"
+    },
+    {
+      "id": "format-211",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x float32=0.1;fmt.Println(x)\n}",
+      "expected": "0.1"
+    },
+    {
+      "id": "format-212",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nvar x float32=0.500000029802322415;fmt.Println(x)\n}",
+      "expected": "0.50000006"
+    },
+    {
+      "id": "format-213",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nconst x float64=0.1;fmt.Println(x+x)\n}",
+      "expected": "0.2"
+    },
+    {
+      "id": "format-214",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Println(1e1000/1e1000)\n}",
+      "expected": "1"
+    },
+    {
+      "id": "format-215",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nz:=0.0;fmt.Println(1.0/z,z/z)\n}",
+      "expected": "+Inf NaN"
+    },
+    {
+      "id": "format-216",
+      "source": "package main\nimport \"fmt\"\n\nfunc main(){\nfmt.Printf(\"%d|%x\",uint64(18446744073709551615),uint64(18446744073709551615))\n}",
+      "expected": "18446744073709551615|ffffffffffffffff"
+    }
+  ]
+}

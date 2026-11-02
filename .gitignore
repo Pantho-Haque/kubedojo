@@ -11,3 +11,6 @@ linkedin/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# rebuilt by scripts/build-go.mjs from src/go/data/academy-reading.json
+src/go/generated/

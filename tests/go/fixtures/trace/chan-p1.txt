@@ -1,0 +1,582 @@
+M=-1 P=-1 G=-1 Sync Time=187032523771648 N=1 Trace=187032523792640 Mono=187032523792583 Wall=2026-10-23T23:44:31.12077+06:00
+M=8607252352 P=-1 G=-1 StateTransition Time=187032523930112 ProcID=0 Undetermined->Running Reason=""
+M=8607252352 P=0 G=-1 StateTransition Time=187032523930944 GoID=1 Undetermined->Running Reason=""
+M=8607252352 P=0 G=1 Metric Time=187032523976192 Name="/sched/gomaxprocs:threads" Value=Value{Uint64(1)}
+Stack=
+	runtime.traceLocker.Gomaxprocs @ 0x1007acf74
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/traceruntime.go:282
+	runtime.StartTrace @ 0x1007a6353
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:428
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb4cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:142
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 RangeBegin Time=187032523978368 Name="stop-the-world (start trace)" Scope=Goroutine(1)
+Stack=
+	runtime.StartTrace @ 0x1007a6363
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:429
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb4cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:142
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 Metric Time=187032523978944 Name="/gc/heap/goal:bytes" Value=Value{Uint64(4194304)}
+M=8607252352 P=0 G=1 Metric Time=187032524029568 Name="/sched/gomaxprocs:threads" Value=Value{Uint64(1)}
+Stack=
+	runtime.startTheWorld @ 0x10078a98b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:1559
+	runtime.StartTrace @ 0x1007a641f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:446
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb4cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:142
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 RangeEnd Time=187032524031360 Name="stop-the-world (start trace)" Scope=Goroutine(1) Attributes=[]
+M=8607252352 P=0 G=1 StateTransition Time=187032524072256 GoID=5 NotExist->Runnable Reason=""
+TransitionStack=
+	runtime.traceStartReadCPU.func1 @ 0x1007b6a13
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/tracecpu.go:44
+
+Stack=
+	runtime.traceStartReadCPU @ 0x1007abbef
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/tracecpu.go:44
+	runtime.StartTrace @ 0x1007a6423
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:448
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb4cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:142
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 StateTransition Time=187032524074944 GoID=6 NotExist->Runnable Reason=""
+TransitionStack=
+	runtime.(*traceAdvancerState).start.func1 @ 0x1007b6323
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1102
+
+Stack=
+	runtime.(*traceAdvancerState).start @ 0x1007a6c5b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1102
+	runtime.StartTrace @ 0x1007a642f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:449
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb4cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:142
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 Metric Time=187032524080192 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2741184)}
+M=8607252352 P=0 G=1 StateTransition Time=187032524103616 GoID=7 NotExist->Runnable Reason=""
+TransitionStack=
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb7f3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:157
+
+Stack=
+	runtime/trace.(*traceMultiplexer).startLocked @ 0x1007eb653
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:157
+	runtime/trace.(*traceMultiplexer).addedSubscriber @ 0x1007eb3cb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:112
+	runtime/trace.(*traceMultiplexer).subscribeTraceStartWriter @ 0x1007eaff3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:80
+	runtime/trace.Start @ 0x1007ebc9f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/trace.go:119
+	main.main @ 0x1007ebc84
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:18
+
+M=8607252352 P=0 G=1 StateTransition Time=187032524106816 GoID=8 NotExist->Runnable Reason=""
+TransitionStack=
+	main.main.func1 @ 0x1007ec543
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	main.main @ 0x1007ebe53
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=8607252352 P=0 G=1 StateTransition Time=187032524108416 GoID=9 NotExist->Runnable Reason=""
+TransitionStack=
+	main.main.func2 @ 0x1007ec463
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	main.main @ 0x1007ebea3
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=8607252352 P=0 G=1 StateTransition Time=187032524113024 GoID=1 Running->Waiting Reason="sync"
+TransitionStack=
+	sync.(*WaitGroup).Wait @ 0x1007c64c3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/sync/waitgroup.go:206
+	main.main @ 0x1007ebeab
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:42
+
+Stack=
+	sync.(*WaitGroup).Wait @ 0x1007c64c3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/sync/waitgroup.go:206
+	main.main @ 0x1007ebeab
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:42
+
+M=8607252352 P=0 G=-1 StateTransition Time=187032524114496 GoID=9 Runnable->Running Reason=""
+M=8607252352 P=0 G=9 StateTransition Time=187032524115904 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=8607252352 P=0 G=-1 StateTransition Time=187032524116288 GoID=5 Runnable->Running Reason=""
+M=8607252352 P=0 G=5 StateTransition Time=187032524134528 GoID=5 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv1 @ 0x100756b53
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:509
+	runtime.(*wakeableSleep).sleep @ 0x1007a6d87
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1168
+	runtime.traceStartReadCPU.func1 @ 0x1007b6a57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/tracecpu.go:56
+
+Stack=
+	runtime.chanrecv1 @ 0x100756b53
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:509
+	runtime.(*wakeableSleep).sleep @ 0x1007a6d87
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1168
+	runtime.traceStartReadCPU.func1 @ 0x1007b6a57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/tracecpu.go:56
+
+M=8607252352 P=0 G=-1 StateTransition Time=187032524134912 GoID=6 Runnable->Running Reason=""
+M=8607252352 P=0 G=6 StateTransition Time=187032524136832 GoID=6 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv1 @ 0x100756b53
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:509
+	runtime.(*wakeableSleep).sleep @ 0x1007a6d87
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1168
+	runtime.(*traceAdvancerState).start.func1 @ 0x1007b6353
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1105
+
+Stack=
+	runtime.chanrecv1 @ 0x100756b53
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:509
+	runtime.(*wakeableSleep).sleep @ 0x1007a6d87
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1168
+	runtime.(*traceAdvancerState).start.func1 @ 0x1007b6353
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace.go:1105
+
+M=8607252352 P=0 G=-1 StateTransition Time=187032524137088 GoID=7 Runnable->Running Reason=""
+M=8607252352 P=0 G=7 StateTransition Time=187032524141376 GoID=7 Running->Syscall Reason=""
+TransitionStack=
+	syscall.syscall @ 0x1007d0e13
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_darwin.go:384
+	syscall.write @ 0x1007d0487
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/zsyscall_darwin_arm64.go:1709
+	syscall.Write @ 0x1007dba17
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_unix.go:211
+	internal/poll.ignoringEINTRIO @ 0x1007dba0c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:743
+	internal/poll.(*FD).Write @ 0x1007db9ac
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:379
+	os.(*File).write @ 0x1007dd733
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file_posix.go:47
+	os.(*File).Write @ 0x1007dd72c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file.go:215
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb853
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:160
+
+Stack=
+	syscall.syscall @ 0x1007d0e13
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_darwin.go:384
+	syscall.write @ 0x1007d0487
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/zsyscall_darwin_arm64.go:1709
+	syscall.Write @ 0x1007dba17
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_unix.go:211
+	internal/poll.ignoringEINTRIO @ 0x1007dba0c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:743
+	internal/poll.(*FD).Write @ 0x1007db9ac
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:379
+	os.(*File).write @ 0x1007dd733
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file_posix.go:47
+	os.(*File).Write @ 0x1007dd72c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file.go:215
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb853
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:160
+
+M=6164836352 P=-1 G=-1 StateTransition Time=187032524279680 ProcID=0 Running->Idle Reason=""
+M=8607252352 P=-1 G=7 StateTransition Time=187032524287616 GoID=7 Syscall->Runnable Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032524298816 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524300032 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032524303488 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	runtime.chansend1 @ 0x100755d57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:161
+	main.main.func1 @ 0x1007ec59b
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032524304704 GoID=8 Running->Waiting Reason="sleep"
+TransitionStack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524306688 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032524308032 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524308544 GoID=7 Runnable->Running Reason=""
+M=6165409792 P=0 G=7 StateTransition Time=187032524312320 GoID=7 Running->Syscall Reason=""
+TransitionStack=
+	syscall.syscall @ 0x1007d0e13
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_darwin.go:384
+	syscall.write @ 0x1007d0487
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/zsyscall_darwin_arm64.go:1709
+	syscall.Write @ 0x1007dba17
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_unix.go:211
+	internal/poll.ignoringEINTRIO @ 0x1007dba0c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:743
+	internal/poll.(*FD).Write @ 0x1007db9ac
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:379
+	os.(*File).write @ 0x1007dd733
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file_posix.go:47
+	os.(*File).Write @ 0x1007dd72c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file.go:215
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb8cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:172
+
+Stack=
+	syscall.syscall @ 0x1007d0e13
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_darwin.go:384
+	syscall.write @ 0x1007d0487
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/zsyscall_darwin_arm64.go:1709
+	syscall.Write @ 0x1007dba17
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/syscall/syscall_unix.go:211
+	internal/poll.ignoringEINTRIO @ 0x1007dba0c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:743
+	internal/poll.(*FD).Write @ 0x1007db9ac
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/internal/poll/fd_unix.go:379
+	os.(*File).write @ 0x1007dd733
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file_posix.go:47
+	os.(*File).Write @ 0x1007dd72c
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/os/file.go:215
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb8cf
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:172
+
+M=6165409792 P=0 G=7 StateTransition Time=187032524365248 GoID=7 Syscall->Running Reason=""
+M=6165409792 P=0 G=7 StateTransition Time=187032524367104 GoID=7 Running->Waiting Reason="system goroutine wait"
+TransitionStack=
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb89b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:167
+
+Stack=
+	runtime/trace.(*traceMultiplexer).startLocked.func1 @ 0x1007eb89b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/trace/subscribe.go:167
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524368704 ProcID=0 Running->Idle Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032524428160 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524431296 GoID=8 Waiting->Runnable Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524432064 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032524433344 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	runtime.chansend1 @ 0x100755d57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:161
+	main.main.func1 @ 0x1007ec59b
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032524434240 GoID=8 Running->Waiting Reason="sleep"
+TransitionStack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524435520 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032524436288 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524436864 ProcID=0 Running->Idle Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032524592960 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524594368 GoID=8 Waiting->Runnable Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524595008 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032524596032 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	runtime.chansend1 @ 0x100755d57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:161
+	main.main.func1 @ 0x1007ec59b
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032524596416 GoID=8 Running->Waiting Reason="sleep"
+TransitionStack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524631872 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032524632896 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524633408 ProcID=0 Running->Idle Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032524760320 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524762624 GoID=8 Waiting->Runnable Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524763200 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032524764032 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	runtime.chansend1 @ 0x100755d57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:161
+	main.main.func1 @ 0x1007ec59b
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032524764416 GoID=8 Running->Waiting Reason="sleep"
+TransitionStack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524765120 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032524766336 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524766848 ProcID=0 Running->Idle Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032524897600 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524898496 GoID=8 Waiting->Runnable Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032524898944 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032524899776 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	runtime.chansend1 @ 0x100755d57
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:161
+	main.main.func1 @ 0x1007ec59b
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032524900160 GoID=8 Running->Waiting Reason="sleep"
+TransitionStack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+Stack=
+	time.Sleep @ 0x1007bd21f
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/time.go:368
+	main.main.func1 @ 0x1007ec5a7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524900608 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032524900992 GoID=9 Running->Waiting Reason="chan receive"
+TransitionStack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+Stack=
+	runtime.chanrecv2 @ 0x100756b73
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/chan.go:514
+	main.main.func2 @ 0x1007ec4b7
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=-1 StateTransition Time=187032524901312 ProcID=0 Running->Idle Reason=""
+M=6165409792 P=-1 G=-1 StateTransition Time=187032525031808 ProcID=0 Idle->Running Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032525032576 GoID=8 Waiting->Runnable Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032525033024 GoID=8 Runnable->Running Reason=""
+M=6165409792 P=0 G=8 StateTransition Time=187032525034496 GoID=9 Waiting->Runnable Reason=""
+Stack=
+	main.main.func1 @ 0x1007ec5bf
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:24
+
+M=6165409792 P=0 G=8 StateTransition Time=187032525035456 GoID=8 Running->NotExist Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032525037056 GoID=9 Runnable->Running Reason=""
+M=6165409792 P=0 G=9 StateTransition Time=187032525038784 GoID=1 Waiting->Runnable Reason=""
+Stack=
+	sync.(*WaitGroup).Add @ 0x1007c636b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/sync/waitgroup.go:142
+	sync.(*WaitGroup).Done @ 0x1007ec523
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/sync/waitgroup.go:156
+	main.main.func2 @ 0x1007ec4cb
+		/private/tmp/claude-502/-Users-guess-Desktop-mine-01-Ongoing-gothik/75ab0247-4f04-4d40-a60e-5773b2a94af7/scratchpad/gotrace/main.go:25
+
+M=6165409792 P=0 G=9 StateTransition Time=187032525038976 GoID=9 Running->NotExist Reason=""
+M=6165409792 P=0 G=-1 StateTransition Time=187032525039232 GoID=1 Runnable->Running Reason=""
+M=6165409792 P=0 G=1 Metric Time=187032525044928 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2749136)}
+M=6165409792 P=0 G=1 Metric Time=187032525055360 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2757328)}
+M=6165409792 P=0 G=1 Metric Time=187032525058496 Name="/memory/classes/heap/objects:bytes" Value=Value{Uint64(2765520)}
+M=-1 P=-1 G=-1 StateTransition Time=187032525067776 GoID=2 Undetermined->Waiting Reason=""
+TransitionStack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x1007885d3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.forcegchelper @ 0x1007885b0
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:387
+
+Stack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x1007885d3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.forcegchelper @ 0x1007885b0
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:387
+
+M=-1 P=-1 G=-1 StateTransition Time=187032525067968 GoID=3 Undetermined->Waiting Reason=""
+TransitionStack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x1007753eb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.bgsweep @ 0x1007753c8
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcsweep.go:279
+
+Stack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x1007753eb
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.bgsweep @ 0x1007753c8
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcsweep.go:279
+
+M=-1 P=-1 G=-1 StateTransition Time=187032525068096 GoID=4 Undetermined->Waiting Reason=""
+TransitionStack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x10077304b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.(*scavengerState).park @ 0x100773030
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcscavenge.go:425
+	runtime.bgscavenge @ 0x100773573
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcscavenge.go:653
+
+Stack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x10077304b
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.(*scavengerState).park @ 0x100773030
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcscavenge.go:425
+	runtime.bgscavenge @ 0x100773573
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mgcscavenge.go:653
+
+M=-1 P=-1 G=-1 StateTransition Time=187032525068160 GoID=17 Undetermined->Waiting Reason=""
+TransitionStack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x100795cc3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.updateMaxProcsGoroutine @ 0x100795ca0
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:7146
+
+Stack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.goparkunlock @ 0x100795cc3
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:480
+	runtime.updateMaxProcsGoroutine @ 0x100795ca0
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:7146
+
+M=-1 P=-1 G=-1 StateTransition Time=187032525068288 GoID=18 Undetermined->Waiting Reason=""
+TransitionStack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.runFinalizers @ 0x1007668ff
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mfinal.go:210
+
+Stack=
+	runtime.gopark @ 0x1007ba6c7
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/proc.go:474
+	runtime.runFinalizers @ 0x1007668ff
+		/opt/homebrew/Cellar/go/1.27.3/libexec/src/runtime/mfinal.go:210
+
+M=-1 P=-1 G=-1 Sync Time=187032525068289 N=2

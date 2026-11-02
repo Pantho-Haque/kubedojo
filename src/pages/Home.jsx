@@ -10,7 +10,7 @@ import Limits from '../landing/Limits.jsx';
 import Faq from '../landing/Faq.jsx';
 
 export default function Home() {
-  usePageMeta(metaFor('/'));
+  usePageMeta(metaFor('/kubernetes'));
   return (
     <>
       <Story />

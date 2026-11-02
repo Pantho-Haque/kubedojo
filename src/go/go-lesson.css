@@ -1,0 +1,7 @@
+/* A Go lesson in the Academy (GoLesson.jsx): the bar uses the site's styles, the workbench below brings gothik's (.gk). */
+.ac-go { display: flex; flex-direction: column; height: calc(100dvh - var(--ac-head, 64px)); min-height: 480px; }
+.ac-go-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; padding: 6px 16px; border-bottom: 1px solid var(--rule); font-size: .9rem; }
+.ac-go-bar .crumbs { margin: 0; flex: 1 1 auto; min-width: 0; }
+.ac-go-pager { display: flex; gap: 14px; white-space: nowrap; }
+.ac-go-bench { position: relative; flex: 1; min-height: 0; overflow: auto; }
+.ac-go-text { padding-block: 24px; }

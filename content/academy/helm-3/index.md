@@ -1,6 +1,7 @@
 ---
 title: Helm 3
 order: 3
+category: devops
 subtitle: From your first chart to a release on Kubernetes
 description: 'Charts, values, releases, upgrades, failures, and rollbacks with today’s Helm.'
 stages:

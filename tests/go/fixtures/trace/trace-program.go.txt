@@ -1,0 +1,46 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"runtime"
+	"runtime/trace"
+	"strconv"
+	"sync"
+	"time"
+)
+
+func main() {
+	procs, _ := strconv.Atoi(os.Args[1])
+	scenario := os.Args[2]
+	runtime.GOMAXPROCS(procs)
+	f, _ := os.Create(os.Args[3])
+	trace.Start(f)
+	var wg sync.WaitGroup
+	switch scenario {
+	case "chan":
+		ch := make(chan int)
+		wg.Add(2)
+		go func() { defer wg.Done(); for i := 0; i < 5; i++ { ch <- i; time.Sleep(100 * time.Microsecond) }; close(ch) }()
+		go func() { defer wg.Done(); s := 0; for v := range ch { s += v }; _ = s }()
+	case "mutex":
+		var mu sync.Mutex
+		n := 0
+		for i := 0; i < 4; i++ {
+			wg.Add(1)
+			go func() { defer wg.Done(); for j := 0; j < 200; j++ { mu.Lock(); for k := 0; k < 2000; k++ { n += k }; mu.Unlock() } }()
+		}
+	case "sleep":
+		for i := 0; i < 3; i++ {
+			wg.Add(1)
+			go func(i int) { defer wg.Done(); time.Sleep(time.Duration(i+1) * time.Millisecond); x := 0; for k := 0; k < 1e6; k++ { x += k }; _ = x }(i)
+		}
+	case "syscall":
+		wg.Add(1)
+		go func() { defer wg.Done(); for i := 0; i < 3; i++ { fi, _ := os.Stat("/"); _ = fi; os.ReadFile("/etc/hosts") } }()
+	}
+	wg.Wait()
+	trace.Stop()
+	f.Close()
+	fmt.Println("ok")
+}

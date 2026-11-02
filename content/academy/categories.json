@@ -1,0 +1,5 @@
+[
+  { "id": "devops", "title": "Kubernetes & DevOps", "blurb": "Containers, clusters, charts, infrastructure and pipelines, practised on simulators you can break." },
+  { "id": "go", "title": "Go", "blurb": "Write Go and watch it run: stack frames, the heap, goroutines and channels, animated step by step." },
+  { "id": "ai", "title": "AI & ML", "blurb": "Ship AI features with models as APIs, then open the models up and check the math by hand." }
+]

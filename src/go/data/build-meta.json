@@ -1,0 +1,1 @@
+{"version":"3.2.0","buildDate":"2026-10-23","corpusHash":"54c04e330c6394bca4cecbf6ae7f3ac96a358b39c064baf987b9bb54309456aa","semanticsLabel":"Go 1.26 subset","verification":"Engine tests, example goldens and a Playwright + axe browser suite"}

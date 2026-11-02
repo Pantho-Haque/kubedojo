@@ -1,0 +1,5 @@
+/* The AI courses' pages in the Academy frame. The studio draws inside a shadow root with its own styles (studio.css). */
+@media (min-width: 1001px) { .ac-studio.post-layout { grid-template-columns: minmax(0, 1fr) 220px; gap: 40px; } } /* a narrower course nav: the studio needs room */
+.ac-studio-host { scroll-margin-top: calc(var(--header-h) + 12px); margin-top: 8px; }
+.ac-studio-tools { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.ac-studio-tool .crumbs { margin-top: 28px; }

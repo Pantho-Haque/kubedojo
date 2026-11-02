@@ -1,6 +1,7 @@
 ---
 title: Kubernetes
 order: 1
+category: devops
 subtitle: From “what is this?” to running your own cluster
 description: >-
   Pods, Deployments, Services, config, storage, health, updates, debugging,

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { store, useStore } from './store.js';
 import Logo from '../components/Logo.jsx';
+import SuiteSwitcher from '../components/SuiteSwitcher.jsx';
 import Icon from './Icon.jsx';
 
 const pad = n => String(n).padStart(2, '0');
@@ -14,7 +15,8 @@ export default function Header() {
   return (
     <header>
       <button id="sidebtn" className="ibtn" title="Show or hide the guide" aria-label="Show or hide the guide" aria-pressed={!store.noside} onClick={() => store.toggleSide()}><Icon name="sidebar" /></button>
-      <Link to="/" className="brand" title="Back to the KubeDojo home page"><Logo size={20} /><b>KubeDojo</b></Link>
+      <SuiteSwitcher />
+      <Link to="/kubernetes" className="brand" title="Back to the KubeDojo home page"><Logo size={20} /><b>KubeDojo</b></Link>
       <span id="ctxbadge" className={'ctx ' + (!cur ? 'none' : prod ? 'prod' : 'local')} role="status" title="The kubectl context every command goes to">{cur ? <>{prod ? <span className="ctx-warn">PRODUCTION</span> : null}<span className="ctx-k">context</span><b>{cur}</b></> : <><span className="ctx-k">context</span><b>none</b></>}</span>
       <span className="sp"></span>
       <span id="timebox" title="Simulated time: pods take simulated seconds to start">

@@ -1,7 +1,10 @@
 // Academy data. The course index (small) ships with every Academy page; each course's lessons are their own chunk.
 import index from './generated/index.json';
 
-export const courses = index.courses; // sorted by course order
+export const categories = index.categories; // shelf order: Kubernetes & DevOps, Go, AI & ML
+export const courses = index.courses; // sorted by category, then course order
+export const inCategory = id => courses.filter(c => c.category === id);
+export const categoryOf = c => categories.find(x => x.id === c.category);
 export const courseBySlug = slug => courses.find(c => c.slug === slug) || null;
 export const lessonCount = () => courses.reduce((n, c) => n + c.lessons.length, 0);
 // lesson ids are unique across the Academy; links inside lessons (data-go) use them

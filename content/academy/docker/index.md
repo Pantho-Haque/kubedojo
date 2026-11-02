@@ -1,6 +1,7 @@
 ---
 title: Docker & Compose
 order: 2
+category: devops
 subtitle: From your first container to a reliable Compose app
 description: >-
   Images, containers, builds, networks, volumes, and a two-service Compose app
